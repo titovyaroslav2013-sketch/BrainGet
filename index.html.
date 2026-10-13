@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BrainGet</title>
+<style>
+body {
+  margin: 0;
+  padding: 25px 16px;
+  font-family: Arial, sans-serif;
+  color: white;
+  background: linear-gradient(140deg, #07152e, #123d77, #090d19);
+  min-height: 100vh;
+}
+main { max-width: 480px; margin: auto; }
+header {
+  text-align: center;
+  padding: 24px 12px;
+  border: 2px solid #16cfff;
+  border-radius: 22px;
+  background: #101d38;
+  box-shadow: 0 0 24px #168bff66;
+}
+h1 { font-size: 42px; margin: 0; }
+h1 span { color: #21d5ff; }
+p { color: #c0d5f5; }
+h2 { margin-top: 28px; }
+.card {
+  margin: 14px 0;
+  padding: 20px;
+  border: 1px solid #315b91;
+  border-radius: 18px;
+  background: #101d35;
+}
+.card h3 { margin-top: 0; }
+button {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 12px;
+  background: #19caff;
+  color: #07152e;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+#message { text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1><span>Brain</span>Get</h1>
+    <p>🧠 Твоя вселенная Brainrot!</p>
+  </header>
+  <h2>🔥 Игровые разделы</h2>
+  <div class="card">
+    <h3>🧠 Brainrot</h3>
+    <p>Исследуй мир мемных персонажей!</p>
+    <button onclick="show('Brainrot')">Открыть</button>
+  </div>
+  <div class="card">
+    <h3>🎁 Lucky Blocks</h3>
+    <p>Загадочные блоки ждут тебя!</p>
+    <button onclick="show('Lucky Blocks')">Открыть</button>
+  </div>
+  <div class="card">
+    <h3>🎮 Игры</h3>
+    <p>Выбирай свой игровой режим!</p>
+    <button onclick="show('Игры')">Открыть</button>
+  </div>
+  <p id="message"></p>
+</main>
+<script>
+function show(name) {
+  document.getElementById('message').textContent =
+    '🔥 Ты выбрал: ' + name;
+}
+</script>
+</body>
+</html>
