@@ -4,6 +4,54 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BrainGet 3.2</title>
+
+:root {
+  --bg: #08080d;
+  --panel: #111119;
+  --card: #171722;
+  --text: #f5f3ff;
+  --muted: #a5a1b8;
+  --accent: #9b5cff;
+  --primary: #8b5cf6;
+  --border: #302442;
+  --success: #39d98a;
+  --danger: #ff4d6d;
+}
+
+body {
+  background: radial-gradient(
+    ellipse at top,
+    #25113f 0%,
+    #0b0a12 55%,
+    #050508 100%
+  ) !important;
+  color: var(--text);
+}
+
+button {
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+button:hover {
+  filter: brightness(1.15);
+}
+
+input,
+textarea,
+select {
+  background: #111119;
+  color: #f5f3ff;
+  border: 1px solid #493366;
+  border-radius: 10px;
+}
+
+#admin-panel {
+  background: #08080d;
+  color: #f5f3ff;
+  border: 1px solid #9b5cff;
+  border-radius: 14px;
+  box-shadow: 0 0 24px #8b5cf633;
+}
 <style>
 :root{--bg:#10091f;--panel:#211530;--line:#51366e;--purple:#a855f7;--gold:#ffd166;--text:#fff;--muted:#c0afd3}
 *{box-sizing:border-box}
