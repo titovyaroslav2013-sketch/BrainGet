@@ -3,263 +3,307 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BrainGet</title>
 <style>
-:root {
-  --bg:#08080d;
-  --panel:#111119;
-  --card:#191925;
-  --text:#f5f3ff;
-  --muted:#aaa5bd;
-  --accent:#995cff;
-  --border:#302442;
-  --green:#39d98a;
-  --red:#ff5375;
-}
+:root{--bg:#08080d;--panel:#11111b;--card:#191925;--purple:#985cff;--border:#302442;--text:#f6f2ff;--muted:#aaa4bd;--green:#35dc94;--red:#ff5278}
 *{box-sizing:border-box}
-body{
-  margin:0;background:radial-gradient(ellipse at top,#291344,var(--bg) 65%);
-  color:var(--text);font:15px system-ui,Arial,sans-serif;min-height:100vh
-}
-header{
-  display:flex;justify-content:space-between;align-items:center;gap:12px;
-  padding:18px max(16px,calc((100% - 1050px)/2));
-  border-bottom:1px solid var(--border);background:#0a0910eF;
-  position:sticky;top:0;z-index:2
-}
-.logo{font-size:23px;font-weight:900;letter-spacing:-1px}
-.logo span{color:var(--accent)}
-.coins{background:#211632;padding:10px 14px;border:1px solid #54347d;border-radius:12px;font-weight:800}
-main{max-width:1050px;margin:auto;padding:22px 16px 90px}
-.hero{
-  padding:28px;border:1px solid var(--border);border-radius:22px;
-  background:linear-gradient(135deg,#211333,#111119 65%);
-  margin-bottom:20px
-}
-h1{font-size:clamp(27px,5vw,42px);margin:0 0 8px}
-p{color:var(--muted);line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
-.card{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:17px;padding:20px;min-width:0
-}
-.card h2{font-size:18px;margin:0 0 12px}
-.big{font-size:30px;font-weight:900;margin:8px 0}
-button{
-  cursor:pointer;background:var(--accent);color:white;border:0;
-  border-radius:11px;padding:11px 15px;font-weight:750;font-size:14px
-}
-button:hover{filter:brightness(1.13)}
-button:disabled{opacity:.45;cursor:not-allowed}
-.secondary{background:#252031;border:1px solid #433452}
-.danger{background:#8e2942}
-input,textarea{
-  width:100%;padding:12px;background:#09090f;color:var(--text);
-  border:1px solid #49365f;border-radius:10px;margin:6px 0 12px;
-  font:inherit
-}
-.item{
-  display:flex;justify-content:space-between;align-items:center;gap:10px;
-  background:var(--card);padding:12px;border-radius:11px;margin-top:8px
-}
-.tag{font-size:12px;color:#d4baff;background:#302044;padding:5px 8px;border-radius:8px}
-.notice{border:1px solid var(--border);padding:12px;border-radius:11px;margin-top:10px}
-footer{text-align:center;color:var(--muted);padding:25px}
+body{margin:0;background:radial-gradient(ellipse at top,#29133e,var(--bg) 65%);color:var(--text);font:15px system-ui,Arial,sans-serif}
+header{height:70px;position:sticky;top:0;z-index:5;background:#0b0912ed;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 5%;backdrop-filter:blur(12px)}
+.logo{font-size:25px;font-weight:950;letter-spacing:-1px}.logo span{color:var(--purple)}
+.balance{background:#241634;padding:10px 15px;border-radius:12px;border:1px solid #54377a;font-weight:800}
+main{max-width:1150px;margin:auto;padding:24px 16px 70px}
+.hero{padding:26px;border-radius:20px;border:1px solid var(--border);background:linear-gradient(120deg,#25143c,#12111b 75%);margin-bottom:20px}
+h1{font-size:clamp(28px,5vw,42px);margin:0 0 8px}h2{font-size:20px;margin:0 0 14px}h3{margin:8px 0}
+p{color:var(--muted);line-height:1.5}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+button{background:var(--purple);color:white;border:0;border-radius:10px;padding:11px 15px;font-weight:750;cursor:pointer;font-size:14px}
+button:hover{filter:brightness(1.13);transform:translateY(-1px)}
+button:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.secondary{background:#252130;border:1px solid #413451}.danger{background:#a72f4e}.green{background:#16885d}
+.tab{display:none}.tab.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;min-width:0}
+.case-icon{font-size:53px;text-align:center;padding:15px}
+.price{font-size:22px;font-weight:900;margin:10px 0}
+button.full{width:100%}
+input,select,textarea{width:100%;background:#0a0910;color:var(--text);border:1px solid #49345f;border-radius:10px;padding:12px;margin:6px 0 12px;font:inherit}
+label{color:var(--muted);font-size:13px}
+.item,.player{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;background:var(--card);border-radius:10px;margin:8px 0}
+.small{font-size:12px;color:var(--muted)}
+.tag{display:inline-block;border-radius:7px;background:#302044;color:#d9c2ff;padding:5px 8px;font-size:12px}
+.result{padding:15px;background:#211532;border:1px solid #7144a2;border-radius:12px;margin-top:12px}
+.stat{font-size:27px;font-weight:900}
+hr{border:0;border-top:1px solid var(--border);margin:17px 0}
+footer{text-align:center;color:var(--muted);padding:20px}
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
 <header>
   <div class="logo">Brain<span>Get</span></div>
-  <div class="coins">🪙 <span id="coins">250</span></div>
+  <div class="balance">🪙 <span id="balance">250</span></div>
 </header>
-
 <main>
   <section class="hero">
-    <span class="tag">BRAINGET • GAME HUB</span>
-    <h1>Твоя коллекция начинается здесь</h1>
-    <p>Собирай предметы, забирай награды и развивай свою коллекцию.</p>
-    <button onclick="dailyReward()">🎁 Ежедневная награда</button>
-    <button class="secondary" onclick="showTab('inventory')">Мой инвентарь</button>
+    <span class="tag">BRAINROT COLLECTION</span>
+    <h1>Добро пожаловать в BrainGet</h1>
+    <p>Открывай кейсы, собирай коллекцию и улучшай свои предметы!</p>
+    <button onclick="openTab('cases')">🎁 Открыть кейсы</button>
+    <button class="secondary" onclick="openTab('upgrade')">⚡ Апгрейдер</button>
   </section>
 
-  <section class="grid">
-    <div class="card">
-      <h2>👤 Твой профиль</h2>
-      <label for="nickname">Никнейм</label>
-      <input id="nickname" maxlength="24" placeholder="Введи свой ник">
-      <button onclick="saveNickname()">Сохранить ник</button>
-      <p id="profileMessage">Добро пожаловать в BrainGet!</p>
-    </div>
+  <nav>
+    <button onclick="openTab('home')">🏠 Главная</button>
+    <button onclick="openTab('cases')">🎁 Кейсы</button>
+    <button onclick="openTab('upgrade')">⚡ Апгрейдер</button>
+    <button onclick="openTab('inventory')">🎒 Инвентарь</button>
+    <button onclick="openTab('profile')">👤 Профиль</button>
+    <button class="secondary" onclick="openTab('admin')">👑 Админ-панель</button>
+  </nav>
 
-    <div class="card">
-      <h2>🎁 Бесплатная награда</h2>
-      <div class="big">+25 🪙</div>
-      <p>Забирай монеты раз в 24 часа.</p>
-      <button id="freeButton" onclick="freeReward()">Получить монеты</button>
-      <p id="freeMessage"></p>
-    </div>
-
-    <div class="card">
-      <h2>🛍️ Магазин</h2>
-      <p>Покупай предметы за монеты.</p>
-      <div class="item"><span>🥔 Noobini Pizzanini</span><b>50 🪙</b></div>
-      <button onclick="buyItem('Noobini Pizzanini',50)">Купить</button>
-      <div class="item"><span>🌀 Brain Spinner</span><b>100 🪙</b></div>
-      <button onclick="buyItem('Brain Spinner',100)">Купить</button>
-      <div class="item"><span>👑 Purple Crown</span><b>200 🪙</b></div>
-      <button onclick="buyItem('Purple Crown',200)">Купить</button>
-    </div>
-
-    <div class="card" id="inventory">
-      <h2>🎒 Инвентарь</h2>
-      <div id="inventoryList"></div>
-    </div>
-
-    <div class="card">
-      <h2>📢 Объявления</h2>
-      <div id="announcements"><p>Пока новых объявлений нет.</p></div>
-    </div>
-
-    <div class="card">
-      <h2>⚙️ Настройки</h2>
-      <button class="secondary" onclick="resetGame()">Сбросить локальный прогресс</button>
-      <p>Прогресс сохраняется в этом браузере. Он не синхронизируется между устройствами.</p>
+  <section id="home" class="tab active">
+    <div class="grid">
+      <div class="card"><h2>🪙 Баланс</h2><div class="stat" id="homeCoins">250</div><p>Твои игровые монеты.</p></div>
+      <div class="card"><h2>🎒 Коллекция</h2><div class="stat" id="itemKinds">0</div><p>Разновидностей предметов.</p></div>
+      <div class="card"><h2>🎁 Открытия</h2><div class="stat" id="openCount">0</div><p>Всего открытых кейсов.</p></div>
+      <div class="card"><h2>🎁 Ежедневная награда</h2><p>Забирай 50 монет раз в сутки.</p><button id="dailyBtn" onclick="daily()">Получить +50 🪙</button><p id="dailyInfo" class="small"></p></div>
     </div>
   </section>
 
-  <section class="card" style="margin-top:18px">
-    <h2>🔐 Админ-панель</h2>
-    <p>Административные функции пока не подключены к серверу. Не вводи здесь пароль Supabase.</p>
-    <button class="secondary" onclick="toggleAdmin()">Показать / скрыть панель</button>
-    <div id="adminPanel" hidden>
-      <div class="notice">
-        <b>Статистика этого браузера</b>
-        <p id="stats"></p>
+  <section id="cases" class="tab">
+    <h2>🎁 Магазин кейсов</h2>
+    <p>Каждый кейс даёт случайный предмет. Награды определяются игрой.</p>
+    <div class="grid" id="caseGrid"></div>
+    <div id="caseResult" class="result" hidden></div>
+  </section>
+
+  <section id="upgrade" class="tab">
+    <div class="card">
+      <h2>⚡ Апгрейдер</h2>
+      <p>Выбери предмет, который хочешь улучшить. При неудаче предмет не теряется, но стоимость попытки списывается.</p>
+      <label for="upgradeItem">Предмет</label>
+      <select id="upgradeItem"></select>
+      <label for="targetItem">Желаемая цель</label>
+      <select id="targetItem"></select>
+      <div class="result">
+        <div>Шанс успеха: <b id="chance">25%</b></div>
+        <div>Стоимость попытки: <b id="upgradePrice">50</b> 🪙</div>
       </div>
-      <label for="announcementInput">Текст объявления</label>
-      <textarea id="announcementInput" maxlength="300" placeholder="Текст объявления"></textarea>
-      <button onclick="postAnnouncement()">Добавить объявление локально</button>
-      <p>Это демонстрационная панель. Она не подтверждает права администратора и не управляет другими пользователями.</p>
+      <button class="full" style="margin-top:12px" onclick="upgrade()">⚡ Попробовать улучшить</button>
+      <div id="upgradeResult" class="result" hidden></div>
+    </div>
+  </section>
+
+  <section id="inventory" class="tab">
+    <h2>🎒 Мой инвентарь</h2>
+    <div id="inventoryList" class="grid"></div>
+  </section>
+
+  <section id="profile" class="tab">
+    <div class="card">
+      <h2>👤 Профиль игрока</h2>
+      <label for="nickname">Никнейм</label>
+      <input id="nickname" maxlength="24" placeholder="Твой никнейм">
+      <button onclick="saveNickname()">Сохранить</button>
+      <hr>
+      <p id="profileInfo"></p>
+    </div>
+  </section>
+
+  <section id="admin" class="tab">
+    <div class="card">
+      <span class="tag">DEMO • ЛОКАЛЬНЫЙ РЕЖИМ</span>
+      <h2>👑 Панель управления</h2>
+      <p>Это демонстрационная панель. Она управляет только локальной демонстрационной записью, а не настоящими аккаунтами. Для реального управления необходимы защищённая авторизация и серверные правила Supabase.</p>
+      <div class="grid">
+        <div class="card"><h3>🪙 Монеты</h3>
+          <label for="coinAmount">Количество монет</label>
+          <input id="coinAmount" type="number" min="1" max="1000000" value="100">
+          <button class="full" onclick="adminCoins(1)">Начислить</button>
+          <button class="secondary full" style="margin-top:7px" onclick="adminCoins(-1)">Списать</button>
+        </div>
+        <div class="card"><h3>📢 Объявления</h3>
+          <label for="announcement">Текст</label>
+          <textarea id="announcement" maxlength="250" placeholder="Новость для игроков"></textarea>
+          <button class="full" onclick="announce()">Опубликовать локально</button>
+        </div>
+      </div>
+      <hr>
+      <h3>📊 Статистика этого браузера</h3>
+      <div id="adminStats"></div>
+      <h3 style="margin-top:20px">📜 Последние действия</h3>
+      <div id="logs"></div>
+      <button class="danger" onclick="resetGame()">Сбросить локальную игру</button>
     </div>
   </section>
 </main>
-
-<footer>BrainGet © 2026 • Сделано для коллекционеров 💜</footer>
+<footer>BrainGet © 2026</footer>
 
 <script>
-const KEY = "brainget_save_v4";
-const initialState = () => ({
-  coins:250,
-  inventory:{"Noobini Pizzanini":1},
-  nickname:"",
-  lastDaily:0,
-  announcements:[]
+const SAVE_KEY="brainget_new_v1";
+const catalog=[
+ {name:"Noobini Pizzanini",value:30,emoji:"🥔",rarity:"Обычный"},
+ {name:"Trippi Troppi",value:65,emoji:"🦐",rarity:"Необычный"},
+ {name:"Cappuccino Assassino",value:130,emoji:"☕",rarity:"Редкий"},
+ {name:"Brr Brr Patapim",value:280,emoji:"🌳",rarity:"Эпический"},
+ {name:"Tralalero Tralala",value:650,emoji:"🦈",rarity:"Легендарный"},
+ {name:"La Vaca Saturno Saturnita",value:1400,emoji:"🐮",rarity:"Мифический"}
+];
+const cases=[
+ {name:"Стартовый кейс",emoji:"📦",price:50,items:[0,1,2]},
+ {name:"Редкий кейс",emoji:"💜",price:150,items:[1,2,3,4]},
+ {name:"Легендарный кейс",emoji:"👑",price:400,items:[2,3,4,5]}
+];
+const defaults=()=>({
+ coins:250,nickname:"",inventory:{"Noobini Pizzanini":1},
+ opens:0,lastDaily:"",announcements:[],logs:["Игра создана"],
+ demoBlocked:false
 });
-
 let state;
-try {
-  state = JSON.parse(localStorage.getItem(KEY)) || initialState();
-} catch {
-  state = initialState();
-}
-state.coins = Number(state.coins) || 0;
-state.inventory ||= {};
-state.announcements ||= [];
+try{state=JSON.parse(localStorage.getItem(SAVE_KEY))||defaults()}catch{state=defaults()}
+state.coins=Number(state.coins)||0;
+state.inventory||={};state.announcements||=[];state.logs||=[];
 
 function save(){
-  localStorage.setItem(KEY,JSON.stringify(state));
-  render();
+ try{localStorage.setItem(SAVE_KEY,JSON.stringify(state))}
+ catch(e){alert("Не удалось сохранить прогресс в этом браузере")}
+ render();
 }
-function render(){
-  document.getElementById("coins").textContent=state.coins;
-  document.getElementById("nickname").value=state.nickname || "";
-  const list=document.getElementById("inventoryList");
-  list.innerHTML="";
-  const entries=Object.entries(state.inventory);
-  if(!entries.length) list.innerHTML="<p>Инвентарь пока пуст.</p>";
-  entries.forEach(([name,count])=>{
-    const row=document.createElement("div");
-    row.className="item";
-    const title=document.createElement("span");
-    title.textContent=name;
-    const amount=document.createElement("b");
-    amount.textContent="×"+count;
-    row.append(title,amount);
-    list.appendChild(row);
-  });
-  const notices=document.getElementById("announcements");
-  notices.innerHTML="";
-  if(!state.announcements.length) notices.textContent="Пока новых объявлений нет.";
-  state.announcements.forEach(message=>{
-    const el=document.createElement("div");
-    el.className="notice";
-    el.textContent=message;
-    notices.prepend(el);
-  });
-  const available=Date.now()-state.lastDaily>=86400000;
-  document.getElementById("freeButton").disabled=!available;
-  document.getElementById("freeMessage").textContent=available
-    ? "Награда доступна!"
-    : "Награда уже получена. Возвращайся позже.";
-  document.getElementById("stats").textContent=
-    "Монеты: "+state.coins+" • Разновидностей предметов: "+
-    Object.keys(state.inventory).length;
+function log(text){
+ state.logs.unshift(new Date().toLocaleString()+" — "+text);
+ state.logs=state.logs.slice(0,30);
 }
-function dailyReward(){
-  const today=new Date().toDateString();
-  if(localStorage.getItem("brainget_daily_day")===today){
-    alert("Ты уже забрал сегодняшнюю награду!");
-    return;
-  }
-  state.coins+=10;
-  localStorage.setItem("brainget_daily_day",today);
-  save();
-  alert("Награда получена: +10 монет!");
+function openTab(id){
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ if(id==="upgrade")fillUpgrade();
+ if(id==="admin")renderAdmin();
+ window.scrollTo({top:0,behavior:"smooth"});
 }
-function freeReward(){
-  if(Date.now()-state.lastDaily<86400000)return;
-  state.coins+=25;
-  state.lastDaily=Date.now();
-  save();
+function renderCases(){
+ const grid=document.getElementById("caseGrid");grid.replaceChildren();
+ cases.forEach((c,index)=>{
+  const card=document.createElement("div");card.className="card";
+  const emoji=document.createElement("div");emoji.className="case-icon";emoji.textContent=c.emoji;
+  const title=document.createElement("h2");title.textContent=c.name;
+  const price=document.createElement("div");price.className="price";price.textContent=c.price+" 🪙";
+  const info=document.createElement("p");info.textContent="Возможные награды: "+c.items.map(i=>catalog[i].name).join(", ");
+  const btn=document.createElement("button");btn.className="full";btn.textContent="Открыть кейс";
+  btn.onclick=()=>openCase(index);
+  card.append(emoji,title,price,info,btn);grid.append(card);
+ });
 }
-function buyItem(name,price){
-  if(state.coins<price){alert("Недостаточно монет!");return;}
-  state.coins-=price;
-  state.inventory[name]=(state.inventory[name]||0)+1;
-  save();
-  alert("Покупка успешна!");
+function openCase(index){
+ const c=cases[index];if(state.coins<c.price){alert("Недостаточно монет!");return}
+ state.coins-=c.price;
+ const pool=c.items;
+ const item=catalog[pool[Math.floor(Math.random()*pool.length)]];
+ state.inventory[item.name]=(state.inventory[item.name]||0)+1;
+ state.opens++;log("Открыт кейс: "+c.name+" → "+item.name);save();
+ const r=document.getElementById("caseResult");r.hidden=false;
+ r.textContent="🎉 Выпало: "+item.emoji+" "+item.name+" ("+item.rarity+")";
+}
+function fillUpgrade(){
+ const owned=Object.keys(state.inventory).filter(n=>state.inventory[n]>0);
+ const source=document.getElementById("upgradeItem"),target=document.getElementById("targetItem");
+ source.replaceChildren();target.replaceChildren();
+ owned.forEach(name=>{let o=document.createElement("option");o.value=name;o.textContent=name+" ×"+state.inventory[name];source.append(o)});
+ catalog.forEach(item=>{let o=document.createElement("option");o.value=item.name;o.textContent=item.emoji+" "+item.name+" — "+item.value+" 🪙";target.append(o)});
+ updateChance();
+}
+function updateChance(){
+ const from=catalog.find(x=>x.name===document.getElementById("upgradeItem").value);
+ const to=catalog.find(x=>x.name===document.getElementById("targetItem").value);
+ const chance=from&&to&&to.value>from.value?Math.max(5,Math.floor(from.value/to.value*70)):0;
+ document.getElementById("chance").textContent=chance+"%";
+ document.getElementById("upgradePrice").textContent=from?Math.max(10,Math.floor(from.value*.5)):0;
+ return {from,to,chance,price:from?Math.max(10,Math.floor(from.value*.5)):0};
+}
+document.getElementById("upgradeItem").addEventListener("change",updateChance);
+document.getElementById("targetItem").addEventListener("change",updateChance);
+function upgrade(){
+ const {from,to,chance,price}=updateChance();
+ const out=document.getElementById("upgradeResult");out.hidden=false;
+ if(!from||!to||from.name===to.name||to.value<=from.value){out.textContent="Выбери предмет и цель с большей стоимостью.";return}
+ if(!state.inventory[from.name]){out.textContent="У тебя нет выбранного предмета.";return}
+ if(state.coins<price){out.textContent="Недостаточно монет для попытки.";return}
+ state.coins-=price;
+ if(Math.random()*100<chance){
+  state.inventory[from.name]--;
+  if(!state.inventory[from.name])delete state.inventory[from.name];
+  state.inventory[to.name]=(state.inventory[to.name]||0)+1;
+  out.textContent="🎉 Успех! Получен предмет: "+to.name;
+  log("Апгрейд успешен: "+to.name);
+ }else{
+  out.textContent="😕 Неудача! Предмет сохранён, стоимость попытки списана.";
+  log("Неудачная попытка апгрейда: "+from.name);
+ }
+ save();fillUpgrade();
+}
+function daily(){
+ const today=new Date().toISOString().slice(0,10);
+ if(state.lastDaily===today){alert("Ты уже забрал награду сегодня!");return}
+ state.lastDaily=today;state.coins+=50;log("Получена ежедневная награда +50");save();
 }
 function saveNickname(){
-  state.nickname=document.getElementById("nickname").value.trim().slice(0,24);
-  save();
-  document.getElementById("profileMessage").textContent=
-    state.nickname ? "Привет, "+state.nickname+"!" : "Никнейм очищен.";
+ state.nickname=document.getElementById("nickname").value.trim().slice(0,24);
+ log("Изменён никнейм");save();
 }
-function showTab(id){
-  document.getElementById(id).scrollIntoView({behavior:"smooth",block:"center"});
+function adminCoins(direction){
+ const n=Number(document.getElementById("coinAmount").value);
+ if(!Number.isInteger(n)||n<1||n>1000000){alert("Введи число от 1 до 1000000");return}
+ if(direction<0&&state.coins<n){alert("Недостаточно монет для списания");return}
+ state.coins+=direction*n;
+ log((direction>0?"Демо-начисление ":"Демо-списание ")+n+" монет");
+ save();renderAdmin();
 }
-function toggleAdmin(){
-  const panel=document.getElementById("adminPanel");
-  panel.hidden=!panel.hidden;
-  if(!panel.hidden)render();
+function announce(){
+ const input=document.getElementById("announcement");
+ const text=input.value.trim();if(!text)return;
+ state.announcements.unshift(text);state.announcements=state.announcements.slice(0,20);
+ log("Добавлено локальное объявление");input.value="";save();renderAdmin();
 }
-function postAnnouncement(){
-  const input=document.getElementById("announcementInput");
-  const message=input.value.trim();
-  if(!message)return;
-  state.announcements.push(message);
-  input.value="";
-  save();
+function renderAdmin(){
+ document.getElementById("adminStats").textContent=
+ "Баланс: "+state.coins+" монет • Кейсов открыто: "+state.opens+
+ " • Видов предметов: "+Object.keys(state.inventory).length;
+ const logs=document.getElementById("logs");logs.replaceChildren();
+ state.logs.slice(0,10).forEach(x=>{const p=document.createElement("p");p.textContent=x;logs.append(p)});
+}
+function render(){
+ document.getElementById("balance").textContent=state.coins;
+ document.getElementById("homeCoins").textContent=state.coins;
+ document.getElementById("itemKinds").textContent=Object.keys(state.inventory).filter(n=>state.inventory[n]>0).length;
+ document.getElementById("openCount").textContent=state.opens;
+ document.getElementById("nickname").value=state.nickname;
+ document.getElementById("profileInfo").textContent="Никнейм: "+(state.nickname||"Не задан")+" • Открыто кейсов: "+state.opens;
+ const today=new Date().toISOString().slice(0,10);
+ document.getElementById("dailyBtn").disabled=state.lastDaily===today;
+ document.getElementById("dailyInfo").textContent=state.lastDaily===today?"Награда уже получена.":"Награда доступна!";
+ const list=document.getElementById("inventoryList");list.replaceChildren();
+ const entries=Object.entries(state.inventory).filter(([n,count])=>count>0);
+ if(!entries.length)list.textContent="Инвентарь пуст.";
+ entries.forEach(([name,count])=>{
+  const item=catalog.find(x=>x.name===name);const card=document.createElement("div");card.className="card";
+  const h=document.createElement("h3");h.textContent=(item?item.emoji:"🎁")+" "+name;
+  const p=document.createElement("p");p.textContent="Количество: "+count+" • Цена: "+(item?item.value:0)+" 🪙";
+  card.append(h,p);list.append(card);
+ });
+ renderAnnouncements();renderAdmin();
+}
+function renderAnnouncements(){
+ let old=document.getElementById("announcementList");
+ if(!old){old=document.createElement("section");old.id="announcementList";old.className="card";old.innerHTML="<h2>📢 Объявления</h2>";document.querySelector("main").append(old)}
+ old.replaceChildren();const h=document.createElement("h2");h.textContent="📢 Объявления";old.append(h);
+ if(!state.announcements.length){const p=document.createElement("p");p.textContent="Пока нет объявлений.";old.append(p)}
+ state.announcements.forEach(text=>{const p=document.createElement("p");p.textContent="• "+text;old.append(p)});
 }
 function resetGame(){
-  if(!confirm("Сбросить локальный прогресс BrainGet в этом браузере?"))return;
-  state=initialState();
-  localStorage.removeItem("brainget_daily_day");
-  save();
+ if(!confirm("Точно сбросить локальный прогресс?"))return;
+ state=defaults();save();fillUpgrade();
 }
-render();
+renderCases();render();fillUpgrade();
 </script>
 </body>
 </html>
