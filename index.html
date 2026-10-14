@@ -574,5 +574,14 @@ $("nickBtn").addEventListener("click",()=>{
 setLanguage();
 setInterval(updateFree,30000);
 </script>
-</body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://ovehdiobiujiplgetfsw.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92ZWhkaW9iaXVqaXBsZ2V0ZnN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5NDQwOTAsImV4cCI6MjEwNzUyMDA5MH0.dvTF-";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+</script></body>
 </html>
