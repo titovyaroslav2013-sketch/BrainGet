@@ -6,277 +6,206 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BrainGet</title>
 <style>
-:root{--bg:#090812;--panel:#171326;--purple:#a855f7;--text:#f8f5ff;--muted:#aaa2bd}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#29124c,var(--bg) 65%);color:var(--text);font-family:Arial,sans-serif}
-header{padding:20px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid #ffffff17}
-.logo{font-size:27px;font-weight:900;color:#d8a4ff}
-.balance{background:#24183b;border:1px solid #7541a8;border-radius:14px;padding:12px 17px;font-weight:bold}
+body{margin:0;background:radial-gradient(ellipse at top,#351252,#090811 65%);color:#fff;font-family:Arial,sans-serif}
+header{padding:20px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:1px solid #ffffff20}
+.logo{font-size:28px;font-weight:900;color:#dfb2ff}
+.balance{background:#28183b;border:1px solid #a855f7;padding:12px 18px;border-radius:14px;font-weight:bold}
 main{max-width:1100px;margin:auto;padding:22px 16px}
-h2{margin:28px 0 14px}
-p{color:var(--muted);line-height:1.5}
+h2{margin-top:30px}
+p{color:#c0b5d0;line-height:1.5}
+button,select{padding:11px 14px;border-radius:10px;border:1px solid #7951a5;background:#2c1b43;color:white;cursor:pointer;font-weight:bold}
+button:hover{filter:brightness(1.2)}
 .tabs{display:flex;gap:8px;flex-wrap:wrap}
-button,select{background:#2b1b43;color:white;border:1px solid #684098;border-radius:10px;padding:11px 14px;cursor:pointer;font-weight:bold}
-button:hover{filter:brightness(1.25)}
-button:disabled{opacity:.4;cursor:not-allowed}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:13px}
-.card{background:linear-gradient(145deg,#211735,#11101b);border:1px solid #ffffff18;border-radius:16px;padding:16px;text-align:center;min-width:0}
-.art{height:95px;display:grid;place-items:center;font-size:53px;background:radial-gradient(circle,#6538a344,transparent 70%);border-radius:12px}
-.name{font-weight:bold;margin:10px 0 7px;overflow-wrap:anywhere}
-.price{color:#d7adff;font-size:14px;margin-bottom:12px}
-.case{border-color:#7943aa;background:linear-gradient(145deg,#392050,#171124)}
-.case .art{font-size:55px;height:105px}
-.featured{border:1px solid #e9b94b;background:linear-gradient(145deg,#47341a,#191326)}
-.featured .art{background:radial-gradient(circle,#e8b34c55,transparent 70%)}
-.box{background:#171326;border:1px solid #ffffff17;border-radius:16px;padding:18px;margin-top:14px}
-.result{min-height:28px;margin-top:14px;color:#e2c0ff;font-weight:bold}
-.small{font-size:12px;color:var(--muted)}
-.badge{display:inline-block;border-radius:7px;background:#36234d;padding:5px 8px;font-size:12px}
-input{max-width:100%;width:100%;padding:12px;border-radius:9px;background:#0d0b15;color:white;border:1px solid #62408b}
-footer{text-align:center;padding:30px;color:#8e849e;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:13px}
+.card{padding:15px;border-radius:16px;text-align:center;background:linear-gradient(145deg,#241733,#12101b);border:1px solid #ffffff1c}
+.art{height:90px;display:grid;place-items:center;font-size:53px;background:radial-gradient(circle,#8d4cba55,transparent 70%)}
+.name{font-weight:bold;margin:10px 0;overflow-wrap:anywhere}
+.price{font-size:13px;color:#e1bcff;margin:9px 0}
+.badge{display:inline-block;background:#39234e;padding:5px 8px;border-radius:7px;font-size:12px}
+.featured{border-color:#f4c968;background:linear-gradient(145deg,#49351d,#191326)}
+.box{padding:18px;margin-top:14px;background:linear-gradient(145deg,#271637,#100e19);border:1px solid #ffffff20;border-radius:17px}
+.case{border-color:#8252b0}
+.case .art{height:100px;font-size:57px}
+.result{min-height:25px;margin-top:15px;color:#f0d0ff;font-weight:bold}
+.small{font-size:12px;color:#aaa0ba}
+select{display:block;width:100%;margin:8px 0 16px}
+#upgrade .box{background:radial-gradient(ellipse at top,#48245f,#15101f 72%);border:1px solid #e6b85c;box-shadow:0 0 28px #a855f733}
+#upgrade button{background:linear-gradient(135deg,#f5d889,#a86b18);color:#24152d;border-color:#ffe8a3}
+#upgrade .badge{color:#ffe8a3;background:#533b20;border:1px solid #c59b4e}
+.wheelWrap{display:grid;place-items:center;padding:18px 0}
+.wheelFrame{position:relative;width:min(310px,80vw);aspect-ratio:1;border-radius:50%;padding:10px;background:linear-gradient(135deg,#fff0ad,#a66b1b,#ffdf79,#6b4211);box-shadow:0 0 35px #ffc84c55}
+.wheel{width:100%;height:100%;border-radius:50%;border:4px solid #fce8a1;background:conic-gradient(#f4cb64 0deg 45deg,#321746 45deg 90deg,#9b5bd0 90deg 135deg,#321746 135deg 180deg,#f4cb64 180deg 225deg,#321746 225deg 270deg,#9b5bd0 270deg 315deg,#321746 315deg 360deg);transition:transform 1.5s cubic-bezier(.12,.75,.2,1);position:relative}
+.wheel:after{content:"⚡";position:absolute;inset:0;display:grid;place-items:center;font-size:50px;color:#fff0b4;text-shadow:0 0 20px #fff}
+.pointer{position:absolute;z-index:2;top:-5px;left:calc(50% - 15px);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:34px solid #fff1a6;filter:drop-shadow(0 0 7px #ffc84c)}
+footer{text-align:center;color:#8f849f;padding:30px;font-size:12px}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">🧠 BrainGet</div>
-  <div class="balance">🪙 <span id="coins">250</span> OG</div>
+<div class="logo">🧠 BrainGet</div>
+<div class="balance">🪙 <span id="coins">250</span> OG</div>
 </header>
 <main>
-  <h1>Твоя коллекция начинается здесь</h1>
-  <p>Открывай кейсы, собирай персонажей и пробуй улучшения.</p>
-  <div class="tabs">
-    <button onclick="go('cases')">📦 Кейсы</button>
-    <button onclick="go('upgrade')">⚡ Апгрейдер</button>
-    <button onclick="go('inventory')">🎒 Инвентарь</button>
-    <button onclick="go('catalog')">🧠 Каталог</button>
-  </div>
+<h1>Добро пожаловать в BrainGet!</h1>
+<p>Открывай кейсы, собирай персонажей и улучшай коллекцию.</p>
+<div class="tabs">
+<button onclick="go('cases')">📦 Кейсы</button>
+<button onclick="go('upgrade')">👑 Апгрейдер</button>
+<button onclick="go('inventory')">🎒 Инвентарь</button>
+<button onclick="go('catalog')">🧠 Каталог</button>
+</div>
 
-  <section id="cases">
-    <h2>📦 Кейсы</h2>
-    <div class="grid" id="caseGrid"></div>
-    <div class="box">
-      <h3>🎁 Результат открытия</h3>
-      <div id="caseResult" class="result">Выбери кейс выше.</div>
-      <p class="small">Вероятности указаны для каждого кейса. Результаты прототипа не являются гарантией получения предмета в Roblox.</p>
-    </div>
-  </section>
+<section id="cases">
+<h2>📦 Кейсы</h2>
+<div id="caseGrid" class="grid"></div>
+<div class="box"><h3>🎁 Результат</h3><div id="caseResult" class="result">Выбери кейс.</div></div>
+</section>
 
-  <section id="upgrade">
-    <h2>⚡ Апгрейдер</h2>
-    <div class="box">
-      <p>Выбери своего персонажа и цель. Это апгрейдер с кнопкой попытки, а не колесо фортуны.</p>
-      <label for="source">Твой персонаж</label>
-      <select id="source" style="width:100%;margin:8px 0 16px" onchange="updateChance()"></select>
-      <label for="target">Целевой персонаж</label>
-      <select id="target" style="width:100%;margin:8px 0 16px" onchange="updateChance()"></select>
-      <div class="badge" id="chance">Шанс: —</div>
-      <p id="upgradeInfo">Выбери персонажей для расчёта.</p>
-      <button onclick="upgrade()">⚡ Попробовать улучшение</button>
-      <div id="upgradeResult" class="result"></div>
-    </div>
-  </section>
+<section id="upgrade">
+<h2>👑 Premium Upgrader</h2>
+<div class="box">
+<p>Выбери брейнрота и цель. Золотое колесо покажет результат улучшения.</p>
+<label>Твой персонаж</label><select id="source" onchange="updateChance()"></select>
+<label>Целевой персонаж</label><select id="target" onchange="updateChance()"></select>
+<div id="chance" class="badge">Шанс: —</div>
+<div class="wheelWrap"><div class="wheelFrame"><div class="pointer"></div><div id="wheel" class="wheel"></div></div></div>
+<button onclick="upgrade()">⚡ УЛУЧШИТЬ</button>
+<p id="upgradeInfo"></p>
+<div id="upgradeResult" class="result"></div>
+</div>
+</section>
 
-  <section id="inventory">
-    <h2>🎒 Инвентарь</h2>
-    <p id="invSummary"></p>
-    <div id="inventoryGrid" class="grid"></div>
-  </section>
+<section id="inventory">
+<h2>🎒 Инвентарь</h2><p id="invSummary"></p><div id="inventoryGrid" class="grid"></div>
+</section>
 
-  <section id="catalog">
-    <h2>🧠 Каталог персонажей</h2>
-    <input id="search" placeholder="Поиск по названию..." oninput="renderCatalog()">
-    <p class="small">Названия приведены как известные названия персонажей игры. Перед добавлением новых записей проверь их по актуальному каталогу Steal a Brainrot.</p>
-    <div id="catalogGrid" class="grid"></div>
-  </section>
+<section id="catalog">
+<h2>🧠 Каталог</h2><input id="search" placeholder="Поиск..." oninput="renderCatalog()" style="width:100%;padding:12px;border-radius:10px">
+<div id="catalogGrid" class="grid"></div>
+</section>
 </main>
-<footer>BrainGet Fan Project • Неофициальный проект, не связанный с Roblox.</footer>
-
+<footer>BrainGet Fan Project • Неофициальный фан-проект.</footer>
 <script>
-const characters = [
- {name:"Noobini Pizzanini",emoji:"🍕",rarity:"Common",value:10},
- {name:"Strawberry Elephant",emoji:"🍓",rarity:"OG",value:1000000},
- {name:"Dragon Cannelloni",emoji:"🐉",rarity:"OG",value:500000},
- {name:"Garama and Madundung",emoji:"🫙",rarity:"Secret",value:250000},
- {name:"Tralalero Tralala",emoji:"🦈",rarity:"Brainrot God",value:3000},
- {name:"Bombardiro Crocodilo",emoji:"🐊",rarity:"Brainrot God",value:2800},
- {name:"Tung Tung Tung Sahur",emoji:"🥁",rarity:"Brainrot God",value:2400},
- {name:"Ballerina Cappuccina",emoji:"☕",rarity:"Brainrot God",value:3500},
- {name:"Cappuccino Assassino",emoji:"☕",rarity:"Mythic",value:900},
- {name:"Brr Brr Patapim",emoji:"🌳",rarity:"Mythic",value:800},
- {name:"Lirili Larila",emoji:"🐘",rarity:"Rare",value:80},
- {name:"Tim Cheese",emoji:"🧀",rarity:"Common",value:15},
- {name:"Fluriflura",emoji:"🌸",rarity:"Common",value:20},
- {name:"Talpa Di Fero",emoji:"🦡",rarity:"Common",value:25},
- {name:"Svinina Bombardino",emoji:"🐷",rarity:"Common",value:30},
- {name:"Pipi Kiwi",emoji:"🥝",rarity:"Common",value:20},
- {name:"Pipi Corni",emoji:"🌽",rarity:"Common",value:25},
- {name:"Trippi Troppi",emoji:"🦐",rarity:"Rare",value:70},
- {name:"Gangster Footera",emoji:"👟",rarity:"Rare",value:60},
- {name:"Bandito Bobritto",emoji:"🦫",rarity:"Rare",value:90},
- {name:"Boneca Ambalabu",emoji:"🐸",rarity:"Rare",value:100},
- {name:"Cacto Hipopotamo",emoji:"🌵",rarity:"Rare",value:120},
- {name:"Ta Ta Ta Ta Sahur",emoji:"🥁",rarity:"Rare",value:110},
- {name:"Tric Trac Baraboom",emoji:"💥",rarity:"Rare",value:130},
- {name:"Pipi Avocado",emoji:"🥑",rarity:"Rare",value:100},
- {name:"Bambini Crostini",emoji:"🥐",rarity:"Epic",value:180},
- {name:"Bananita Dolphinita",emoji:"🐬",rarity:"Epic",value:220},
- {name:"Perochello Lemonchello",emoji:"🍋",rarity:"Epic",value:250},
- {name:"Avocadini Guffo",emoji:"🥑",rarity:"Epic",value:200},
- {name:"Salamino Penguino",emoji:"🐧",rarity:"Epic",value:240},
- {name:"Doi Doi Do",emoji:"🐦",rarity:"Epic",value:280},
- {name:"Burbaloni Luliloli",emoji:"🥥",rarity:"Epic",value:300},
- {name:"Chef Crabracadabra",emoji:"🦀",rarity:"Epic",value:320},
- {name:"Lionel Cactuseli",emoji:"🦁",rarity:"Epic",value:350},
- {name:"Glorbo Fruttodrillo",emoji:"🐊",rarity:"Epic",value:370},
- {name:"Blueberrinni Octopusini",emoji:"🐙",rarity:"Epic",value:390},
- {name:"Pandaccini Bananini",emoji:"🐼",rarity:"Epic",value:400},
- {name:"Chimpanzini Bananini",emoji:"🐒",rarity:"Legendary",value:500},
- {name:"Frigo Camelo",emoji:"🐪",rarity:"Legendary",value:550},
- {name:"Orangutini Ananasini",emoji:"🍍",rarity:"Legendary",value:600},
- {name:"Rhino Toasterino",emoji:"🦏",rarity:"Legendary",value:650},
- {name:"Bombombini Gusini",emoji:"🪿",rarity:"Legendary",value:700},
- {name:"Cocosini Mama",emoji:"🥥",rarity:"Legendary",value:720},
- {name:"Girafa Celestre",emoji:"🦒",rarity:"Legendary",value:750},
- {name:"Gattatino Nyanino",emoji:"🐱",rarity:"Legendary",value:780},
- {name:"Matteo",emoji:"🧑",rarity:"Legendary",value:800},
- {name:"La Vacca Saturno Saturnita",emoji:"🐄",rarity:"Secret",value:12000},
- {name:"Graipuss Medussi",emoji:"🐙",rarity:"Secret",value:15000},
- {name:"Nuclearo Dinossauro",emoji:"🦖",rarity:"Secret",value:18000},
- {name:"La Grande Combinasion",emoji:"✨",rarity:"Secret",value:22000},
- {name:"Los Tralaleritos",emoji:"🦈",rarity:"Secret",value:25000},
- {name:"Las Tralaleritas",emoji:"🦈",rarity:"Secret",value:26000},
- {name:"Los Combinasionas",emoji:"✨",rarity:"Secret",value:28000},
- {name:"Meowl",emoji:"🐱",rarity:"Secret",value:30000},
- {name:"Skibidi Toilet",emoji:"🚽",rarity:"Secret",value:9000},
- {name:"Pot Hotspot",emoji:"🍲",rarity:"Secret",value:9500},
- {name:"Spaghetti Tualetti",emoji:"🍝",rarity:"Secret",value:11000},
- {name:"Chicleteira Bicicleteira",emoji:"🚲",rarity:"Secret",value:10000},
- {name:"Ketupat Kepat",emoji:"🍙",rarity:"Secret",value:8500},
- {name:"Los Hotspotsitos",emoji:"🔥",rarity:"Secret",value:14000},
- {name:"Los Bros",emoji:"👥",rarity:"Secret",value:16000},
- {name:"Los Noobinis",emoji:"🍕",rarity:"Secret",value:13000},
- {name:"Los Orcalitos",emoji:"🐋",rarity:"Secret",value:17000},
- {name:"Orcalero Orcala",emoji:"🐋",rarity:"Secret",value:12500},
- {name:"Tang Tang Keletang",emoji:"🥁",rarity:"Secret",value:8000},
- {name:"Agarrini la Palini",emoji:"🏓",rarity:"Secret",value:7500},
- {name:"Dul Dul Dul",emoji:"🔔",rarity:"Secret",value:7000},
- {name:"Pakrahmatmamat",emoji:"🎭",rarity:"Secret",value:10000},
- {name:"Trulimero Trulicina",emoji:"🐟",rarity:"Epic",value:300},
- {name:"Frulli Frulla",emoji:"🍓",rarity:"Epic",value:330},
- {name:"Udin Din Din Dun",emoji:"🥁",rarity:"Mythic",value:650},
- {name:"Ballerino Lololo",emoji:"🩰",rarity:"Mythic",value:700},
- {name:"Bobrito Bandito",emoji:"🦫",rarity:"Rare",value:90},
- {name:"Trenostruzzo Turbo 3000",emoji:"🚂",rarity:"Mythic",value:900},
- {name:"Girafa Celeste",emoji:"🦒",rarity:"Legendary",value:760},
- {name:"Cocofanto Elefanto",emoji:"🐘",rarity:"Secret",value:14000},
- {name:"Orangutini Ananassini",emoji:"🍍",rarity:"Legendary",value:610},
- {name:"Ballerina Peppermintina",emoji:"🍬",rarity:"Mythic",value:950},
- {name:"Elefanto Frigo",emoji:"🐘",rarity:"Mythic",value:1000},
- {name:"Bombardini Tortinii",emoji:"💣",rarity:"Mythic",value:1100},
- {name:"Trippi Troppi Troppa Trippa",emoji:"🦐",rarity:"Secret",value:12000},
- {name:"Los Tungtungtungcitos",emoji:"🥁",rarity:"Secret",value:19000},
- {name:"La Esok Sekolah",emoji:"🏫",rarity:"Secret",value:9000},
- {name:"Torrtuginni Dragonfrutini",emoji:"🐢",rarity:"Mythic",value:1000},
- {name:"Cavallo Virtuoso",emoji:"🐴",rarity:"Mythic",value:1150},
- {name:"Gorillo Watermelondrillo",emoji:"🍉",rarity:"Mythic",value:1200},
- {name:"Rhino Helicopterino",emoji:"🚁",rarity:"Mythic",value:1250},
- {name:"Elefante Tropical",emoji:"🌴",rarity:"Mythic",value:1300},
- {name:"Tralalita Tralala",emoji:"🦈",rarity:"Secret",value:15000},
- {name:"Bananito Bandito",emoji:"🍌",rarity:"Epic",value:350},
- {name:"Tigrilini Watermelini",emoji:"🐯",rarity:"Legendary",value:850},
- {name:"Cachorrito Melonito",emoji:"🐶",rarity:"Legendary",value:870},
- {name:"Bombardini Crocodilo",emoji:"🐊",rarity:"Mythic",value:1400},
- {name:"Gorillo Subwoofero",emoji:"🔊",rarity:"Mythic",value:1450},
- {name:"Zibra Zubra Zibralini",emoji:"🦓",rarity:"Mythic",value:1500},
- {name:"Tartaruga Cisterna",emoji:"🐢",rarity:"Mythic",value:1550},
- {name:"Strawberelli Flamingelli",emoji:"🍓",rarity:"Secret",value:20000},
- {name:"Dragon Cannelloni",emoji:"🐉",rarity:"OG",value:500000},
- {name:"Garama and Madundung",emoji:"🫙",rarity:"OG",value:250000}
+const characters=[
+{name:"Noobini Pizzanini",emoji:"🍕",rarity:"Common",value:10},
+{name:"Strawberry Elephant",emoji:"🍓",rarity:"OG",value:1000000},
+{name:"Dragon Cannelloni",emoji:"🐉",rarity:"OG",value:350000},
+{name:"Garama and Madundung",emoji:"🫙",rarity:"Secret",value:175000},
+{name:"Tralalero Tralala",emoji:"🦈",rarity:"Brainrot God",value:3000},
+{name:"Bombardiro Crocodilo",emoji:"🐊",rarity:"Brainrot God",value:2800},
+{name:"Tung Tung Tung Sahur",emoji:"🥁",rarity:"Brainrot God",value:2400},
+{name:"Ballerina Cappuccina",emoji:"☕",rarity:"Brainrot God",value:3500},
+{name:"Cappuccino Assassino",emoji:"☕",rarity:"Mythic",value:900},
+{name:"Brr Brr Patapim",emoji:"🌳",rarity:"Mythic",value:800},
+{name:"Lirili Larila",emoji:"🐘",rarity:"Rare",value:80},
+{name:"Tim Cheese",emoji:"🧀",rarity:"Common",value:15},
+{name:"Fluriflura",emoji:"🌸",rarity:"Common",value:20},
+{name:"Talpa Di Fero",emoji:"🦡",rarity:"Common",value:25},
+{name:"Svinina Bombardino",emoji:"🐷",rarity:"Common",value:30},
+{name:"Pipi Kiwi",emoji:"🥝",rarity:"Common",value:20},
+{name:"Pipi Corni",emoji:"🌽",rarity:"Common",value:25},
+{name:"Trippi Troppi",emoji:"🦐",rarity:"Rare",value:70},
+{name:"Gangster Footera",emoji:"👟",rarity:"Rare",value:60},
+{name:"Bandito Bobritto",emoji:"🦫",rarity:"Rare",value:90},
+{name:"Boneca Ambalabu",emoji:"🐸",rarity:"Rare",value:100},
+{name:"Cacto Hipopotamo",emoji:"🌵",rarity:"Rare",value:120},
+{name:"Ta Ta Ta Ta Sahur",emoji:"🥁",rarity:"Rare",value:110},
+{name:"Tric Trac Baraboom",emoji:"💥",rarity:"Rare",value:130},
+{name:"Pipi Avocado",emoji:"🥑",rarity:"Rare",value:100},
+{name:"Bambini Crostini",emoji:"🥐",rarity:"Epic",value:180},
+{name:"Bananita Dolphinita",emoji:"🐬",rarity:"Epic",value:220},
+{name:"Perochello Lemonchello",emoji:"🍋",rarity:"Epic",value:250},
+{name:"Avocadini Guffo",emoji:"🥑",rarity:"Epic",value:200},
+{name:"Salamino Penguino",emoji:"🐧",rarity:"Epic",value:240},
+{name:"Doi Doi Do",emoji:"🐦",rarity:"Epic",value:280},
+{name:"Burbaloni Luliloli",emoji:"🥥",rarity:"Epic",value:300},
+{name:"Chef Crabracadabra",emoji:"🦀",rarity:"Epic",value:320},
+{name:"Lionel Cactuseli",emoji:"🦁",rarity:"Epic",value:350},
+{name:"Glorbo Fruttodrillo",emoji:"🐊",rarity:"Epic",value:370},
+{name:"Blueberrinni Octopusini",emoji:"🐙",rarity:"Epic",value:390},
+{name:"Pandaccini Bananini",emoji:"🐼",rarity:"Epic",value:400},
+{name:"Chimpanzini Bananini",emoji:"🐒",rarity:"Legendary",value:500},
+{name:"Frigo Camelo",emoji:"🐪",rarity:"Legendary",value:550},
+{name:"Orangutini Ananasini",emoji:"🍍",rarity:"Legendary",value:600},
+{name:"Rhino Toasterino",emoji:"🦏",rarity:"Legendary",value:650},
+{name:"Bombombini Gusini",emoji:"🪿",rarity:"Legendary",value:700},
+{name:"Cocosini Mama",emoji:"🥥",rarity:"Legendary",value:720},
+{name:"Girafa Celestre",emoji:"🦒",rarity:"Legendary",value:750},
+{name:"Gattatino Nyanino",emoji:"🐱",rarity:"Legendary",value:780},
+{name:"Matteo",emoji:"🧑",rarity:"Legendary",value:800},
+{name:"La Vacca Saturno Saturnita",emoji:"🐄",rarity:"Secret",value:12000},
+{name:"Graipuss Medussi",emoji:"🐙",rarity:"Secret",value:15000},
+{name:"Nuclearo Dinossauro",emoji:"🦖",rarity:"Secret",value:18000},
+{name:"La Grande Combinasion",emoji:"✨",rarity:"Secret",value:22000},
+{name:"Los Tralaleritos",emoji:"🦈",rarity:"Secret",value:25000},
+{name:"Las Tralaleritas",emoji:"🦈",rarity:"Secret",value:26000},
+{name:"Los Combinasionas",emoji:"✨",rarity:"Secret",value:28000},
+{name:"Meowl",emoji:"🐱",rarity:"Secret",value:30000},
+{name:"Skibidi Toilet",emoji:"🚽",rarity:"Secret",value:9000},
+{name:"Pot Hotspot",emoji:"🍲",rarity:"Secret",value:9500},
+{name:"Spaghetti Tualetti",emoji:"🍝",rarity:"Secret",value:11000},
+{name:"Chicleteira Bicicleteira",emoji:"🚲",rarity:"Secret",value:10000},
+{name:"Ketupat Kepat",emoji:"🍙",rarity:"Secret",value:8500},
+{name:"Los Hotspotsitos",emoji:"🔥",rarity:"Secret",value:14000},
+{name:"Los Bros",emoji:"👥",rarity:"Secret",value:16000},
+{name:"Los Noobinis",emoji:"🍕",rarity:"Secret",value:13000},
+{name:"Los Orcalitos",emoji:"🐋",rarity:"Secret",value:17000},
+{name:"Orcalero Orcala",emoji:"🐋",rarity:"Secret",value:12500},
+{name:"Tang Tang Keletang",emoji:"🥁",rarity:"Secret",value:8000},
+{name:"Agarrini la Palini",emoji:"🏓",rarity:"Secret",value:7500},
+{name:"Dul Dul Dul",emoji:"🔔",rarity:"Secret",value:7000},
+{name:"Pakrahmatmamat",emoji:"🎭",rarity:"Secret",value:10000},
+{name:"Trulimero Trulicina",emoji:"🐟",rarity:"Epic",value:300},
+{name:"Frulli Frulla",emoji:"🍓",rarity:"Epic",value:330},
+{name:"Udin Din Din Dun",emoji:"🥁",rarity:"Mythic",value:650},
+{name:"Ballerino Lololo",emoji:"🩰",rarity:"Mythic",value:700},
+{name:"Trenostruzzo Turbo 3000",emoji:"🚂",rarity:"Mythic",value:900},
+{name:"Cocofanto Elefanto",emoji:"🐘",rarity:"Secret",value:14000},
+{name:"Ballerina Peppermintina",emoji:"🍬",rarity:"Mythic",value:950},
+{name:"Elefante Frigo",emoji:"🐘",rarity:"Mythic",value:1000},
+{name:"Bombardini Tortinii",emoji:"💣",rarity:"Mythic",value:1100},
+{name:"Trippi Troppi Troppa Trippa",emoji:"🦐",rarity:"Secret",value:12000},
+{name:"Los Tungtungtungcitos",emoji:"🥁",rarity:"Secret",value:19000},
+{name:"La Esok Sekolah",emoji:"🏫",rarity:"Secret",value:9000},
+{name:"Torrtuginni Dragonfrutini",emoji:"🐢",rarity:"Mythic",value:1000},
+{name:"Cavallo Virtuoso",emoji:"🐴",rarity:"Mythic",value:1150},
+{name:"Gorillo Watermelondrillo",emoji:"🍉",rarity:"Mythic",value:1200},
+{name:"Rhino Helicopterino",emoji:"🚁",rarity:"Mythic",value:1250},
+{name:"Elefante Tropical",emoji:"🌴",rarity:"Mythic",value:1300},
+{name:"Tralalita Tralala",emoji:"🦈",rarity:"Secret",value:15000},
+{name:"Bananito Bandito",emoji:"🍌",rarity:"Epic",value:350},
+{name:"Tigrilini Watermelini",emoji:"🐯",rarity:"Legendary",value:850},
+{name:"Cachorrito Melonito",emoji:"🐶",rarity:"Legendary",value:870},
+{name:"Gorillo Subwoofero",emoji:"🔊",rarity:"Mythic",value:1450},
+{name:"Zibra Zubra Zibralini",emoji:"🦓",rarity:"Mythic",value:1500},
+{name:"Tartaruga Cisterna",emoji:"🐢",rarity:"Mythic",value:1550},
+{name:"Strawberelli Flamingelli",emoji:"🍓",rarity:"Secret",value:20000}
 ];
-
-// Удаляем повторяющиеся имена, чтобы один персонаж не попадал в каталог дважды.
-const unique = [...new Map(characters.map(c=>[c.name,c])).values()];
-const cases = [
- {name:"Стартовый",emoji:"📦",cost:25,odds:[["Noobini Pizzanini",70],["Tim Cheese",20],["Lirili Larila",10]]},
- {name:"Золотой",emoji:"🟨",cost:100,odds:[["Cappuccino Assassino",60],["Brr Brr Patapim",30],["Tralalero Tralala",10]]},
- {name:"Секретный",emoji:"🔮",cost:500,odds:[["Tralalero Tralala",70],["La Vacca Saturno Saturnita",25],["Garama and Madundung",5]]},
- {name:"OG-кейс",emoji:"👑",cost:10000,odds:[["Strawberry Elephant",5],["Noobini Pizzanini",95]],featured:true}
+const unique=[...new Map(characters.map(c=>[c.name,c])).values()];
+const cases=[
+{name:"Стартовый кейс",emoji:"📦",cost:25,odds:[["Noobini Pizzanini",70],["Tim Cheese",20],["Lirili Larila",10]]},
+{name:"Золотой кейс",emoji:"🟨",cost:100,odds:[["Cappuccino Assassino",60],["Brr Brr Patapim",30],["Tralalero Tralala",10]]},
+{name:"Секретный кейс",emoji:"🔮",cost:500,odds:[["Tralalero Tralala",70],["La Vacca Saturno Saturnita",25],["Garama and Madundung",5]]},
+{name:"OG-кейс",emoji:"👑",cost:10000,featured:true,odds:[["Strawberry Elephant",5],["Noobini Pizzanini",95]]}
 ];
-let state;
-try{state=JSON.parse(localStorage.getItem("brainget_save_v2"))}catch(e){}
-if(!state||typeof state.coins!=="number"||!Array.isArray(state.inventory))
- state={coins:250,inventory:{"Noobini Pizzanini":1},lastDaily:""};
-function save(){localStorage.setItem("brainget_save_v2",JSON.stringify(state));renderAll()}
-function getChar(name){return unique.find(c=>c.name===name)}
-function addChar(name){state.inventory[name]=(state.inventory[name]||0)+1}
-function card(c,owned=false){
- return `<div class="card ${c.name==="Strawberry Elephant"||c.name==="Dragon Cannelloni"||c.name==="Garama and Madundung"?"featured":""}">
- <div class="art">${c.emoji}</div><div class="name">${c.name}</div>
- <div class="badge">${c.rarity}</div><div class="price">Цена: ${c.value.toLocaleString("ru-RU")} OG</div>
- ${owned?`<div class="small">В наличии: ${state.inventory[c.name]||0}</div>`:""}
- </div>`;
-}
-function renderCases(){
- document.getElementById("caseGrid").innerHTML=cases.map((c,i)=>`
- <div class="card case ${c.featured?"featured":""}">
- <div class="art">${c.emoji}</div><div class="name">${c.name}</div>
- <div class="price">Цена: ${c.cost.toLocaleString("ru-RU")} OG</div>
- <div class="small">${c.odds.map(o=>`${o[0]} — ${o[1]}%`).join("<br>")}</div><br>
- <button onclick="openCase(${i})">Открыть</button></div>`).join("");
-}
-function openCase(i){
- const c=cases[i],out=document.getElementById("caseResult");
- if(state.coins<c.cost){out.textContent="Не хватает OG-монет!";return}
- state.coins-=c.cost;
- const r=Math.random()*100;let sum=0,chosen=c.odds[c.odds.length-1][0];
- for(const [name,p] of c.odds){sum+=p;if(r<sum){chosen=name;break}}
- addChar(chosen);save();
- out.textContent=`🎉 Выпал ${chosen}! Вероятность этой награды: ${c.odds.find(o=>o[0]===chosen)[1]}%.`;
-}
-function renderInventory(){
- const entries=Object.entries(state.inventory).filter(([n,q])=>q>0);
- document.getElementById("invSummary").textContent=`Персонажей в инвентаре: ${entries.reduce((s,[n,q])=>s+q,0)}`;
- document.getElementById("inventoryGrid").innerHTML=entries.length?entries.map(([n,q])=>{
- const c=getChar(n);return c?card(c,true):"";
- }).join(""):"<p>Пока пусто. Открой кейс!</p>";
-}
-function renderCatalog(){
- const q=(document.getElementById("search")?.value||"").toLowerCase();
- document.getElementById("catalogGrid").innerHTML=unique.filter(c=>c.name.toLowerCase().includes(q)).map(c=>card(c)).join("");
-}
-function renderSelects(){
- const owned=Object.entries(state.inventory).filter(([n,q])=>q>0&&getChar(n));
- const s=document.getElementById("source"),t=document.getElementById("target");
- const oldS=s.value,oldT=t.value;
- s.innerHTML=owned.map(([n])=>`<option value="${n}">${n} ×${state.inventory[n]}</option>`).join("");
- t.innerHTML=unique.map(c=>`<option value="${c.name}">${c.name} — ${c.value.toLocaleString("ru-RU")} OG</option>`).join("");
- if(owned.some(([n])=>n===oldS))s.value=oldS;
- if(unique.some(c=>c.name===oldT))t.value=oldT;
- updateChance();
-}
-function updateChance(){
- const s=getChar(document.getElementById("source").value),t=getChar(document.getElementById("target").value);
- if(!s||!t){document.getElementById("chance").textContent="Шанс: —";return}
- const chance=t.value<=s.value?100:Math.max(1,Math.min(75,Math.floor(s.value/t.value*75)));
- document.getElementById("chance").textContent=`Шанс успеха: ${chance}%`;
- document.getElementById("upgradeInfo").textContent=`${s.name} → ${t.name}. При неудаче исходный персонаж будет потерян.`;
-}
-function upgrade(){
- const s=getChar(document.getElementById("source").value),t=getChar(document.getElementById("target").value);
- const out=document.getElementById("upgradeResult");
- if(!s||!t||!state.inventory[s.name]){out.textContent="Сначала получи персонажа в кейсе.";return}
- if(s.name===t.name){out.textContent="Выбери другого персонажа.";return}
- const chance=t.value<=s.value?100:Math.max(1,Math.min(75,Math.floor(s.value/t.value*75)));
- state.inventory[s.name]--;
- if(Math.random()*100<chance){addChar(t.name);out.textContent=`🔥 УСПЕХ! Получен ${t.name}!`}
- else out.textContent=`Не получилось! ${s.name} потерян.`;
- save();
-}
-function renderAll(){
- document.getElementById("coins").textContent=state.coins.toLocaleString("ru-RU");
- renderCases();renderInventory();renderCatalog();renderSelects();
-}
-function go(id){document.getElementById(id).scrollIntoView({behavior:"smooth",block:"start"})}
+let state;try{state=JSON.parse(localStorage.getItem("brainget_save_v3"))}catch(e){}
+if(!state||typeof state.coins!=="number"||!Array.isArray(Object.keys(state.inventory||{})))state={coins:250,inventory:{"Noobini Pizzanini":1}};
+function save(){localStorage.setItem("brainget_save_v3",JSON.stringify(state));renderAll()}
+function getChar(n){return unique.find(c=>c.name===n)}
+function addChar(n){state.inventory[n]=(state.inventory[n]||0)+1}
+function card(c,owned=false){return `<div class="card ${["Strawberry Elephant","Dragon Cannelloni","Garama and Madundung"].includes(c.name)?"featured":""}"><div class="art">${c.emoji}</div><div class="name">${c.name}</div><div class="badge">${c.rarity}</div><div class="price">${c.value.toLocaleString("ru-RU")} OG</div>${owned?`<div class="small">В наличии: ${state.inventory[c.name]||0}</div>`:""}</div>`}
+function renderCases(){document.getElementById("caseGrid").innerHTML=cases.map((c,i)=>`<div class="card case ${c.featured?"featured":""}"><div class="art">${c.emoji}</div><div class="name">${c.name}</div><div class="price">${c.cost.toLocaleString("ru-RU")} OG</div><div class="small">${c.odds.map(o=>`${o[0]} — ${o[1]}%`).join("<br>")}</div><br><button onclick="openCase(${i})">Открыть</button></div>`).join("")}
+function openCase(i){let c=cases[i],out=document.getElementById("caseResult");if(state.coins<c.cost){out.textContent="Не хватает OG-монет!";return}state.coins-=c.cost;let r=Math.random()*100,sum=0,n=c.odds[c.odds.length-1][0];for(let [name,p] of c.odds){sum+=p;if(r<sum){n=name;break}}addChar(n);save();out.textContent=`🎉 Выпал ${n}! Шанс: ${c.odds.find(o=>o[0]===n)[1]}%.`}
+function renderInventory(){let entries=Object.entries(state.inventory).filter(([n,q])=>q>0);document.getElementById("invSummary").textContent=`Персонажей: ${entries.reduce((s,[n,q])=>s+q,0)}`;document.getElementById("inventoryGrid").innerHTML=entries.length?entries.map(([n])=>getChar(n)?card(getChar(n),true):"").join(""):"<p>Инвентарь пуст.</p>"}
+function renderCatalog(){let q=(document.getElementById("search").value||"").toLowerCase();document.getElementById("catalogGrid").innerHTML=unique.filter(c=>c.name.toLowerCase().includes(q)).map(c=>card(c)).join("")}
+function renderSelects(){let owned=Object.entries(state.inventory).filter(([n,q])=>q>0&&getChar(n)),s=document.getElementById("source"),t=document.getElementById("target"),os=s.value,ot=t.value;s.innerHTML=owned.map(([n])=>`<option value="${n}">${n} ×${state.inventory[n]}</option>`).join("");t.innerHTML=unique.map(c=>`<option value="${c.name}">${c.name} — ${c.value.toLocaleString("ru-RU")} OG</option>`).join("");if(owned.some(([n])=>n===os))s.value=os;if(unique.some(c=>c.name===ot))t.value=ot;updateChance()}
+function chanceFor(s,t){return t.value<=s.value?100:Math.max(1,Math.min(75,Math.floor(s.value/t.value*75)))}
+function updateChance(){let s=getChar(document.getElementById("source").value),t=getChar(document.getElementById("target").value);if(!s||!t){document.getElementById("chance").textContent="Нет персонажа";return}let p=chanceFor(s,t);document.getElementById("chance").textContent=`Шанс успеха: ${p}%`;document.getElementById("upgradeInfo").textContent=`${s.name} → ${t.name}. При неудаче исходный персонаж будет потерян.`}
+let busy=false;
+function upgrade(){if(busy)return;let s=getChar(document.getElementById("source").value),t=getChar(document.getElementById("target").value),out=document.getElementById("upgradeResult");if(!s||!t||!state.inventory[s.name]){out.textContent="Сначала получи персонажа.";return}if(s.name===t.name){out.textContent="Выбери другую цель.";return}let p=chanceFor(s,t),success=Math.random()*100<p;busy=true;let wheel=document.getElementById("wheel");wheel.style.transform=`rotate(${1080+(success?45:225)+Math.random()*25}deg)`;out.textContent="⚡ Улучшение...";setTimeout(()=>{state.inventory[s.name]--;if(success){addChar(t.name);out.textContent=`🔥 УСПЕХ! Получен ${t.name}!`}else out.textContent=`Неудача! ${s.name} потерян.`;busy=false;save()},1550)}
+function go(id){document.getElementById(id).scrollIntoView({behavior:"smooth"})}
+function renderAll(){document.getElementById("coins").textContent=state.coins.toLocaleString("ru-RU");renderCases();renderInventory();renderCatalog();renderSelects()}
 renderAll();
 </script>
 </body>
