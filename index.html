@@ -3,307 +3,194 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BrainGet</title>
 <style>
-:root{--bg:#0b0813;--panel:#171124;--purple:#8b5cf6;--pink:#e879f9;--text:#f6f0ff;--muted:#a99bbd}
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#25113d,#0b0813 65%);color:var(--text);font-family:Arial,sans-serif}
-header{padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid #30213f;background:#0b0813cc;position:sticky;top:0;z-index:5}
-.logo{font-size:27px;font-weight:900;color:#c4a3ff}
-.balance{background:#211632;border:1px solid #62428a;padding:12px 16px;border-radius:14px;font-weight:bold}
-nav{display:flex;gap:8px;padding:15px 5%;overflow:auto}
-button{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:white;border:0;border-radius:11px;padding:11px 15px;font-weight:bold;cursor:pointer}
-button:hover{filter:brightness(1.15)}
-button:disabled{opacity:.4;cursor:not-allowed}
-nav button{white-space:nowrap}
-nav button.active{background:#e879f9;color:#210b32}
-main{padding:0 5% 40px;max-width:1300px;margin:auto}
-h1{font-size:clamp(27px,5vw,42px);margin:22px 0 8px}
-h2{margin-top:28px}
-.sub{color:var(--muted);line-height:1.5}
+*{box-sizing:border-box}body{margin:0;background:#0b0813;color:#f6efff;font-family:Arial,sans-serif}
+header,nav{padding:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:#171124}
+header{justify-content:space-between;position:sticky;top:0;z-index:2}
+.logo{font-size:26px;font-weight:900;color:#c4a3ff}
+button,select,input{padding:12px;border-radius:10px;border:1px solid #68449b;background:#241637;color:white}
+button{cursor:pointer;background:#7c3aed;font-weight:bold}
+button:disabled{opacity:.5}main{max-width:1100px;margin:auto;padding:20px}
 .page{display:none}.page.active{display:block}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:15px;margin-top:20px}
-.card{background:linear-gradient(145deg,#211632,#120d1c);border:1px solid #39264d;border-radius:17px;padding:17px;min-width:0}
-.card .emoji{font-size:42px;text-align:center;margin:8px}
-.card h3{text-align:center;margin:9px 0}
-.card p{color:var(--muted);font-size:13px;text-align:center}
-.card button{width:100%;margin-top:7px}
-.tag{display:inline-block;background:#342047;border-radius:20px;padding:5px 9px;font-size:12px;color:#d9c3ff}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-.stat{background:#211632;padding:15px;border-radius:13px;flex:1;min-width:120px}
-input,select{background:#100b18;color:white;border:1px solid #62428a;padding:12px;border-radius:10px;width:100%;margin:8px 0}
-.wheel-wrap{display:flex;flex-direction:column;align-items:center;gap:15px;margin:25px auto}
-.wheel-box{position:relative;width:min(78vw,340px);aspect-ratio:1}
-#wheel{width:100%;height:100%;border-radius:50%;border:7px solid #b58aff;box-shadow:0 0 35px #8b5cf677;transition:transform 4s cubic-bezier(.12,.7,.1,1);background:conic-gradient(#5b21b6 0deg 180deg,#dc2626 180deg 360deg)}
-.pointer{position:absolute;top:-9px;left:50%;transform:translateX(-50%);z-index:2;width:0;height:0;border-left:17px solid transparent;border-right:17px solid transparent;border-top:32px solid #fff}
-.wheel-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;background:#170d24;border:4px solid #c4a3ff;width:80px;height:80px;display:grid;place-items:center;font-size:26px}
-.legend{display:flex;gap:15px;flex-wrap:wrap;justify-content:center}
-.green{color:#4ade80}.red{color:#fb7185}
-#result{font-size:20px;font-weight:bold;text-align:center;min-height:28px}
-.inventory-item{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.inventory-item .name{font-weight:bold}
-.small{font-size:12px;color:var(--muted)}
-footer{text-align:center;color:var(--muted);padding:25px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.card{background:#191225;border:1px solid #39254d;border-radius:15px;padding:15px;text-align:center;overflow-wrap:anywhere}
+.emoji{font-size:38px;margin:10px}.muted{color:#b6a6ca}
+input,select{width:100%;margin:8px 0}
+#wheel{width:min(75vw,320px);aspect-ratio:1;border-radius:50%;border:7px solid #c4a3ff;background:conic-gradient(#8b5cf6 0 180deg,#dc2626 180deg);transition:transform 4s cubic-bezier(.12,.7,.1,1)}
+.wheelbox{position:relative;width:min(75vw,320px);margin:25px auto}
+.pointer{position:absolute;z-index:1;top:-5px;left:calc(50% - 15px);border-left:15px solid transparent;border-right:15px solid transparent;border-top:30px solid white}
+.center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#170d24;border:4px solid white;border-radius:50%;padding:22px}
+#result{text-align:center;font-size:20px;font-weight:bold;min-height:35px}
 </style>
 </head>
 <body>
-<header>
-  <div class="logo">🧠 BrainGet</div>
-  <div class="balance">🪙 <span id="coins">1000</span></div>
-</header>
+<header><div class="logo">🧠 BrainGet</div><b>🪙 <span id="coins">1000</span></b></header>
 <nav>
-  <button class="active" data-page="home">🏠 Главная</button>
-  <button data-page="cases">📦 Кейсы</button>
-  <button data-page="upgrade">🎡 Апгрейдер</button>
-  <button data-page="inventory">🎒 Инвентарь</button>
-  <button data-page="collection">🧠 100 брейнротов</button>
-  <button data-page="profile">👤 Профиль</button>
+<button onclick="page('home')">Главная</button>
+<button onclick="page('cases')">📦 Кейсы</button>
+<button onclick="page('upgrade')">🎡 Апгрейдер</button>
+<button onclick="page('inventory')">🎒 Инвентарь</button>
+<button onclick="page('collection')">🧠 100 брейнротов</button>
+<button onclick="page('profile')">👤 Профиль</button>
 </nav>
 <main>
 <section class="page active" id="home">
-  <h1>Добро пожаловать в BrainGet!</h1>
-  <p class="sub">Открывай кейсы, собирай коллекцию и испытывай удачу на колесе апгрейдера.</p>
-  <div class="stats">
-    <div class="stat">🪙 Монеты<br><b id="homeCoins">1000</b></div>
-    <div class="stat">🧠 В коллекции<br><b id="homeItems">0</b></div>
-    <div class="stat">🎯 Улучшения<br><b id="homeUpgrades">0</b></div>
-  </div>
-  <div class="cards">
-    <div class="card"><div class="emoji">🥚</div><h3>OG Case</h3><p>Особый кейс с редкими персонажами!</p><button onclick="openPage('cases')">Открыть кейсы</button></div>
-    <div class="card"><div class="emoji">🎡</div><h3>Колесо апгрейдера</h3><p>Попробуй улучшить своего брейнрота.</p><button onclick="openPage('upgrade')">Крутить колесо</button></div>
-    <div class="card"><div class="emoji">🧠</div><h3>Коллекция</h3><p>Собери всех 100 персонажей.</p><button onclick="openPage('collection')">Посмотреть</button></div>
-  </div>
+<h1>Добро пожаловать в BrainGet!</h1>
+<p class="muted">Открывай кейсы, собирай брейнротов и улучшай коллекцию.</p>
+<div class="cards">
+<div class="card"><div class="emoji">🥚</div><h3>OG Case</h3><button onclick="page('cases')">Открыть кейсы</button></div>
+<div class="card"><div class="emoji">🎡</div><h3>Колесо</h3><button onclick="page('upgrade')">Апгрейд</button></div>
+<div class="card"><div class="emoji">🧠</div><h3>Коллекция</h3><p id="stats">0 найдено</p><button onclick="page('collection')">Посмотреть</button></div>
+</div>
 </section>
-
 <section class="page" id="cases">
-  <h1>📦 Кейсы</h1>
-  <p class="sub">Выбирай кейс. Выпавшие персонажи попадут в инвентарь.</p>
-  <div class="cards" id="caseCards"></div>
-  <p id="caseResult"></p>
+<h1>📦 Кейсы</h1><p class="muted">OG Case содержит шанс получить Strawberry Elephant!</p>
+<div class="cards" id="caseCards"></div><p id="caseResult"></p>
 </section>
-
 <section class="page" id="upgrade">
-  <h1>🎡 Колесо апгрейдера</h1>
-  <p class="sub">Выбери брейнрота из инвентаря и цель. При успехе получишь выбранного персонажа, при проигрыше потеряешь исходного.</p>
-  <div class="card">
-    <label for="sourceItem">Твой брейнрот</label>
-    <select id="sourceItem"></select>
-    <label for="targetItem">Кого хочешь получить?</label>
-    <select id="targetItem"></select>
-    <p>Шанс успеха: <b id="chance">0%</b></p>
-    <p>Цена попытки: <b id="upgradeCost">0</b> 🪙</p>
-  </div>
-  <div class="wheel-wrap">
-    <div class="wheel-box">
-      <div class="pointer"></div>
-      <div id="wheel"></div>
-      <div class="wheel-center">🧠</div>
-    </div>
-    <div class="legend"><span class="green">🟣 Успех</span><span class="red">🔴 Проигрыш</span></div>
-    <button id="spinBtn" onclick="spinWheel()">🎡 Крутить колесо</button>
-    <div id="result"></div>
-  </div>
+<h1>🎡 Колесо апгрейдера</h1>
+<p class="muted">Успех — получишь выбранного персонажа. Проигрыш — потеряешь исходного.</p>
+<label>Твой брейнрот</label><select id="source"></select>
+<label>Цель апгрейда</label><select id="target"></select>
+<p>Шанс успеха: <b id="chance">0%</b></p>
+<p>Цена попытки: <b id="cost">0</b> монет</p>
+<div class="wheelbox"><div class="pointer"></div><div id="wheel"></div><div class="center">🧠</div></div>
+<div style="text-align:center"><button id="spin" onclick="spin()">🎡 Крутить колесо</button></div>
+<p id="result"></p>
 </section>
-
 <section class="page" id="inventory">
-  <h1>🎒 Инвентарь</h1>
-  <p class="sub">Здесь находятся твои персонажи.</p>
-  <div class="cards" id="inventoryCards"></div>
+<h1>🎒 Инвентарь</h1><div class="cards" id="items"></div>
 </section>
-
 <section class="page" id="collection">
-  <h1>🧠 Коллекция из 100 брейнротов</h1>
-  <p class="sub">Найденные персонажи отмечаются автоматически.</p>
-  <p>Открыто: <b id="collectionCount">0</b> / 100</p>
-  <input id="searchBrainrot" placeholder="🔎 Найти брейнрота..." oninput="renderCollection()">
-  <div class="cards" id="collectionCards"></div>
+<h1>🧠 Коллекция</h1><p id="found"></p>
+<input id="search" placeholder="Найти брейнрота..." oninput="renderCollection()">
+<div class="cards" id="all"></div>
 </section>
-
 <section class="page" id="profile">
-  <h1>👤 Профиль</h1>
-  <div class="card">
-    <label for="nickname">Никнейм</label>
-    <input id="nickname" maxlength="20" placeholder="Введи никнейм">
-    <button onclick="saveNickname()">Сохранить ник</button>
-    <p id="profileMessage"></p>
-    <hr style="border-color:#39264d">
-    <p class="sub">Прогресс сохраняется в этом браузере.</p>
-    <button onclick="dailyReward()">🎁 Ежедневная награда (+50)</button>
-    <button onclick="resetGame()" style="background:#991b1b;margin-top:12px">Сбросить прогресс</button>
-  </div>
+<h1>👤 Профиль</h1><input id="nick" maxlength="20" placeholder="Никнейм">
+<button onclick="saveNick()">Сохранить ник</button>
+<p id="nickMsg"></p><button onclick="reward()">🎁 Ежедневные +50 монет</button>
+<p><button onclick="reset()">Сбросить прогресс</button></p>
 </section>
 </main>
-<footer>BrainGet • Fan-made game prototype</footer>
-
 <script>
-const brainrots = [
-["Noobini Pizzanini","🍕",10],["Lirili Larila","🌵",15],["Tim Cheese","🧀",20],["Fluriflura","🌸",25],
-["Talpa Di Fero","🦔",30],["Svinina Bombardino","🐷",35],["Racooni Jandelini","🦝",40],["Pipi Kiwi","🥝",45],
-["Pipi Corni","🌽",50],["Trippi Troppi","🐟",60],["Gangster Footera","👟",70],["Bandito Bobritto","🦫",80],
-["Boneca Ambalabu","🪆",90],["Cacto Hipopotamo","🌵",100],["Ta Ta Ta Ta Sahur","🥁",110],
-["Tric Trac Baraboom","🥁",120],["Frogo Elfo","🐸",130],["Pipi Avocado","🥑",140],["Cappuccino Assassino","☕",150],
-["Brr Brr Patapim","🌳",170],["Trulimero Trulicina","🐱",190],["Bambini Crostini","🥐",210],
-["Bananita Dolphinita","🍌",230],["Perochello Lemonchello","🍋",250],["Brri Brri Bicus Dicus","🦆",270],
-["Avocadini Guffo","🥑",290],["Salamino Penguino","🐧",310],["Doi Doi Do","🐸",330],
-["Penguino Cocosino","🥥",350],["Avocadini Antilopini","🦌",370],["Mummio Rappitto","🧻",390],
-["Chimpanzini Bananini","🐒",410],["Ballerina Cappuccina","🩰",450],["Chef Crabracadabra","🦀",480],
-["Lionel Cactuseli","🦁",510],["Glorbo Fruttodrillo","🐊",540],["Blueberrinni Octopusini","🐙",570],
-["Strawberrelli Flamingelli","🍓",600],["Cocosini Mama","🥥",630],["Pandaccini Bananini","🐼",660],
-["Pi Pi Watermelon","🍉",690],["Sigma Boy","😎",720],["Sigma Girl","✨",750],
-["Frigo Camelo","🐪",780],["Orangutini Ananasini","🍍",810],["Rhino Toasterino","🦏",840],
-["Spioniro Golubiro","🕊️",870],["Bombombini Gusini","🪿",900],["Zibra Zubra Zibralini","🦓",930],
-["Tigrilini Watermelini","🐯",960],["Cavallo Virtuoso","🐴",1000],["Gorillo Watermelondrillo","🦍",1050],
-["Avocadorilla","🦍",1100],["Stoppo Luminino","💡",1150],["Spaghetti Tualetti","🍝",1200],
-["Rhino Helicopterino","🚁",1250],["Giraffa Celeste","🦒",1300],["Tracoducotulu Delapeladustuz","🐉",1350],
-["Cocofanto Elefanto","🐘",1400],["Girafa Celestre","🦒",1450],["Gattatino Nyanino","🐱",1500],
-["Tralalero Tralala","🦈",1600],["Odin Din Din Dun","⚡",1700],["Trenostruzzo Turbo 3000","🚂",1800],
-["Trippi Troppi Troppa Trippa","🐠",1900],["Ballerino Lololo","🕺",2000],["Los Crocodillitos","🐊",2200],
-["Tigroligre Frutonni","🐯",2400],["Orcalero Orcala","🐳",2600],["Piccione Macchina","🕊️",2800],
-["La Vacca Saturno Saturnita","🐄",3000],["Los Tralaleritos","🦈",3200],["Las Tralaleritas","🦈",3400],
-["Graipuss Medussi","🐙",3600],["Pot Hotspot","🌶️",3800],["Las Vaquitas Saturnitas","🐄",4000],
-["Chicleteira Bicicleteira","🚲",4200],["Agarrini La Palini","🪏",4400],["Los Matteos","🕶️",4600],
-["Nuclearo Dinossauro","☢️",4800],["Tortuginni Dragonfruitini","🐢",5000],["Dragon Cannelloni","🐉",5300],
-["Garama and Madundung","👑",5600],["La Grande Combinasion","🧩",5900],["Karkerkar Kurkur","🦀",6200],
-["Secret Lucky Block","🎁",6500],["Ketupat Kepat","🍙",6800],["Esok Sekolah","🏫",7100],
-["Tang Tang Kelentang","🥁",7400],["Toiletto Focaccino","🚽",7700],["Los Jobcitos","👔",8000],
-["Los Spaghettis","🍝",8300],["La Secret Combinasion","🌌",8600],["67","6️⃣7️⃣",9000],
-["Strawberry Elephant","🐘",100000],["Meowl","🐱",95000],["Skibidi Toilet","🚽",12000],
-["Los Hotspotsitos","🌶️",15000],["Spooky and Pumpky","🎃",18000],["Headless Horseman","🎃",22000],
-["La Jolly Grande","🎄",25000],["Festive 67","🎁",30000],["Gingerbread Town","🍪",35000]
-].slice(0,100);
-
-const cases=[
- {name:"Starter Case",emoji:"📦",price:50,ids:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]},
- {name:"Rare Case",emoji:"💜",price:200,ids:[20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49]},
- {name:"Legendary Case",emoji:"👑",price:600,ids:[50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79]},
- {name:"OG Case",emoji:"🥚",price:2500,ids:[80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99]}
+const names=[
+"Noobini Pizzanini","Lirili Larila","Tim Cheese","Fluriflura","Talpa Di Fero",
+"Svinina Bombardino","Racooni Jandelini","Pipi Kiwi","Pipi Corni","Trippi Troppi",
+"Gangster Footera","Bandito Bobritto","Boneca Ambalabu","Cacto Hipopotamo","Ta Ta Ta Ta Sahur",
+"Tric Trac Baraboom","Frogo Elfo","Pipi Avocado","Cappuccino Assassino","Brr Brr Patapim",
+"Trulimero Trulicina","Bambini Crostini","Bananita Dolphinita","Perochello Lemonchello","Brri Brri Bicus Dicus",
+"Avocadini Guffo","Salamino Penguino","Doi Doi Do","Penguino Cocosino","Avocadini Antilopini",
+"Mummio Rappitto","Chimpanzini Bananini","Ballerina Cappuccina","Chef Crabracadabra","Lionel Cactuseli",
+"Glorbo Fruttodrillo","Blueberrinni Octopusini","Strawberrelli Flamingelli","Cocosini Mama","Pandaccini Bananini",
+"Pi Pi Watermelon","Sigma Boy","Sigma Girl","Frigo Camelo","Orangutini Ananasini",
+"Rhino Toasterino","Spioniro Golubiro","Bombombini Gusini","Zibra Zubra Zibralini","Tigrilini Watermelini",
+"Cavallo Virtuoso","Gorillo Watermelondrillo","Avocadorilla","Stoppo Luminino","Spaghetti Tualetti",
+"Rhino Helicopterino","Giraffa Celeste","Tracoducotulu Delapeladustuz","Cocofanto Elefanto","Gattatino Nyanino",
+"Tralalero Tralala","Odin Din Din Dun","Trenostruzzo Turbo 3000","Trippi Troppi Troppa Trippa","Ballerino Lololo",
+"Los Crocodillitos","Tigroligre Frutonni","Orcalero Orcala","Piccione Macchina","La Vacca Saturno Saturnita",
+"Los Tralaleritos","Las Tralaleritas","Graipuss Medussi","Pot Hotspot","Las Vaquitas Saturnitas",
+"Chicleteira Bicicleteira","Agarrini La Palini","Los Matteos","Nuclearo Dinossauro","Tortuginni Dragonfruitini",
+"Dragon Cannelloni","Garama and Madundung","La Grande Combinasion","Karkerkar Kurkur","Ketupat Kepat",
+"Esok Sekolah","Tang Tang Kelentang","Toiletto Focaccino","Los Jobcitos","Los Spaghettis",
+"La Secret Combinasion","67","Strawberry Elephant","Meowl","Skibidi Toilet",
+"Los Hotspotsitos","Spooky and Pumpky","Headless Horseman","La Jolly Grande","Gingerbread Town"
 ];
-const SAVE_KEY="brainget_full_v2";
+const emojis=["🍕","🌵","🧀","🌸","🦔","🐷","🦝","🥝","🌽","🐟","👟","🦫","🪆","🌵","🥁","🥁","🐸","🥑","☕","🌳","🐱","🥐","🍌","🍋","🦆","🥑","🐧","🐸","🥥","🦌","🧻","🐒","🩰","🦀","🦁","🐊","🐙","🍓","🥥","🐼","🍉","😎","✨","🐪","🍍","🦏","🕊️","🪿","🦓","🐯","🐴","🦍","🦍","💡","🍝","🚁","🦒","🐉","🐘","🐱","🦈","⚡","🚂","🐠","🕺","🐊","🐯","🐳","🕊️","🐄","🦈","🦈","🐙","🌶️","🐄","🚲","🪏","🕶️","☢️","🐢","🐉","👑","🧩","🦀","🍙","🏫","🥁","🚽","👔","🍝","🌌","6️⃣7️⃣","🐘","🐱","🚽","🌶️","🎃","🎃","🎄","🍪"];
+const values=names.map((n,i)=>i===92?100000:i===93?95000:Math.round(10*Math.pow(1.09,i)));
+const brainrots=names.map((name,id)=>({name,id,value:values[id],emoji:emojis[id]||"🧠"}));
+const key="brainget_fixed_v3";
+const fresh=()=>({coins:1000,inventory:[],nick:"Player",lastReward:""});
 let state;
-function fresh(){return {coins:1000,inventory:[],nickname:"Player",upgrades:0,lastReward:""}}
-function load(){try{return {...fresh(),...JSON.parse(localStorage.getItem(SAVE_KEY)||"{}")}}catch(e){return fresh()}}
-state=load();
+try{state={...fresh(),...JSON.parse(localStorage.getItem(key)||"{}")}}catch(e){state=fresh()}
 const $=id=>document.getElementById(id);
-function save(){localStorage.setItem(SAVE_KEY,JSON.stringify(state));renderAll()}
-function openPage(id){
- document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
- document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
- renderAll();window.scrollTo({top:0,behavior:"smooth"});
-}
-document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>openPage(b.dataset.page)));
-function item(id){return brainrots[id]||brainrots[0]}
-function ownedCount(){return new Set(state.inventory.map(x=>x.id)).size}
-function renderCases(){
- $("caseCards").innerHTML=cases.map((c,i)=>`<div class="card"><div class="emoji">${c.emoji}</div><h3>${c.name}</h3><p>${i===3?"Шанс на Strawberry Elephant очень маленький!":"Случайный брейнрот из кейса."}</p><p>Цена: 🪙 ${c.price}</p><button onclick="openCase(${i})">Открыть</button></div>`).join("");
-}
-function openCase(i){
- const c=cases[i];if(state.coins<c.price){$("caseResult").textContent="❌ Не хватает монет!";return}
- state.coins-=c.price;
+function save(){localStorage.setItem(key,JSON.stringify(state));render()}
+function page(id){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===id));render()}
+function getItem(id){return brainrots[id]||brainrots[0]}
+function addItem(id){state.inventory.push({id,uid:Date.now()+Math.random()})}
+function openCase(type){
+ const prices=[50,200,600,2500],start=[0,20,50,80],end=[19,49,79,99];
+ if(state.coins<prices[type]){ $("caseResult").textContent="Не хватает монет!";return}
+ state.coins-=prices[type];
  let id;
- if(i===3 && Math.random()<0.0005)id=98;
- else if(i===3)id=c.ids[Math.floor(Math.random()*(c.ids.length-1))];
- else id=c.ids[Math.floor(Math.random()*c.ids.length)];
- state.inventory.push({id,uid:Date.now()+Math.random()});
- $("caseResult").innerHTML=`🎉 Выпал <b>${item(id)[1]} ${item(id)[0]}</b>!`;
+ if(type===3&&Math.random()<0.0005)id=92;
+ else id=start[type]+Math.floor(Math.random()*(end[type]-start[type]+(type===3?0:1)));
+ addItem(id);
+ $("caseResult").textContent="Выпал: "+getItem(id).emoji+" "+getItem(id).name;
  save();
 }
-function renderInventory(){
- const el=$("inventoryCards");
- if(!state.inventory.length){el.innerHTML='<div class="card">Пока пусто. Открой кейс! 📦</div>';return}
- el.innerHTML=state.inventory.map((x,i)=>`<div class="card"><div class="emoji">${item(x.id)[1]}</div><h3>${item(x.id)[0]}</h3><p>Стоимость: 🪙 ${item(x.id)[2].toLocaleString("ru-RU")}</p><button onclick="selectForUpgrade(${i})">Выбрать для апгрейда</button></div>`).join("");
+function renderCases(){
+ const cases=[["Starter Case","📦",50],["Rare Case","💜",200],["Legendary Case","👑",600],["OG Case","🥚",2500]];
+ $("caseCards").innerHTML=cases.map((c,i)=>`<div class="card"><div class="emoji">${c[1]}</div><h3>${c[0]}</h3><p>${c[2]} 🪙</p><button onclick="openCase(${i})">Открыть</button></div>`).join("");
 }
-function selectForUpgrade(i){openPage("upgrade");$("sourceItem").value=String(i);updateChance()}
+function renderInventory(){
+ $("items").innerHTML=state.inventory.length?state.inventory.map((x,i)=>{let b=getItem(x.id);return `<div class="card"><div class="emoji">${b.emoji}</div><h3>${b.name}</h3><p>${b.value.toLocaleString()} 🪙</p><button onclick="choose(${i})">Апгрейд</button></div>`}).join(""):"<p>Инвентарь пуст. Открой кейс!</p>";
+}
+function choose(i){page("upgrade");$("source").value=String(i);updateChance()}
 function renderCollection(){
- const q=($("searchBrainrot").value||"").toLowerCase();
- $("collectionCards").innerHTML=brainrots.map((b,id)=>{
-  const found=state.inventory.some(x=>x.id===id);
-  return {b,id,found}
- }).filter(x=>x.b[0].toLowerCase().includes(q)).map(x=>`<div class="card"><div class="emoji">${x.found?x.b[1]:"❔"}</div><h3>${x.found?x.b[0]:"???"}</h3><p>${x.found?"Открыт":"Ещё не найден"}</p><span class="tag">${x.b[2].toLocaleString("ru-RU")} 🪙</span></div>`).join("");
- $("collectionCount").textContent=ownedCount();
+ let q=($("search").value||"").toLowerCase();
+ $("all").innerHTML=brainrots.filter(b=>b.name.toLowerCase().includes(q)).map(b=>{
+ let owned=state.inventory.some(x=>x.id===b.id);
+ return `<div class="card"><div class="emoji">${owned?b.emoji:"❔"}</div><h3>${owned?b.name:"???"}</h3><p>${owned?"Найден":"Не найден"}</p></div>`
+ }).join("");
+ $("found").textContent="Найдено уникальных: "+new Set(state.inventory.map(x=>x.id)).size+" / 100";
 }
 function renderUpgradeOptions(){
- const src=$("sourceItem"),target=$("targetItem");
- const oldSrc=src.value,oldTarget=target.value;
- src.innerHTML=state.inventory.map((x,i)=>`<option value="${i}">${item(x.id)[1]} ${item(x.id)[0]} (${item(x.id)[2]})</option>`).join("");
- target.innerHTML=brainrots.map((b,id)=>`<option value="${id}">${b[1]} ${b[0]} — ${b[2].toLocaleString("ru-RU")}</option>`).join("");
- if(oldSrc!==""&&state.inventory[Number(oldSrc)])src.value=oldSrc;
- if(oldTarget!=="")target.value=oldTarget;
- if(!state.inventory.length)src.innerHTML='<option value="">Сначала открой кейс</option>';
+ const oldS=$("source").value,oldT=$("target").value;
+ $("source").innerHTML=state.inventory.map((x,i)=>`<option value="${i}">${getItem(x.id).name}</option>`).join("");
+ $("target").innerHTML=brainrots.map(b=>`<option value="${b.id}">${b.name} — ${b.value.toLocaleString()} 🪙</option>`).join("");
+ if(state.inventory[Number(oldS)])$("source").value=oldS;
+ if(oldT!=="")$("target").value=oldT;
  updateChance();
 }
-function upgradeStats(){
- const s=state.inventory[Number($("sourceItem").value)];
- const t=item(Number($("targetItem").value));
+function stats(){
+ const s=state.inventory[Number($("source").value)],t=getItem(Number($("target").value));
  if(!s)return {chance:0,cost:0};
- const sv=item(s.id)[2],tv=t[2];
- const chance=Math.max(2,Math.min(90,Math.floor(sv/tv*70)));
- return {chance,cost:Math.max(10,Math.floor(sv*.5))};
+ return {chance:Math.max(2,Math.min(90,Math.floor(getItem(s.id).value/t.value*70))),cost:Math.max(10,Math.floor(getItem(s.id).value/2))};
 }
 function updateChance(){
- const s=state.inventory[Number($("sourceItem").value)];
- const t=item(Number($("targetItem").value));
- const st=upgradeStats();
+ const st=stats();
  $("chance").textContent=st.chance+"%";
- $("upgradeCost").textContent=st.cost;
- $("spinBtn").disabled=!s||s.id===Number($("targetItem").value)||state.coins<st.cost;
- if(s&&s.id===Number($("targetItem").value))$("result").textContent="Выбери другого персонажа.";
+ $("cost").textContent=st.cost;
+ $("spin").disabled=!state.inventory.length||state.coins<st.cost;
 }
-$("sourceItem").addEventListener("change",updateChance);
-$("targetItem").addEventListener("change",updateChance);
+$("source").addEventListener("change",updateChance);
+$("target").addEventListener("change",updateChance);
 let spinning=false;
-function spinWheel(){
+function spin(){
  if(spinning)return;
- const idx=Number($("sourceItem").value),source=state.inventory[idx];
+ let index=Number($("source").value),source=state.inventory[index];
  if(!source){$("result").textContent="Сначала открой кейс!";return}
- const targetId=Number($("targetItem").value);
- if(source.id===targetId){$("result").textContent="Выбери другого персонажа.";return}
- const st=upgradeStats();
+ let target=Number($("target").value);
+ if(source.id===target){$("result").textContent="Выбери другого брейнрота.";return}
+ let st=stats();
  if(state.coins<st.cost){$("result").textContent="Не хватает монет!";return}
- state.coins-=st.cost;spinning=true;$("spinBtn").disabled=true;
- $("result").textContent="🎡 Колесо вращается...";
- const success=Math.random()*100<st.chance;
- const wheel=$("wheel");
- // Фиолетовая половина означает успех, красная — проигрыш.
- // Указатель стоит сверху; итог вычисляется случайно.
- const angle=1440+(success?45:225)+Math.random()*40;
- wheel.style.transform=`rotate(${angle}deg)`;
+ state.coins-=st.cost;spinning=true;$("spin").disabled=true;
+ $("result").textContent="Колесо вращается...";
+ let success=Math.random()*100<st.chance;
+ $("wheel").style.transform=`rotate(${1440+(success?45:225)+Math.random()*40}deg)`;
  setTimeout(()=>{
-  if(success){
-   state.inventory.splice(idx,1);
-   state.inventory.push({id:targetId,uid:Date.now()+Math.random()});
-   state.upgrades++;
-   $("result").innerHTML=`<span class="green">🎉 УСПЕХ! Получен ${item(targetId)[1]} ${item(targetId)[0]}!</span>`;
-  }else{
-   state.inventory.splice(idx,1);
-   $("result").innerHTML='<span class="red">💥 ПРОИГРЫШ! Брейнрот потерян.</span>';
-  }
-  spinning=false;save();renderUpgradeOptions();
-  $("spinBtn").disabled=!state.inventory.length;
+  if(success){state.inventory.splice(index,1);addItem(target);$("result").textContent="🎉 УСПЕХ! Ты получил "+getItem(target).name}
+  else{state.inventory.splice(index,1);$("result").textContent="❌ ПРОИГРЫШ! Персонаж потерян."}
+  spinning=false;save();
  },4100);
 }
-function dailyReward(){
- const today=new Date().toLocaleDateString();
- if(state.lastReward===today){$("profileMessage").textContent="Награда уже получена сегодня!";return}
- state.lastReward=today;state.coins+=50;save();$("profileMessage").textContent="🎁 Ты получил 50 монет!";
+function saveNick(){state.nick=$("nick").value.trim()||"Player";$("nickMsg").textContent="Ник сохранён!";save()}
+function reward(){
+ let today=new Date().toLocaleDateString();
+ if(state.lastReward===today){$("nickMsg").textContent="Награда уже получена сегодня.";return}
+ state.lastReward=today;state.coins+=50;$("nickMsg").textContent="+50 монет!";save();
 }
-function saveNickname(){
- state.nickname=$("nickname").value.trim().slice(0,20)||"Player";
- save();$("profileMessage").textContent="Ник сохранён: "+state.nickname;
-}
-function resetGame(){
- if(!confirm("Точно сбросить весь прогресс?"))return;
- state=fresh();save();$("result").textContent="";$("caseResult").textContent="";
-}
-function renderAll(){
- $("coins").textContent=state.coins.toLocaleString("ru-RU");
- $("homeCoins").textContent=state.coins.toLocaleString("ru-RU");
- $("homeItems").textContent=state.inventory.length;
- $("homeUpgrades").textContent=state.upgrades;
- $("nickname").value=state.nickname;
+function reset(){if(confirm("Сбросить весь прогресс?")){state=fresh();save()}}
+function render(){
+ $("coins").textContent=state.coins.toLocaleString();
+ $("nick").value=state.nick;
+ $("stats").textContent=new Set(state.inventory.map(x=>x.id)).size+" найдено";
  renderCases();renderInventory();renderCollection();renderUpgradeOptions();
 }
-renderAll();
+render();
 </script>
 </body>
 </html>
