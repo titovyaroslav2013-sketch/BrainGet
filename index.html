@@ -3,172 +3,316 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#090817">
-<title>BrainGet — Brainrot Cases</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BrainGet</title>
 <style>
-:root{--bg:#090817;--panel:#17152b;--line:#38315f;--cyan:#64edff;--pink:#ff75ce;--gold:#ffe28a;--text:#faf8ff;--muted:#b6b1d0}
 *{box-sizing:border-box}
-body{margin:0;padding:14px 12px 90px;background:radial-gradient(ellipse at top,#302052,transparent 48%),var(--bg);color:var(--text);font:15px system-ui,Arial,sans-serif}
-main{max-width:760px;margin:auto}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:17px;border:1px solid #544783;border-radius:20px;background:#17152bea}
-.logo{font-size:32px;font-weight:1000;letter-spacing:-1px}.logo span{color:var(--cyan)}
-.muted{color:var(--muted);font-size:13px}
-.balance{white-space:nowrap;padding:10px;border-radius:12px;background:#0b0a19;color:var(--gold);font-weight:900}
-h2{font-size:23px;margin:18px 0 10px}h3{margin:0 0 7px}
-p{color:#cbc6e5;line-height:1.5}
-.panel,.case{padding:15px;margin:12px 0;border:1px solid var(--line);border-radius:19px;background:linear-gradient(145deg,#211c3b,#111323)}
-.hero{background:linear-gradient(120deg,#48215a,#152c4c);border-color:#9162bc}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.art{display:grid;place-items:center;height:90px;border-radius:14px;background:radial-gradient(circle,#6551a755,transparent 72%);font-size:55px}
-.price{margin:10px 0;color:var(--gold);font-weight:900}
-.pill{display:inline-block;padding:4px 9px;border-radius:20px;background:#343052;font-size:11px}
-button{width:100%;margin-top:8px;padding:12px;border:0;border-radius:12px;background:linear-gradient(100deg,var(--cyan),#a4b5ff);color:#111024;font-weight:900;cursor:pointer}
-button.purple{background:linear-gradient(100deg,#b28aff,var(--pink))}
-button.secondary{background:#292644;color:white;border:1px solid #4a426f}
+body{margin:0;background:#100d1d;color:white;font-family:Arial,sans-serif}
+header{padding:18px;background:#1d1730;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:2px solid #7549ff}
+.logo{font-size:26px;font-weight:900;color:#c3a6ff}
+#balance{background:#302344;padding:10px 14px;border-radius:12px;color:#ffe17a;font-weight:bold}
+nav{display:flex;gap:8px;padding:12px;overflow-x:auto;background:#171225}
+nav button,.btn{border:0;border-radius:10px;padding:12px 16px;background:#35284c;color:white;font-weight:bold;cursor:pointer}
+nav button.active,.btn{background:linear-gradient(135deg,#8a4dff,#5732d6)}
+main{padding:18px;max-width:1100px;margin:auto}
+h1{font-size:27px}
+h2{color:#d6c1ff}
+.sub{color:#b9afcb;line-height:1.5}
+.page{display:none}.page.active{display:block}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:14px}
+.card{background:#211a32;border:1px solid #42335e;border-radius:16px;padding:16px;text-align:center}
+.art{height:95px;display:grid;place-items:center;font-size:48px;background:#302344;border-radius:12px;margin-bottom:12px}
+.card h3{font-size:16px;min-height:36px}
+.price{color:#ffe17a;font-weight:bold;margin:12px}
 button:disabled{opacity:.45;cursor:not-allowed}
-.reward{display:flex;align-items:center;gap:10px;padding:11px;margin:8px 0;border-radius:14px;background:#0c0b1b;border:1px solid #393154}
-.emoji{font-size:34px}.info{flex:1;min-width:0}.rarity{font-size:12px;color:var(--cyan)}
-#message{min-height:24px;text-align:center;color:#8fffc0;font-weight:800;margin:12px}
-nav{position:fixed;bottom:0;left:0;right:0;display:flex;gap:5px;justify-content:center;padding:8px 5px;background:#090817f5;border-top:1px solid #383154;backdrop-filter:blur(10px)}
-nav button{max-width:180px;flex:1;margin:0;padding:11px 3px;background:#24203e;color:white;font-size:12px}
-nav button.active{background:var(--cyan);color:#111}
-.overlay{position:fixed;z-index:10;inset:0;display:grid;place-items:center;padding:20px;background:#05040df5;backdrop-filter:blur(12px)}
-.open-card{width:min(100%,360px);padding:25px 18px;text-align:center;border:1px solid #9d76ff;border-radius:24px;background:linear-gradient(145deg,#302050,#101326);box-shadow:0 0 40px #a16bff44}
-.open-icon{font-size:82px;animation:shake .35s infinite alternate}
-.reveal{animation:reveal .65s ease-out}
-.og{color:#ffb5df;text-shadow:0 0 12px #ff4cb8,0 0 30px #ff4cb8}
-@keyframes shake{to{transform:rotate(10deg) scale(1.08)}}
-@keyframes reveal{from{opacity:0;transform:scale(.2) rotate(-15deg)}to{opacity:1;transform:scale(1)}}
-@media(max-width:420px){header{padding:12px}.logo{font-size:27px}.case{padding:10px}.grid{gap:7px}nav button{font-size:10px}}
+.notice{background:#211a32;border-radius:12px;padding:13px;margin:12px 0;color:#d6c9eb}
+#message{min-height:26px;color:#ffe17a;margin:12px 0;font-weight:bold}
+.wheel-layout{display:grid;grid-template-columns:minmax(250px,380px) minmax(220px,1fr);gap:22px;align-items:center}
+.wheelbox{position:relative;width:100%;max-width:380px;margin:auto}
+canvas{width:100%;height:auto;display:block}
+.arrow{position:absolute;z-index:2;top:-7px;left:50%;transform:translateX(-50%);font-size:35px;color:#fff;text-shadow:0 0 10px #a56cff}
+.panel{background:#211a32;border:1px solid #42335e;border-radius:16px;padding:18px}
+input,select{width:100%;padding:12px;border-radius:9px;border:1px solid #55436f;background:#171225;color:white;margin:8px 0 14px}
+.small{font-size:13px;color:#b9afcb}
+ul{padding-left:20px;line-height:1.8}
+@media(max-width:650px){.wheel-layout{grid-template-columns:1fr}main{padding:13px}}
 </style>
 </head>
 <body>
-<main>
 <header>
- <div><div class="logo"><span>Brain</span>Get</div><div class="muted">STEAL A BRAINROT CASES</div><div id="profile" class="muted">Гость · локальная игра</div></div>
- <div class="balance">🪙 <span id="coins">500</span></div>
+  <div class="logo">🧠 BrainGet</div>
+  <div id="balance">🪙 500 монет</div>
 </header>
-<div id="app"></div>
-<div id="message"></div>
-</main>
+
 <nav>
-<button id="nav-home" onclick="go('home')">🏠 Главная</button>
-<button id="nav-cases" onclick="go('cases')">📦 Кейсы</button>
-<button id="nav-daily" onclick="go('daily')">🎁 Daily</button>
-<button id="nav-inventory" onclick="go('inventory')">🎒 Инвентарь</button>
+  <button class="active" data-page="cases">📦 Кейсы</button>
+  <button data-page="upgrade">🎯 Апгрейдер</button>
+  <button data-page="inventory">🎒 Инвентарь</button>
+  <button data-page="daily">🎁 Ежедневный</button>
 </nav>
+
+<main>
+<section id="cases" class="page active">
+  <h1>📦 Кейсы</h1>
+  <p class="sub">Открывай кейсы, собирай брейнротов и пробуй улучшать свою коллекцию!</p>
+  <div id="caseList" class="cards"></div>
+  <div id="message"></div>
+</section>
+
+<section id="upgrade" class="page">
+  <h1>🎯 Апгрейдер</h1>
+  <p class="sub">Выбери брейнрота из инвентаря, цель и крути колесо. Чем дороже цель, тем меньше шанс успеха.</p>
+  <div class="wheel-layout">
+    <div class="wheelbox">
+      <div class="arrow">▼</div>
+      <canvas id="wheel" width="600" height="600"></canvas>
+    </div>
+    <div class="panel">
+      <h2>Настройка апгрейда</h2>
+      <label for="source">Твой брейнрот</label>
+      <select id="source"></select>
+      <label for="target">Цель апгрейда</label>
+      <select id="target"></select>
+      <div class="notice" id="chanceInfo">Выбери брейнрота и цель.</div>
+      <button class="btn" id="spin">🎡 Крутить колесо</button>
+      <p class="small">При неудаче выбранный брейнрот теряется. Шанс показывается до запуска.</p>
+      <div id="upgradeResult"></div>
+    </div>
+  </div>
+</section>
+
+<section id="inventory" class="page">
+  <h1>🎒 Инвентарь</h1>
+  <p class="sub">Твоя коллекция брейнротов.</p>
+  <div id="inventoryList" class="cards"></div>
+</section>
+
+<section id="daily" class="page">
+  <h1>🎁 Ежедневный кейс</h1>
+  <div class="panel">
+    <div class="art">🎁</div>
+    <h2>Бесплатный подарок</h2>
+    <p class="sub">Получай один случайный брейнрот раз в 24 часа.</p>
+    <button class="btn" id="dailyButton">Открыть подарок</button>
+    <p id="dailyStatus" class="sub"></p>
+  </div>
+</section>
+</main>
+
 <script>
-const SAVE_KEY='brainget-steal-a-brainrot-v1';
-const DAY=24*60*60*1000;
-const initial={coins:500,inventory:[],dailyClaimAt:0};
-let data;
-try{data={...initial,...JSON.parse(localStorage.getItem(SAVE_KEY)||'{}')}}catch(e){data={...initial}}
-if(!Array.isArray(data.inventory))data.inventory=[];
-let page='home',timer=null;
+const $ = id => document.getElementById(id);
 
-/* Персонажи из Steal a Brainrot.
-   Названия и редкости могут зависеть от обновлений игры. */
-const characters=[
-{name:'Noobini Pizzanini',emoji:'🍕',rarity:'Обычный',value:50,weight:30},
-{name:'Lirilì Larilà',emoji:'🐘',rarity:'Обычный',value:60,weight:27},
-{name:'Tim Cheese',emoji:'🧀',rarity:'Обычный',value:70,weight:25},
-{name:'Fluriflura',emoji:'🌺',rarity:'Обычный',value:80,weight:23},
-{name:'Talpa Di Ferro',emoji:'🦡',rarity:'Обычный',value:90,weight:21},
-{name:'Svinina Bombardino',emoji:'🐷',rarity:'Обычный',value:100,weight:19},
-{name:'Trippi Troppi',emoji:'🦐',rarity:'Редкий',value:120,weight:17},
-{name:'Tung Tung Tung Sahur',emoji:'🥁',rarity:'Редкий',value:150,weight:15},
-{name:'Gangster Footera',emoji:'🦶',rarity:'Редкий',value:180,weight:14},
-{name:'Bandito Bobritto',emoji:'🦫',rarity:'Редкий',value:200,weight:13},
-{name:'Boneca Ambalabu',emoji:'🐸',rarity:'Эпический',value:250,weight:12},
-{name:'Cappuccino Assassino',emoji:'☕',rarity:'Эпический',value:300,weight:11},
-{name:'Tralalero Tralala',emoji:'🦈',rarity:'Легендарный',value:400,weight:10},
-{name:'Bombardiro Crocodilo',emoji:'🐊',rarity:'Легендарный',value:500,weight:9},
-{name:'Brr Brr Patapim',emoji:'🌳',rarity:'Легендарный',value:650,weight:8},
-{name:'Chimpanzini Bananini',emoji:'🍌',rarity:'Легендарный',value:750,weight:7},
-{name:'Bombombini Gusini',emoji:'🪿',rarity:'Легендарный',value:900,weight:6},
-{name:'Cocofanto Elefanto',emoji:'🐘',rarity:'Легендарный',value:1100,weight:5},
-{name:'La Vaca Saturno Saturnita',emoji:'🐄',rarity:'Секретный',value:2500,weight:4},
-{name:'Los Tralaleritos',emoji:'🦈',rarity:'Секретный',value:3500,weight:3},
-{name:'Las Tralaleritas',emoji:'🦈',rarity:'Секретный',value:4000,weight:3},
-{name:'Graipuss Medussi',emoji:'🪼',rarity:'Секретный',value:5000,weight:2},
-{name:'Trenostruzzo Turbo 3000',emoji:'🦤',rarity:'Секретный',value:6000,weight:2},
-{name:'Odin Din Din Dun',emoji:'⚡',rarity:'Секретный',value:7500,weight:2},
-{name:'Tralalero Tralala (инф.)',emoji:'🦈',rarity:'Секретный',value:8000,weight:1},
-{name:'Strawberry Elephant',emoji:'🍓🐘',rarity:'OG',value:1000000,weight:1}
-];
-const OG={name:'Strawberry Elephant',emoji:'🍓🐘',rarity:'OG',value:1000000,weight:1};
-const caseList=[
-{name:'STARTER BOX',emoji:'📦',desc:'Начни коллекцию',price:25,rarities:['Обычный','Редкий']},
-{name:'GOLDEN CHAOS',emoji:'🌟',desc:'Редкие и эпические',price:100,rarities:['Редкий','Эпический','Легендарный']},
-{name:'SECRET VAULT',emoji:'🔮',desc:'Охота за секретками',price:500,rarities:['Секретный']},
-{name:'GOD OF BRAINROT',emoji:'👑',desc:'Легендарные и секретные',price:2500,rarities:['Легендарный','Секретный']},
-{name:'OG CASE',emoji:'🍓🐘',desc:'Эксклюзивный Strawberry Elephant',price:10000,og:true}
+const brainrots = [
+ {name:"Noobini Pizzanini",rarity:"Обычный",value:25,emoji:"🍕"},
+ {name:"Lirilì Larilà",rarity:"Обычный",value:40,emoji:"🌵"},
+ {name:"Tim Cheese",rarity:"Обычный",value:60,emoji:"🧀"},
+ {name:"Fluriflura",rarity:"Обычный",value:80,emoji:"🌸"},
+ {name:"Talpa Di Ferro",rarity:"Редкий",value:120,emoji:"🐹"},
+ {name:"Svinina Bombardino",rarity:"Редкий",value:180,emoji:"🐷"},
+ {name:"Trippi Troppi",rarity:"Редкий",value:250,emoji:"🦐"},
+ {name:"Tung Tung Tung Sahur",rarity:"Редкий",value:350,emoji:"🥁"},
+ {name:"Gangster Footera",rarity:"Редкий",value:500,emoji:"🦶"},
+ {name:"Bandito Bobritto",rarity:"Эпический",value:700,emoji:"🦫"},
+ {name:"Boneca Ambalabu",rarity:"Эпический",value:950,emoji:"🐸"},
+ {name:"Cappuccino Assassino",rarity:"Эпический",value:1300,emoji:"☕"},
+ {name:"Tralalero Tralala",rarity:"Легендарный",value:2000,emoji:"🦈"},
+ {name:"Bombardiro Crocodilo",rarity:"Легендарный",value:3000,emoji:"🐊"},
+ {name:"Brr Brr Patapim",rarity:"Легендарный",value:4500,emoji:"🌳"},
+ {name:"Chimpanzini Bananini",rarity:"Легендарный",value:6500,emoji:"🍌"},
+ {name:"Bombombini Gusini",rarity:"Мифический",value:9000,emoji:"🪿"},
+ {name:"Cocofanto Elefanto",rarity:"Мифический",value:14000,emoji:"🐘"},
+ {name:"La Vaca Saturno Saturnita",rarity:"Мифический",value:22000,emoji:"🐄"},
+ {name:"Los Tralaleritos",rarity:"Секретный",value:40000,emoji:"🦈"},
+ {name:"Las Tralaleritas",rarity:"Секретный",value:65000,emoji:"🦈"},
+ {name:"Graipuss Medussi",rarity:"Секретный",value:100000,emoji:"🐙"},
+ {name:"Trenostruzzo Turbo 3000",rarity:"Секретный",value:150000,emoji:"🚂"},
+ {name:"Odin Din Din Dun",rarity:"Секретный",value:250000,emoji:"⚡"},
+ {name:"Strawberry Elephant",rarity:"OG",value:1000000,emoji:"🍓"}
 ];
 
-function save(){localStorage.setItem(SAVE_KEY,JSON.stringify(data));document.getElementById('coins').textContent=data.coins}
-function say(s){document.getElementById('message').textContent=s}
-function go(p){page=p;say('');render()}
-function remaining(){return Math.max(0,DAY-(Date.now()-Number(data.dailyClaimAt||0)))}
-function clock(ms){let s=Math.ceil(ms/1000);return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>String(n).padStart(2,'0')).join(':')}
-function pick(pool){let total=pool.reduce((s,x)=>s+x.weight,0),n=Math.random()*total;for(const x of pool){n-=x.weight;if(n<=0)return {...x}}return {...pool[0]}}
-function card(c){return `<section class="case"><div class="art">${c.emoji}</div><span class="pill">${c.og?'EXCLUSIVE OG':'BRAINROT CASE'}</span><h3>${c.name}</h3><p class="muted">${c.desc}</p><div class="price">${c.price.toLocaleString('ru-RU')} 🪙</div><button class="${c.og?'purple':''}" onclick="openCase('${c.name}')">Открыть кейс</button></section>`}
-function render(){
- save();document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.getElementById('nav-'+page)?.classList.add('active');
- if(timer){clearInterval(timer);timer=null}
- const app=document.getElementById('app');
- if(page==='home')app.innerHTML=`<section class="panel hero"><span class="pill">🧠 BRAINROT UNIVERSE</span><h2>Добро пожаловать в BrainGet!</h2><p>Открывай кейсы, собирай персонажей из Steal a Brainrot и охоться за секретками.</p><button class="purple" onclick="go('daily')">🎁 Забрать ежедневный кейс</button></section><div class="grid">${card(caseList[0])}${card(caseList[1])}</div><section class="panel"><h3>🎒 Твоя коллекция</h3><p>Персонажей: ${data.inventory.length}</p><button class="secondary" onclick="go('inventory')">Открыть инвентарь</button></section>`;
- if(page==='cases')app.innerHTML=`<h2>🎁 Магазин кейсов</h2><p>Выбирай кейс. OG CASE выдаёт Strawberry Elephant.</p><div class="grid">${caseList.map(card).join('')}</div>`;
- if(page==='daily'){
- const l=remaining(),ready=l===0;
- app.innerHTML=`<section class="panel hero"><div class="art">🎁✨</div><span class="pill">FREE REWARD</span><h2>Ежедневный кейс</h2><p>Бесплатный кейс каждые 24 часа. Забери персонажа для своей коллекции!</p><div class="price" id="dailyTimer">${ready?'Кейс готов!':'До следующего: '+clock(l)}</div><button id="dailyBtn" class="purple" ${ready?'':'disabled'} onclick="claimDaily()">🎁 ${ready?'Открыть кейс':'Уже получен'}</button><p class="muted">Таймер хранится локально и может быть сброшен очисткой данных браузера.</p></section>`;
- timer=setInterval(()=>{if(page!=='daily'){clearInterval(timer);timer=null;return}const left=remaining(),t=document.getElementById('dailyTimer'),b=document.getElementById('dailyBtn');if(t)t.textContent=left===0?'Кейс готов!':'До следующего: '+clock(left);if(b){b.disabled=left>0;b.textContent=left===0?'🎁 Открыть кейс':'Уже получен'}},1000);
+const cases = [
+ {name:"Стартовый кейс",price:25,min:0,max:3,emoji:"📦"},
+ {name:"Золотой хаос",price:100,min:2,max:8,emoji:"🪙"},
+ {name:"Секретное хранилище",price:500,min:7,max:23,emoji:"🔮"},
+ {name:"Бог брейнротов",price:2500,min:13,max:24,emoji:"👑"},
+ {name:"OG-кейс",price:10000,min:24,max:24,emoji:"🍓"}
+];
+
+let balance = Number(localStorage.getItem("bg_balance") ?? 500);
+let inventory = JSON.parse(localStorage.getItem("bg_inventory") || "[]");
+let lastDaily = Number(localStorage.getItem("bg_daily") || 0);
+let spinning = false;
+let angle = 0;
+
+function save(){
+ localStorage.setItem("bg_balance",balance);
+ localStorage.setItem("bg_inventory",JSON.stringify(inventory));
+ $("balance").textContent = "🪙 " + balance.toLocaleString("ru-RU") + " монет";
+}
+function say(text){$("message").textContent=text}
+function addBrainrot(index){
+ const b=brainrots[index];
+ inventory.push({id:Date.now()+Math.random(),index});
+ save();
+ renderInventory();
+ return b;
+}
+function renderCases(){
+ $("caseList").innerHTML=cases.map((c,i)=>`
+ <div class="card">
+  <div class="art">${c.emoji}</div>
+  <h3>${c.name}</h3>
+  <div class="small">Случайный брейнрот из доступного пула</div>
+  <div class="price">🪙 ${c.price.toLocaleString("ru-RU")}</div>
+  <button class="btn" onclick="openCase(${i})">Открыть</button>
+ </div>`).join("");
+}
+function openCase(i){
+ const c=cases[i];
+ if(balance<c.price){say("❌ Недостаточно монет!");return}
+ balance-=c.price;
+ const index=c.min===24&&c.max===24?24:
+ Math.floor(Math.random()*(c.max-c.min+1))+c.min;
+ const b=addBrainrot(index);
+ say("🎉 Выпал: "+b.name+"! Ценность: "+b.value.toLocaleString("ru-RU")+" монет.");
+ save();
+}
+function renderInventory(){
+ if(!inventory.length){
+  $("inventoryList").innerHTML='<div class="notice">Инвентарь пуст. Открой первый кейс!</div>';
+ }else{
+  $("inventoryList").innerHTML=inventory.map((item,i)=>{
+   const b=brainrots[item.index];
+   return `<div class="card">
+    <div class="art">${b.emoji}</div><h3>${b.name}</h3>
+    <div>${b.rarity}</div><div class="price">🪙 ${b.value.toLocaleString("ru-RU")}</div>
+    <button class="btn" onclick="sellItem(${i})" ${item.index===24?"disabled":""}>Продать</button>
+   </div>`;
+  }).join("");
  }
- if(page==='inventory')app.innerHTML=`<h2>🎒 Инвентарь</h2><section class="panel"><h3>${data.inventory.length} персонажей</h3><p>Монеты: ${data.coins} 🪙</p></section>${data.inventory.length?data.inventory.map((x,i)=>`<div class="reward"><div class="emoji">${x.emoji}</div><div class="info"><b>${x.name}</b><div class="rarity">${x.rarity}</div><div class="muted">Стоимость: ${x.value.toLocaleString('ru-RU')} 🪙</div></div><button class="secondary" style="width:auto" onclick="sell(${i})">Продать</button></div>`).join(''):'<section class="panel"><p>Пока пусто. Открой первый кейс!</p><button onclick="go(\\'cases\\')">К кейсам</button></section>'}`;
+ updateSelects();
 }
-function animateReward(x,title){
- const overlay=document.createElement('div');overlay.className='overlay';
- overlay.innerHTML=`<div class="open-card"><div class="open-icon">📦</div><h2>${title}</h2><p>Открываем...</p></div>`;
- document.body.appendChild(overlay);
- setTimeout(()=>{
- overlay.innerHTML=`<div class="open-card reveal"><div class="open-icon">${x.emoji}</div><h2 class="${x.rarity==='OG'?'og':''}">${x.name}</h2><span class="pill">${x.rarity}</span><p>Добавлен в инвентарь!</p><button id="collect">Забрать</button></div>`;
- document.getElementById('collect').onclick=()=>{overlay.remove();go('inventory');say('🎉 Получен '+x.name+'!')};
- },1800);
+function sellItem(i){
+ const item=inventory[i];
+ if(!item||item.index===24)return;
+ const b=brainrots[item.index];
+ balance+=b.value;
+ inventory.splice(i,1);
+ save();renderInventory();
+ $("upgradeResult").textContent="Продано: "+b.name;
 }
-function openCase(name){
- const c=caseList.find(x=>x.name===name);if(!c)return;
- if(data.coins<c.price){say('❌ Не хватает монет!');return}
- data.coins-=c.price;let x;
- if(c.og)x={...OG};
- else{let pool=characters.filter(x=>c.rarities.includes(x.rarity)&&x.rarity!=='OG');if(!pool.length)pool=characters.filter(x=>x.rarity!=='OG');x=pick(pool)}
- data.inventory.push(x);save();render();animateReward(x,c.name);
+function updateSelects(){
+ const oldSource=$("source").value,oldTarget=$("target").value;
+ $("source").innerHTML=inventory.map(item=>{
+  const b=brainrots[item.index];
+  return `<option value="${item.id}">${b.name} — ${b.value.toLocaleString("ru-RU")}</option>`;
+ }).join("");
+ $("target").innerHTML=brainrots.map((b,i)=>
+  `<option value="${i}">${b.name} — ${b.value.toLocaleString("ru-RU")}</option>`
+ ).join("");
+ if(inventory.some(x=>String(x.id)===oldSource))$("source").value=oldSource;
+ if(oldTarget!=="")$("target").value=oldTarget;
+ updateChance();
 }
-function claimDaily(){
- if(remaining()>0){say('⏳ Кейс ещё не готов');return}
- const pool=characters.filter(x=>x.rarity!=='OG');
- const x=pick(pool);data.dailyClaimAt=Date.now();data.inventory.push(x);save();render();animateReward(x,'DAILY CASE');
+function getChance(){
+ const item=inventory.find(x=>String(x.id)===$("source").value);
+ const target=brainrots[Number($("target").value)];
+ if(!item||!target)return 0;
+ const source=brainrots[item.index];
+ if(target.value<=source.value)return 0;
+ return Math.max(1,Math.min(75,Math.floor(source.value/target.value*75)));
 }
-function sell(i){const x=data.inventory[i];if(!x)return;if(x.rarity==='OG'){say('👑 OG нельзя продать!');return}data.inventory.splice(i,1);const amount=Math.floor(x.value/2);data.coins+=amount;save();render();say('Продано за '+amount+' монет')}
-render();
+function updateChance(){
+ const item=inventory.find(x=>String(x.id)===$("source").value);
+ const target=brainrots[Number($("target").value)];
+ const chance=getChance();
+ $("chanceInfo").textContent=item&&target
+ ?`Шанс успеха: ${chance}%. Шанс неудачи: ${100-chance}%.`
+ :"Сначала получи брейнрота в кейсе.";
+ $("spin").disabled=spinning||!item||!target||chance===0;
+ drawWheel(chance);
+}
+function drawWheel(chance=0){
+ const canvas=$("wheel"),ctx=canvas.getContext("2d");
+ const cx=300,cy=300,r=275;
+ ctx.clearRect(0,0,600,600);
+ const sectors=[
+  {label:"НЕУДАЧА",p:100-chance,color:"#d94b5c"},
+  {label:"УСПЕХ",p:chance,color:"#41c98a"}
+ ];
+ let start=-Math.PI/2;
+ sectors.forEach(s=>{
+  const end=start+Math.PI*2*s.p/100;
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,end);ctx.closePath();
+  ctx.fillStyle=s.color;ctx.fill();
+  ctx.strokeStyle="#fff";ctx.lineWidth=4;ctx.stroke();
+  ctx.save();ctx.translate(cx,cy);ctx.rotate((start+end)/2);
+  ctx.textAlign="center";ctx.fillStyle="white";ctx.font="bold 23px Arial";
+  ctx.fillText(s.label,r*.62,8);
+  ctx.font="bold 20px Arial";ctx.fillText(s.p+"%",r*.43,38);
+  ctx.restore();start=end;
+ });
+ ctx.beginPath();ctx.arc(cx,cy,48,0,Math.PI*2);
+ ctx.fillStyle="#201632";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=4;ctx.stroke();
+ ctx.fillStyle="#ffe17a";ctx.font="bold 22px Arial";ctx.textAlign="center";
+ ctx.fillText("BG",cx,cy+8);
+}
+$("source").addEventListener("change",updateChance);
+$("target").addEventListener("change",updateChance);
 
-/* Telegram Mini App: серверная проверка initData. */
-const tgScript=document.createElement('script');
-tgScript.src='https://telegram.org/js/telegram-web-app.js';
-tgScript.onload=async()=>{
- const tg=window.Telegram?.WebApp;if(!tg?.initData)return;
- tg.ready();tg.expand();
- try{
-  const res=await fetch('https://ovehdiobiujiplgetfsw.supabase.co/functions/v1/quick-proccesor',{
-   method:'POST',
-   headers:{'Content-Type':'application/json','apikey':'sb_publishable_Aneu-ATnBGoVrMZVDgmGvw_ZsOnMKhO'},
-   body:JSON.stringify({initData:tg.initData})
-  });
-  const result=await res.json();
-  if(res.ok&&result.verified){document.getElementById('profile').textContent='Telegram: '+(result.user.first_name||result.user.username||result.user.id);console.log('BrainGet Telegram verified',result.user)}
-  else{document.getElementById('profile').textContent='Гость · Telegram не подтверждён';console.error('BrainGet Telegram error',result)}
- }catch(e){document.getElementById('profile').textContent='Гость · ошибка соединения';console.error(e)}
-};
-document.head.appendChild(tgScript);
+$("spin").addEventListener("click",()=>{
+ if(spinning)return;
+ const item=inventory.find(x=>String(x.id)===$("source").value);
+ const targetIndex=Number($("target").value);
+ if(!item)return;
+ const chance=getChance();
+ if(!chance){$("upgradeResult").textContent="Выбери цель дороже своего брейнрота.";return}
+ spinning=true;
+ $("spin").disabled=true;
+ const success=Math.random()*100<chance;
+ const targetAngle=success?Math.PI*2*(chance/200):Math.PI*2*(1-chance/200);
+ angle+=Math.PI*2*5+targetAngle;
+ $("wheel").style.transition="transform 4s cubic-bezier(.12,.7,.12,1)";
+ $("wheel").style.transform=`rotate(${angle}rad)`;
+ setTimeout(()=>{
+  inventory=inventory.filter(x=>x.id!==item.id);
+  if(success){
+   inventory.push({id:Date.now()+Math.random(),index:targetIndex});
+   $("upgradeResult").textContent="🎉 УСПЕХ! Получен "+brainrots[targetIndex].name+"!";
+  }else{
+   $("upgradeResult").textContent="❌ Неудача! Брейнрот потерян.";
+  }
+  spinning=false;save();renderInventory();updateChance();
+ },4100);
+});
+
+$("dailyButton").addEventListener("click",()=>{
+ const now=Date.now(),day=86400000;
+ if(now-lastDaily<day){
+  $("dailyStatus").textContent="Следующий подарок через "+Math.ceil((day-(now-lastDaily))/3600000)+" ч.";
+  return;
+ }
+ lastDaily=now;
+ localStorage.setItem("bg_daily",lastDaily);
+ const index=Math.floor(Math.random()*brainrots.length);
+ const b=addBrainrot(index);
+ $("dailyStatus").textContent="🎉 Ты получил: "+b.name+"!";
+});
+function updateDaily(){
+ const left=86400000-(Date.now()-lastDaily);
+ $("dailyStatus").textContent=left<=0?"Подарок готов!": "До следующего подарка: "+Math.ceil(left/3600000)+" ч.";
+}
+document.querySelectorAll("nav button").forEach(btn=>{
+ btn.addEventListener("click",()=>{
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  btn.classList.add("active");
+  $(btn.dataset.page).classList.add("active");
+  if(btn.dataset.page==="daily")updateDaily();
+  if(btn.dataset.page==="upgrade")updateChance();
+ });
+});
+renderCases();renderInventory();save();updateDaily();
 </script>
 </body>
 </html>
