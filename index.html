@@ -1,518 +1,174 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BrainGet</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090817">
+<title>BrainGet — Brainrot Cases</title>
 <style>
+:root{--bg:#090817;--panel:#17152b;--line:#38315f;--cyan:#64edff;--pink:#ff75ce;--gold:#ffe28a;--text:#faf8ff;--muted:#b6b1d0}
 *{box-sizing:border-box}
-body{margin:0;padding:16px 12px 100px;font-family:Arial,sans-serif;color:white;background:linear-gradient(140deg,#07152e,#123d77,#090d19);min-height:100vh}
-main{max-width:480px;margin:auto}
-header,.card{background:#101d38;border:1px solid #315b91;border-radius:18px;padding:18px;margin-bottom:14px}
-header{text-align:center;border:2px solid #16cfff;box-shadow:0 0 24px #168bff44}
-h1{font-size:38px;margin:0}
-h1 span{color:#21d5ff}
-p{color:#c0d5f5;line-height:1.5}
-h2{font-size:23px}
-h3{margin-top:0}
-button,select,input{width:100%;padding:13px;border:0;border-radius:11px;font-size:15px}
-button{background:#19caff;color:#07152e;font-weight:bold;cursor:pointer;margin-top:7px}
-button:active{transform:scale(.98)}
-button.secondary{background:#243e66;color:white}
-button:disabled{opacity:.45}
-input,select{background:#0b1930;color:white;border:1px solid #315b91}
-nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;gap:4px;background:#081326f5;padding:9px 4px;border-top:1px solid #315b91;z-index:10}
-nav button{flex:1;max-width:100px;min-width:0;padding:10px 2px;margin:0;font-size:11px;background:#172b49;color:white}
-nav button.active{background:#19caff;color:#07152e}
-.item{border:1px solid #315b91;border-radius:12px;padding:12px;margin:8px 0;background:#0b1930}
-.small{font-size:12px;color:#8fb5e9}
-#message{text-align:center;font-weight:bold;overflow-wrap:anywhere}
-.notice{border:1px solid #c18b34;background:#382b14;padding:12px;border-radius:12px;color:#ffe2a0;font-size:13px;line-height:1.5}
-.stat{display:flex;justify-content:space-between;gap:8px}
-.tag{display:inline-block;border-radius:8px;padding:4px 7px;background:#1c365b;color:#aeeaff;font-size:12px}
-.loading{color:#8fb5e9;text-align:center;padding:14px}
+body{margin:0;padding:14px 12px 90px;background:radial-gradient(ellipse at top,#302052,transparent 48%),var(--bg);color:var(--text);font:15px system-ui,Arial,sans-serif}
+main{max-width:760px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:17px;border:1px solid #544783;border-radius:20px;background:#17152bea}
+.logo{font-size:32px;font-weight:1000;letter-spacing:-1px}.logo span{color:var(--cyan)}
+.muted{color:var(--muted);font-size:13px}
+.balance{white-space:nowrap;padding:10px;border-radius:12px;background:#0b0a19;color:var(--gold);font-weight:900}
+h2{font-size:23px;margin:18px 0 10px}h3{margin:0 0 7px}
+p{color:#cbc6e5;line-height:1.5}
+.panel,.case{padding:15px;margin:12px 0;border:1px solid var(--line);border-radius:19px;background:linear-gradient(145deg,#211c3b,#111323)}
+.hero{background:linear-gradient(120deg,#48215a,#152c4c);border-color:#9162bc}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.art{display:grid;place-items:center;height:90px;border-radius:14px;background:radial-gradient(circle,#6551a755,transparent 72%);font-size:55px}
+.price{margin:10px 0;color:var(--gold);font-weight:900}
+.pill{display:inline-block;padding:4px 9px;border-radius:20px;background:#343052;font-size:11px}
+button{width:100%;margin-top:8px;padding:12px;border:0;border-radius:12px;background:linear-gradient(100deg,var(--cyan),#a4b5ff);color:#111024;font-weight:900;cursor:pointer}
+button.purple{background:linear-gradient(100deg,#b28aff,var(--pink))}
+button.secondary{background:#292644;color:white;border:1px solid #4a426f}
+button:disabled{opacity:.45;cursor:not-allowed}
+.reward{display:flex;align-items:center;gap:10px;padding:11px;margin:8px 0;border-radius:14px;background:#0c0b1b;border:1px solid #393154}
+.emoji{font-size:34px}.info{flex:1;min-width:0}.rarity{font-size:12px;color:var(--cyan)}
+#message{min-height:24px;text-align:center;color:#8fffc0;font-weight:800;margin:12px}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;gap:5px;justify-content:center;padding:8px 5px;background:#090817f5;border-top:1px solid #383154;backdrop-filter:blur(10px)}
+nav button{max-width:180px;flex:1;margin:0;padding:11px 3px;background:#24203e;color:white;font-size:12px}
+nav button.active{background:var(--cyan);color:#111}
+.overlay{position:fixed;z-index:10;inset:0;display:grid;place-items:center;padding:20px;background:#05040df5;backdrop-filter:blur(12px)}
+.open-card{width:min(100%,360px);padding:25px 18px;text-align:center;border:1px solid #9d76ff;border-radius:24px;background:linear-gradient(145deg,#302050,#101326);box-shadow:0 0 40px #a16bff44}
+.open-icon{font-size:82px;animation:shake .35s infinite alternate}
+.reveal{animation:reveal .65s ease-out}
+.og{color:#ffb5df;text-shadow:0 0 12px #ff4cb8,0 0 30px #ff4cb8}
+@keyframes shake{to{transform:rotate(10deg) scale(1.08)}}
+@keyframes reveal{from{opacity:0;transform:scale(.2) rotate(-15deg)}to{opacity:1;transform:scale(1)}}
+@media(max-width:420px){header{padding:12px}.logo{font-size:27px}.case{padding:10px}.grid{gap:7px}nav button{font-size:10px}}
 </style>
 </head>
 <body>
 <main>
 <header>
-<h1><span>Brain</span>Get</h1>
-<p>🧠 Твоя вселенная Brainrot!</p>
-<strong>⭐ Монеты: <span id="coins">500</span></strong>
+ <div><div class="logo"><span>Brain</span>Get</div><div class="muted">STEAL A BRAINROT CASES</div><div id="profile" class="muted">Гость · локальная игра</div></div>
+ <div class="balance">🪙 <span id="coins">500</span></div>
 </header>
 <div id="app"></div>
-<p id="message" aria-live="polite"></p>
+<div id="message"></div>
 </main>
-
 <nav>
-<button onclick="go('home')" id="nav-home">🏠 Главная</button>
-<button onclick="go('cases')" id="nav-cases">🎁 Кейсы</button>
-<button onclick="go('upgrade')" id="nav-upgrade">⚡ Апгрейд</button>
-<button onclick="go('inventory')" id="nav-inventory">🎒 Инвентарь</button>
-<button onclick="go('wallet')" id="nav-wallet">💰 Кошелёк</button>
+<button id="nav-home" onclick="go('home')">🏠 Главная</button>
+<button id="nav-cases" onclick="go('cases')">📦 Кейсы</button>
+<button id="nav-daily" onclick="go('daily')">🎁 Daily</button>
+<button id="nav-inventory" onclick="go('inventory')">🎒 Инвентарь</button>
 </nav>
-
 <script>
-const SUPABASE_URL = 'https://ovehdiobiujiplgetfsw.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_Aneu-ATnBGoVrMZVDgmGvw_ZsOnMKhO';
-
-const initial = {coins:500, inventory:[], history:[]};
+const SAVE_KEY='brainget-steal-a-brainrot-v1';
+const DAY=24*60*60*1000;
+const initial={coins:500,inventory:[],dailyClaimAt:0};
 let data;
+try{data={...initial,...JSON.parse(localStorage.getItem(SAVE_KEY)||'{}')}}catch(e){data={...initial}}
+if(!Array.isArray(data.inventory))data.inventory=[];
+let page='home',timer=null;
 
-try {
- const stored = JSON.parse(localStorage.getItem('brainget-save'));
- data = stored && typeof stored === 'object'
-  ? {...initial,...stored,
-     coins:Math.max(0,Number(stored.coins)||0),
-     inventory:Array.isArray(stored.inventory)?stored.inventory:[],
-     history:Array.isArray(stored.history)?stored.history:[]}
-  : {...initial,inventory:[],history:[]};
-} catch(e) {
- data={...initial,inventory:[],history:[]};
-}
-
-let page='home';
-let catalogLoading=true;
-let catalogError='';
-
-let rewards=[
- {name:'Noobini Pizzanini',rarity:'Обычный',value:50,emoji:'🍕'},
- {name:'Tralalero Tralala',rarity:'Редкий',value:120,emoji:'🦈'},
- {name:'Tung Tung Tung Sahur',rarity:'Эпический',value:250,emoji:'🥁'},
- {name:'Brr Brr Patapim',rarity:'Легендарный',value:500,emoji:'🌳'},
- {name:'Brainrot God',rarity:'Мифический',value:1000,emoji:'👑'}
+/* Персонажи из Steal a Brainrot.
+   Названия и редкости могут зависеть от обновлений игры. */
+const characters=[
+{name:'Noobini Pizzanini',emoji:'🍕',rarity:'Обычный',value:50,weight:30},
+{name:'Lirilì Larilà',emoji:'🐘',rarity:'Обычный',value:60,weight:27},
+{name:'Tim Cheese',emoji:'🧀',rarity:'Обычный',value:70,weight:25},
+{name:'Fluriflura',emoji:'🌺',rarity:'Обычный',value:80,weight:23},
+{name:'Talpa Di Ferro',emoji:'🦡',rarity:'Обычный',value:90,weight:21},
+{name:'Svinina Bombardino',emoji:'🐷',rarity:'Обычный',value:100,weight:19},
+{name:'Trippi Troppi',emoji:'🦐',rarity:'Редкий',value:120,weight:17},
+{name:'Tung Tung Tung Sahur',emoji:'🥁',rarity:'Редкий',value:150,weight:15},
+{name:'Gangster Footera',emoji:'🦶',rarity:'Редкий',value:180,weight:14},
+{name:'Bandito Bobritto',emoji:'🦫',rarity:'Редкий',value:200,weight:13},
+{name:'Boneca Ambalabu',emoji:'🐸',rarity:'Эпический',value:250,weight:12},
+{name:'Cappuccino Assassino',emoji:'☕',rarity:'Эпический',value:300,weight:11},
+{name:'Tralalero Tralala',emoji:'🦈',rarity:'Легендарный',value:400,weight:10},
+{name:'Bombardiro Crocodilo',emoji:'🐊',rarity:'Легендарный',value:500,weight:9},
+{name:'Brr Brr Patapim',emoji:'🌳',rarity:'Легендарный',value:650,weight:8},
+{name:'Chimpanzini Bananini',emoji:'🍌',rarity:'Легендарный',value:750,weight:7},
+{name:'Bombombini Gusini',emoji:'🪿',rarity:'Легендарный',value:900,weight:6},
+{name:'Cocofanto Elefanto',emoji:'🐘',rarity:'Легендарный',value:1100,weight:5},
+{name:'La Vaca Saturno Saturnita',emoji:'🐄',rarity:'Секретный',value:2500,weight:4},
+{name:'Los Tralaleritos',emoji:'🦈',rarity:'Секретный',value:3500,weight:3},
+{name:'Las Tralaleritas',emoji:'🦈',rarity:'Секретный',value:4000,weight:3},
+{name:'Graipuss Medussi',emoji:'🪼',rarity:'Секретный',value:5000,weight:2},
+{name:'Trenostruzzo Turbo 3000',emoji:'🦤',rarity:'Секретный',value:6000,weight:2},
+{name:'Odin Din Din Dun',emoji:'⚡',rarity:'Секретный',value:7500,weight:2},
+{name:'Tralalero Tralala (инф.)',emoji:'🦈',rarity:'Секретный',value:8000,weight:1},
+{name:'Strawberry Elephant',emoji:'🍓🐘',rarity:'OG',value:1000000,weight:1}
+];
+const OG={name:'Strawberry Elephant',emoji:'🍓🐘',rarity:'OG',value:1000000,weight:1};
+const caseList=[
+{name:'STARTER BOX',emoji:'📦',desc:'Начни коллекцию',price:25,rarities:['Обычный','Редкий']},
+{name:'GOLDEN CHAOS',emoji:'🌟',desc:'Редкие и эпические',price:100,rarities:['Редкий','Эпический','Легендарный']},
+{name:'SECRET VAULT',emoji:'🔮',desc:'Охота за секретками',price:500,rarities:['Секретный']},
+{name:'GOD OF BRAINROT',emoji:'👑',desc:'Легендарные и секретные',price:2500,rarities:['Легендарный','Секретный']},
+{name:'OG CASE',emoji:'🍓🐘',desc:'Эксклюзивный Strawberry Elephant',price:10000,og:true}
 ];
 
-function emojiFor(name,rarity){
- const n=String(name||'').toLowerCase();
- if(n.includes('strawberry elephant'))return '🍓';
- if(n.includes('pizzanini'))return '🍕';
- if(n.includes('tralalero'))return '🦈';
- if(n.includes('tung tung'))return '🥁';
- if(n.includes('patapim'))return '🌳';
- if(n.includes('vaca'))return '🐮';
- if(n.includes('odin'))return '⚡';
- const r=String(rarity||'').toLowerCase();
- if(r.includes('og'))return '👑';
- if(r.includes('secret'))return '🌌';
- if(r.includes('myth')||r.includes('миф'))return '💠';
- if(r.includes('legend')||r.includes('леген'))return '🔥';
- if(r.includes('epic')||r.includes('эпич'))return '💜';
- if(r.includes('rare')||r.includes('редк'))return '💙';
- return '🧠';
-}
-
-function rarityLabel(r){
- const s=String(r||'');
- const x=s.toLowerCase();
- if(x==='common')return 'Обычный';
- if(x==='uncommon')return 'Необычный';
- if(x==='rare')return 'Редкий';
- if(x==='epic')return 'Эпический';
- if(x==='legendary')return 'Легендарный';
- if(x==='mythic'||x==='mythical')return 'Мифический';
- if(x==='secret')return 'Secret';
- if(x==='og')return 'OG';
- return s||'Без редкости';
-}
-
-function escapeHTML(value){
- return String(value??'').replace(/[&<>"']/g,c=>({
-  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
- }[c]));
-}
-
-async function loadCatalog(){
- try{
-  const url=SUPABASE_URL+
-   '/rest/v1/brainrots?select=name,rarity,value,available&available=eq.true&order=value.asc';
-
-  const response=await fetch(url,{
-   headers:{
-    apikey:SUPABASE_KEY,
-    Authorization:'Bearer '+SUPABASE_KEY
-   }
-  });
-
-  if(!response.ok)
-   throw new Error('HTTP '+response.status+' — проверьте RLS и доступ к таблице brainrots.');
-
-  const rows=await response.json();
-
-  if(!Array.isArray(rows))
-   throw new Error('Supabase вернул неожиданный ответ.');
-
-  if(rows.length){
-   rewards=rows.filter(x=>x&&x.name).map(x=>({
-    name:String(x.name),
-    rarity:rarityLabel(x.rarity),
-    value:Math.max(0,Number(x.value)||0),
-    emoji:emojiFor(x.name,x.rarity)
-   }));
-   catalogError='';
-  }else{
-   catalogError='В таблице brainrots пока нет доступных персонажей.';
-  }
- }catch(err){
-  catalogError='Не удалось загрузить каталог из Supabase. '+err.message;
- }finally{
-  catalogLoading=false;
-  render();
- }
-}
-
-function save(){
- try{
-  localStorage.setItem('brainget-save',JSON.stringify(data));
- }catch(e){
-  say('⚠️ Не удалось сохранить данные в браузере.');
- }
- document.getElementById('coins').textContent=data.coins;
-}
-
-function log(text){
- data.history.unshift({
-  text,
-  time:new Date().toLocaleString('ru-RU')
- });
- data.history=data.history.slice(0,30);
-}
-
-function go(name){
- page=name;
- document.getElementById('message').textContent='';
- render();
-}
-
-function say(text){
- document.getElementById('message').textContent=text;
-}
-
+function save(){localStorage.setItem(SAVE_KEY,JSON.stringify(data));document.getElementById('coins').textContent=data.coins}
+function say(s){document.getElementById('message').textContent=s}
+function go(p){page=p;say('');render()}
+function remaining(){return Math.max(0,DAY-(Date.now()-Number(data.dailyClaimAt||0)))}
+function clock(ms){let s=Math.ceil(ms/1000);return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>String(n).padStart(2,'0')).join(':')}
+function pick(pool){let total=pool.reduce((s,x)=>s+x.weight,0),n=Math.random()*total;for(const x of pool){n-=x.weight;if(n<=0)return {...x}}return {...pool[0]}}
+function card(c){return `<section class="case"><div class="art">${c.emoji}</div><span class="pill">${c.og?'EXCLUSIVE OG':'BRAINROT CASE'}</span><h3>${c.name}</h3><p class="muted">${c.desc}</p><div class="price">${c.price.toLocaleString('ru-RU')} 🪙</div><button class="${c.og?'purple':''}" onclick="openCase('${c.name}')">Открыть кейс</button></section>`}
 function render(){
- save();
-
- document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
- const nav=document.getElementById('nav-'+page);
- if(nav)nav.classList.add('active');
-
+ save();document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.getElementById('nav-'+page)?.classList.add('active');
+ if(timer){clearInterval(timer);timer=null}
  const app=document.getElementById('app');
-
- if(page==='home'){
-  app.innerHTML=`
-  <h2>🔥 Игровые разделы</h2>
-  <div class="card">
-   <h3>🎁 Кейсы</h3>
-   <p>Открывай кейсы и получай персонажей!</p>
-   <button onclick="go('cases')">Открыть кейсы</button>
-  </div>
-  <div class="card">
-   <h3>⚡ Апгрейд</h3>
-   <p>Пробуй улучшать персонажей за виртуальные монеты.</p>
-   <button onclick="go('upgrade')">Перейти к апгрейду</button>
-  </div>
-  <div class="card">
-   <h3>🎒 Инвентарь</h3>
-   <p>Собирай свою коллекцию Brainrot.</p>
-   <button onclick="go('inventory')">Моя коллекция</button>
-  </div>
-  <div class="card">
-   <h3>🧠 Каталог Brainrot</h3>
-   <p>Смотри персонажей, редкость и цены из базы данных.</p>
-   <button onclick="go('brainrot')">Открыть каталог</button>
-  </div>
-  <div class="card">
-   <h3>🍀 Lucky Blocks</h3>
-   <p>Бесплатный игровой бонус.</p>
-   <button onclick="go('lucky')">Открыть</button>
-  </div>
-  <div class="card">
-   <h3>💰 Кошелёк</h3>
-   <p>Баланс и история игровых операций.</p>
-   <button onclick="go('wallet')">Открыть кошелёк</button>
-  </div>`;
+ if(page==='home')app.innerHTML=`<section class="panel hero"><span class="pill">🧠 BRAINROT UNIVERSE</span><h2>Добро пожаловать в BrainGet!</h2><p>Открывай кейсы, собирай персонажей из Steal a Brainrot и охоться за секретками.</p><button class="purple" onclick="go('daily')">🎁 Забрать ежедневный кейс</button></section><div class="grid">${card(caseList[0])}${card(caseList[1])}</div><section class="panel"><h3>🎒 Твоя коллекция</h3><p>Персонажей: ${data.inventory.length}</p><button class="secondary" onclick="go('inventory')">Открыть инвентарь</button></section>`;
+ if(page==='cases')app.innerHTML=`<h2>🎁 Магазин кейсов</h2><p>Выбирай кейс. OG CASE выдаёт Strawberry Elephant.</p><div class="grid">${caseList.map(card).join('')}</div>`;
+ if(page==='daily'){
+ const l=remaining(),ready=l===0;
+ app.innerHTML=`<section class="panel hero"><div class="art">🎁✨</div><span class="pill">FREE REWARD</span><h2>Ежедневный кейс</h2><p>Бесплатный кейс каждые 24 часа. Забери персонажа для своей коллекции!</p><div class="price" id="dailyTimer">${ready?'Кейс готов!':'До следующего: '+clock(l)}</div><button id="dailyBtn" class="purple" ${ready?'':'disabled'} onclick="claimDaily()">🎁 ${ready?'Открыть кейс':'Уже получен'}</button><p class="muted">Таймер хранится локально и может быть сброшен очисткой данных браузера.</p></section>`;
+ timer=setInterval(()=>{if(page!=='daily'){clearInterval(timer);timer=null;return}const left=remaining(),t=document.getElementById('dailyTimer'),b=document.getElementById('dailyBtn');if(t)t.textContent=left===0?'Кейс готов!':'До следующего: '+clock(left);if(b){b.disabled=left>0;b.textContent=left===0?'🎁 Открыть кейс':'Уже получен'}},1000);
  }
-
- if(page==='cases'){
-  app.innerHTML=`
-  <h2>🎁 Кейсы</h2>
-  <div class="card">
-   <h3>📦 Базовый кейс</h3>
-   <p>Цена: 100 виртуальных монет</p>
-   <button onclick="openCase(100)">Открыть за 100 🪙</button>
-  </div>
-  <div class="card">
-   <h3>💎 Премиум-кейс</h3>
-   <p>Цена: 250 виртуальных монет</p>
-   <button onclick="openCase(250)">Открыть за 250 🪙</button>
-  </div>
-  <p class="small">Награды выбираются из доступных персонажей каталога Supabase.</p>`;
- }
-
- if(page==='brainrot'){
-  const status=catalogLoading
-   ? '<p class="loading">⏳ Загружаем каталог из Supabase…</p>'
-   : (catalogError
-      ? `<div class="notice">${escapeHTML(catalogError)}</div>`
-      : '<p class="small">✅ Каталог загружен из Supabase</p>');
-
-  app.innerHTML=`
-  <h2>🧠 Каталог Brainrot</h2>
-  ${status}
-  <p>Персонажи, редкость и стоимость из базы данных.</p>`
-  +(rewards.length
-   ? rewards.map(x=>`
-    <div class="item">
-     <div class="stat">
-      <strong>${x.emoji} ${escapeHTML(x.name)}</strong>
-      <span class="tag">${escapeHTML(x.rarity)}</span>
-     </div>
-     <p>Стоимость: <strong>${x.value.toLocaleString('ru-RU')} 🪙</strong></p>
-     <button onclick="go('cases')">К кейсам</button>
-    </div>`).join('')
-   : '<div class="card">Каталог пока пуст.</div>')
-  +`<button class="secondary" onclick="refreshCatalog()">🔄 Обновить каталог</button>`;
- }
-
- if(page==='inventory'){
-  app.innerHTML=`
-  <h2>🎒 Инвентарь</h2>
-  <p>Твои персонажи: ${data.inventory.length}</p>`
-  +(data.inventory.length
-   ? data.inventory.map((x,i)=>`
-    <div class="item">
-     ${escapeHTML(x.emoji||'🧠')}
-     <strong>${escapeHTML(x.name)}</strong>
-     <p>${escapeHTML(x.rarity)} · Цена: ${Number(x.value)||0} 🪙</p>
-     <button class="secondary" onclick="sell(${i})">
-      Продать за ${Math.floor((Number(x.value)||0)/2)} 🪙
-     </button>
-    </div>`).join('')
-   : `<div class="card">
-       <p>Пока пусто! Открой первый кейс 🎁</p>
-       <button onclick="go('cases')">К кейсам</button>
-      </div>`);
- }
-
- if(page==='upgrade'){
-  app.innerHTML=`
-  <h2>⚡ Апгрейд</h2>
-  <div class="card">
-   <p>Стоимость попытки — 50 виртуальных монет. Шанс успеха — 50%.</p>`
-  +(data.inventory.length
-   ? `<select id="upgradeItem">`
-     +data.inventory.map((x,i)=>`
-      <option value="${i}">
-       ${escapeHTML(x.emoji||'🧠')} ${escapeHTML(x.name)} (${escapeHTML(x.rarity)})
-      </option>`).join('')
-     +`</select><button onclick="upgrade()">Попробовать улучшить</button>`
-   : `<p>Сначала получи персонажа из кейса!</p>
-      <button onclick="go('cases')">К кейсам</button>`)
-  +`</div>`;
- }
-
- if(page==='lucky'){
-  app.innerHTML=`
-  <h2>🍀 Lucky Blocks</h2>
-  <div class="card">
-   <p>Бесплатная игровая награда в виртуальных монетах.</p>
-   <button onclick="lucky()">Открыть блок 🎁</button>
-  </div>`;
- }
-
- if(page==='wallet'){
-  app.innerHTML=`
-  <h2>💰 Кошелёк BrainGet</h2>
-  <div class="card">
-   <p class="small">ТВОЙ ИГРОВОЙ БАЛАНС</p>
-   <h2>🪙 ${data.coins} монет</h2>
-   <div class="notice">
-    ДЕМО-РЕЖИМ: используются только виртуальные монеты.
-    Реальные деньги не принимаются и не переводятся.
-    Баланс хранится в браузере.
-   </div>
-  </div>
-  <div class="card">
-   <h3>➕ Пополнение (демо)</h3>
-   <p>Добавляет тестовые монеты.</p>
-   <button onclick="topUpDemo(100)">+100 виртуальных монет</button>
-   <button onclick="topUpDemo(500)">+500 виртуальных монет</button>
-   <button onclick="topUpDemo(1000)">+1000 виртуальных монет</button>
-  </div>
-  <div class="card">
-   <h3>🏦 Вывод (демо)</h3>
-   <p>Тестовая заявка на виртуальные монеты. Реального вывода нет.</p>
-   <label for="withdrawAmount">Количество монет</label>
-   <select id="withdrawAmount">
-    <option value="100">100 монет</option>
-    <option value="250">250 монет</option>
-    <option value="500">500 монет</option>
-   </select>
-   <button onclick="requestWithdraw()">Создать тестовую заявку</button>
-  </div>
-  <div class="card">
-   <h3>📜 История операций</h3>`
-   +(data.history.length
-    ? data.history.map(x=>`
-      <div class="item">
-       <strong>${escapeHTML(x.text)}</strong>
-       <p class="small">${escapeHTML(x.time)}</p>
-      </div>`).join('')
-    : '<p>Операций пока нет.</p>')
-   +`</div>`;
- }
+ if(page==='inventory')app.innerHTML=`<h2>🎒 Инвентарь</h2><section class="panel"><h3>${data.inventory.length} персонажей</h3><p>Монеты: ${data.coins} 🪙</p></section>${data.inventory.length?data.inventory.map((x,i)=>`<div class="reward"><div class="emoji">${x.emoji}</div><div class="info"><b>${x.name}</b><div class="rarity">${x.rarity}</div><div class="muted">Стоимость: ${x.value.toLocaleString('ru-RU')} 🪙</div></div><button class="secondary" style="width:auto" onclick="sell(${i})">Продать</button></div>`).join(''):'<section class="panel"><p>Пока пусто. Открой первый кейс!</p><button onclick="go(\\'cases\\')">К кейсам</button></section>'}`;
 }
-
-async function refreshCatalog(){
- catalogLoading=true;
- catalogError='';
- render();
- await loadCatalog();
+function animateReward(x,title){
+ const overlay=document.createElement('div');overlay.className='overlay';
+ overlay.innerHTML=`<div class="open-card"><div class="open-icon">📦</div><h2>${title}</h2><p>Открываем...</p></div>`;
+ document.body.appendChild(overlay);
+ setTimeout(()=>{
+ overlay.innerHTML=`<div class="open-card reveal"><div class="open-icon">${x.emoji}</div><h2 class="${x.rarity==='OG'?'og':''}">${x.name}</h2><span class="pill">${x.rarity}</span><p>Добавлен в инвентарь!</p><button id="collect">Забрать</button></div>`;
+ document.getElementById('collect').onclick=()=>{overlay.remove();go('inventory');say('🎉 Получен '+x.name+'!')};
+ },1800);
 }
-
-function openCase(price){
- if(data.coins<price)return say('❌ Недостаточно монет!');
- if(!rewards.length)return say('❌ Каталог персонажей пуст.');
-
- data.coins-=price;
-
- let pool=price===250
-  ? rewards.filter(x=>['Эпический','Легендарный','Мифический','Secret','OG','Редкий'].includes(x.rarity))
-  : rewards.filter(x=>!['OG'].includes(x.rarity));
-
- if(!pool.length)pool=rewards;
-
- const reward={...pool[Math.floor(Math.random()*pool.length)]};
- data.inventory.push(reward);
- log('🎁 Кейс: −'+price+' монет, получен '+reward.name);
-
- render();
- say('🎉 Получен персонаж: '+reward.name+'!');
+function openCase(name){
+ const c=caseList.find(x=>x.name===name);if(!c)return;
+ if(data.coins<c.price){say('❌ Не хватает монет!');return}
+ data.coins-=c.price;let x;
+ if(c.og)x={...OG};
+ else{let pool=characters.filter(x=>c.rarities.includes(x.rarity)&&x.rarity!=='OG');if(!pool.length)pool=characters.filter(x=>x.rarity!=='OG');x=pick(pool)}
+ data.inventory.push(x);save();render();animateReward(x,c.name);
 }
-
-function sell(i){
- if(!Number.isInteger(i)||!data.inventory[i])return;
-
- const item=data.inventory.splice(i,1)[0];
- const amount=Math.floor((Number(item.value)||0)/2);
- data.coins+=amount;
-
- log('🎒 Продажа '+item.name+': +'+amount+' монет');
- render();
- say('Продано! +'+amount+' монет.');
+function claimDaily(){
+ if(remaining()>0){say('⏳ Кейс ещё не готов');return}
+ const pool=characters.filter(x=>x.rarity!=='OG');
+ const x=pick(pool);data.dailyClaimAt=Date.now();data.inventory.push(x);save();render();animateReward(x,'DAILY CASE');
 }
-
-function upgrade(){
- const select=document.getElementById('upgradeItem');
- if(!select)return;
- if(data.coins<50)return say('❌ Нужно 50 монет!');
-
- const i=Number(select.value);
- if(!Number.isInteger(i)||!data.inventory[i])return say('Выбери персонажа.');
-
- data.coins-=50;
- let result;
-
- if(Math.random()<0.5){
-  const item=data.inventory[i];
-  const order=['Обычный','Необычный','Редкий','Эпический','Легендарный','Мифический','Secret','OG'];
-  const current=order.indexOf(item.rarity);
-  const nextRarity=order[Math.min(current+1,order.length-1)];
-  const next=rewards.find(x=>x.rarity===nextRarity&&x.rarity!==item.rarity);
-
-  if(next&&current>=0&&current<order.length-1){
-   data.inventory[i]={...next};
-   result='🔥 Успех! Новый персонаж: '+data.inventory[i].name;
-  }else{
-   data.coins+=100;
-   result='👑 Бонус +100 монет.';
-  }
- }else{
-  result='😅 Улучшение не удалось.';
- }
-
- log('⚡ Апгрейд: −50 монет');
- save();
- render();
- say(result);
-}
-
-function lucky(){
- const amount=Math.floor(Math.random()*101)+25;
- data.coins+=amount;
- log('🍀 Lucky Block: +'+amount+' монет');
-
- save();
- render();
- say('🍀 Ты получил '+amount+' виртуальных монет!');
-}
-
-function topUpDemo(amount){
- data.coins+=amount;
- log('🧪 ДЕМО-пополнение: +'+amount+' виртуальных монет');
-
- render();
- say('🪙 Добавлено '+amount+' тестовых монет. Реальный платёж не выполнялся.');
-}
-
-function requestWithdraw(){
- const field=document.getElementById('withdrawAmount');
- if(!field)return;
-
- const amount=Number(field.value);
- if(![100,250,500].includes(amount))return say('❌ Неверная сумма.');
- if(data.coins<amount)return say('❌ Недостаточно виртуальных монет.');
-
- data.coins-=amount;
- log('🧪 ДЕМО-заявка на вывод '+amount+' виртуальных монет — не денежный перевод');
-
- render();
- say('✅ Тестовая заявка создана. Реальный вывод денег не выполнялся.');
-}
-
+function sell(i){const x=data.inventory[i];if(!x)return;if(x.rarity==='OG'){say('👑 OG нельзя продать!');return}data.inventory.splice(i,1);const amount=Math.floor(x.value/2);data.coins+=amount;save();render();say('Продано за '+amount+' монет')}
 render();
-loadCatalog();
-</script>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script>
-(async function () {
-  const tg = window.Telegram?.WebApp;
-
-  if (!tg || !tg.initData) {
-    console.log("BrainGet: открой сайт через Telegram Mini App");
-    return;
-  }
-
-  tg.ready();
-  tg.expand();
-
-  try {
-    const response = await fetch(
-      "https://ovehdiobiujiplgetfsw.supabase.co/functions/v1/quick-proccesor",
-      {
-        method: "POST",
-headers: {
-  "Content-Type": "application/json",
-  "apikey": "sb_publishable_Aneu-ATnBGoVrMZVDgmGvw_ZsOnMKhO"
-},
-        body: JSON.stringify({
-          initData: tg.initData
-        })
-      }
-    );
-
-    const result = await response.json();
-
-    if (!response.ok || !result.verified) {
-      console.error("BrainGet Telegram error:", result);
-      return;
-    }
-
-    console.log("BrainGet: Telegram verified", result.user);
-  } catch (error) {
-    console.error("BrainGet connection error:", error);
-  }
-})();
+/* Telegram Mini App: серверная проверка initData. */
+const tgScript=document.createElement('script');
+tgScript.src='https://telegram.org/js/telegram-web-app.js';
+tgScript.onload=async()=>{
+ const tg=window.Telegram?.WebApp;if(!tg?.initData)return;
+ tg.ready();tg.expand();
+ try{
+  const res=await fetch('https://ovehdiobiujiplgetfsw.supabase.co/functions/v1/quick-proccesor',{
+   method:'POST',
+   headers:{'Content-Type':'application/json','apikey':'sb_publishable_Aneu-ATnBGoVrMZVDgmGvw_ZsOnMKhO'},
+   body:JSON.stringify({initData:tg.initData})
+  });
+  const result=await res.json();
+  if(res.ok&&result.verified){document.getElementById('profile').textContent='Telegram: '+(result.user.first_name||result.user.username||result.user.id);console.log('BrainGet Telegram verified',result.user)}
+  else{document.getElementById('profile').textContent='Гость · Telegram не подтверждён';console.error('BrainGet Telegram error',result)}
+ }catch(e){document.getElementById('profile').textContent='Гость · ошибка соединения';console.error(e)}
+};
+document.head.appendChild(tgScript);
 </script>
 </body>
 </html>
