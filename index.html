@@ -1,342 +1,234 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BrainGet 3.0</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BrainGet 3.1</title>
 <style>
-:root{--bg:#10091f;--panel:#25183c;--purple:#a855f7;--gold:#ffd166;--text:#f8f4ff;--muted:#b9a9d2}
+:root{--bg:#10091f;--panel:#25183c;--purple:#a855f7;--gold:#ffd166}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#38205c,#10091f 65%);color:var(--text);font:15px/1.5 system-ui,sans-serif;min-height:100vh}
-header{padding:16px;display:flex;justify-content:space-between;align-items:center;background:#10091f;border-bottom:1px solid #493261;position:sticky;top:0;z-index:5}
-.brand{font-size:23px;font-weight:1000}.brand span{color:var(--gold)}
-.bal{color:var(--gold);font-weight:900;background:#2a1b42;padding:9px;border-radius:12px}
-main{max-width:1100px;margin:auto;padding:18px 14px}
-.hero,.card{border:1px solid #493261;border-radius:18px;padding:18px;background:linear-gradient(145deg,#2a1a42,#191026);margin-bottom:14px}
-.hero{background:linear-gradient(120deg,#43216a,#1d1232)}
-h1{font-size:clamp(28px,5vw,44px);line-height:1.1}
+body{margin:0;background:radial-gradient(ellipse at top,#39215a,#10091f 70%);color:#fff;font:15px system-ui,sans-serif;min-height:100vh}
+header{position:sticky;top:0;z-index:5;background:#130b21;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #493261}
+.brand{font-size:22px;font-weight:1000}.brand span{color:var(--gold)}
+.balance{color:var(--gold);font-weight:900}
+main{max-width:1100px;margin:auto;padding:16px}
+.hero,.card{background:linear-gradient(145deg,#2b1b43,#191026);border:1px solid #493261;border-radius:17px;padding:16px;margin-bottom:13px}
+.hero{background:linear-gradient(120deg,#48216d,#211332)}
+h1{font-size:clamp(28px,5vw,43px);line-height:1.1;margin:10px 0}
 h2{margin-top:0}
-.muted{color:var(--muted);font-size:13px}
-.nav{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0}
-button{cursor:pointer;font-weight:800;border-radius:11px;padding:11px;border:1px solid #65478a;background:#392653;color:white}
-.nav button.active{background:var(--purple)}
-.btn{width:100%;margin-top:9px;background:linear-gradient(100deg,#ffd166,#f5a623);color:#160d22;border:0}
+.muted{color:#c1afd8;font-size:13px}
+select,input{background:#160e24;color:white;border:1px solid #67458b;border-radius:10px;padding:11px;max-width:100%}
+button{background:#392653;color:white;border:1px solid #65478a;border-radius:10px;padding:11px;cursor:pointer;font-weight:800}
 button:disabled{opacity:.4;cursor:not-allowed}
-.field{width:100%;padding:12px;border:1px solid #5a3d78;border-radius:10px;background:#130c20;color:white;margin:7px 0 12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+button:hover:not(:disabled){filter:brightness(1.2)}
+.primary{background:linear-gradient(100deg,#ffd166,#f5a623);color:#180e24;border:0}
+.nav{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}
+.nav button.active{background:#9146ce}
 .section{display:none}.section.active{display:block}
-.art{height:100px;display:grid;place-items:center;font-size:55px;border-radius:13px;background:radial-gradient(circle,#7048a2,#2b1b44);margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:12px}
+.art{height:100px;display:grid;place-items:center;font-size:52px;border-radius:12px;background:radial-gradient(circle,#7048a2,#2b1b44);margin-bottom:10px}
 .price{color:var(--gold);font-weight:900;margin:10px 0}
+.btn{width:100%;margin-top:8px}
+.field{display:block;width:100%;margin:7px 0 12px}
 .notice{padding:12px;border:1px solid #8b6a35;border-radius:12px;color:#ffe7b0;margin:12px 0}
-.item{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.item{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .iteminfo{flex:1;min-width:120px}
-.wheel{margin:18px auto;width:180px;height:180px;border:7px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-size:45px;background:conic-gradient(#eabf4d 0 45deg,#8c45c7 45deg 90deg,#4e2a77 90deg 135deg,#eabf4d 135deg 180deg,#8c45c7 180deg 225deg,#4e2a77 225deg 270deg,#eabf4d 270deg 315deg,#8c45c7 315deg);transition:transform 1.6s cubic-bezier(.12,.72,.12,1)}
-.modal{display:none;position:fixed;inset:0;background:#07040ddd;z-index:10;place-items:center;padding:14px}
-.modal.show{display:grid}
-.modalbox{background:#1c1230;border:1px solid #76529c;border-radius:20px;padding:20px;width:min(480px,100%);max-height:90vh;overflow:auto}
-.result{padding:12px;background:#2b1b42;border-radius:12px;margin-top:12px}
-@media(max-width:500px){header{padding:12px}.brand{font-size:19px}}
+.wheel{width:165px;height:165px;margin:18px auto;border:7px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-size:48px;background:conic-gradient(#eabf4d 0 45deg,#8c45c7 45deg 90deg,#4e2a77 90deg 135deg,#eabf4d 135deg 180deg,#8c45c7 180deg 225deg,#4e2a77 225deg 270deg,#eabf4d 270deg 315deg,#8c45c7 315deg);transition:transform 1.5s cubic-bezier(.12,.72,.12,1)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1}
+.result{background:#302044;border-radius:10px;padding:12px;margin-top:12px;overflow-wrap:anywhere}
+footer{text-align:center;color:#a998bd;padding:25px;font-size:12px}
+@media(max-width:500px){header{flex-wrap:wrap}.brand{font-size:19px}}
 </style>
 </head>
 <body>
 <header>
-<div class="brand">🧠 Brain<span>Get</span> 3.0</div>
-<div class="bal">💎 <span id="balance">250</span> OG</div>
+  <div class="brand">🧠 Brain<span>Get</span> 3.1</div>
+  <div class="row" style="flex:0 1 auto">
+    <select id="language" aria-label="Language">
+      <option value="ru">🇷🇺 Русский</option>
+      <option value="uk">🇺🇦 Українська</option>
+      <option value="en">🇬🇧 English</option>
+    </select>
+    <div class="balance">💎 <span id="balance">250</span> OG</div>
+  </div>
 </header>
+
 <main>
-<div class="hero">
-<div style="color:#ffd166">NEW UPDATE • 3.0</div>
-<h1>Открывай. Собирай.<br>Становись легендой.</h1>
-<p>Открывай кейсы, собирай брэйнротов, продавай дубликаты и прокачивай коллекцию!</p>
-</div>
-<div class="notice" id="notice">⚠️ Демо-режим: прогресс сохраняется в этом браузере. Общая экономика Telegram и сайта ещё не подключена.</div>
-<nav class="nav">
-<button class="active" data-tab="cases">📦 Кейсы</button>
-<button data-tab="inventory">🎒 Инвентарь</button>
-<button data-tab="upgrade">🎡 Апгрейдер</button>
-<button data-tab="wallet">💎 Кошелёк</button>
-<button data-tab="free">🎁 Бесплатно</button>
-<button data-tab="nickname">👤 За ник</button>
-</nav>
+  <div class="hero">
+    <div style="color:#ffd166">UPDATE 3.1</div>
+    <h1 id="heroTitle">Открывай. Собирай. Становись легендой.</h1>
+    <p id="heroDesc">Открывай кейсы, собирай брэйнротов и улучшай свою коллекцию!</p>
+  </div>
 
-<section id="cases" class="section active">
-<h2>📦 Выбери кейс</h2>
-<p class="muted">Можно открыть сразу несколько кейсов.</p>
-<div id="caseGrid" class="grid"></div>
-</section>
+  <div class="notice" id="notice">Демо-режим: прогресс хранится в этом браузере.</div>
 
-<section id="inventory" class="section">
-<h2>🎒 Твой инвентарь</h2>
-<div id="inventoryList" class="grid"></div>
-</section>
+  <nav class="nav">
+    <button class="active" data-tab="cases" data-i="tabCases">📦 Кейсы</button>
+    <button data-tab="inventory" data-i="tabInventory">🎒 Инвентарь</button>
+    <button data-tab="upgrade" data-i="tabUpgrade">🎡 Апгрейдер</button>
+    <button data-tab="wallet" data-i="tabWallet">💎 Кошелёк</button>
+    <button data-tab="free" data-i="tabFree">🎁 Бесплатно</button>
+    <button data-tab="nickname" data-i="tabNick">👤 Бонус за ник</button>
+  </nav>
 
-<section id="upgrade" class="section">
-<h2>🎡 Апгрейдер</h2>
-<div class="card">
-<label>Твой брэйнрот</label>
-<select id="from" class="field"></select>
-<label>Цель</label>
-<select id="to" class="field"></select>
-<div id="wheel" class="wheel">🧠</div>
-<p id="chance" class="muted"></p>
-<button class="btn" id="upgradeBtn">КРУТИТЬ АПГРЕЙДЕР</button>
-<div id="upgradeResult" class="result" hidden></div>
-</div>
-</section>
+  <section id="cases" class="section active">
+    <h2 data-i="casesTitle">📦 Выбери кейс</h2>
+    <div id="caseGrid" class="grid"></div>
+  </section>
 
-<section id="wallet" class="section">
-<h2>💎 Кошелёк OG</h2>
-<div class="grid">
-<div class="card">
-<h3>➕ Пополнение</h3>
-<label>Сумма OG</label>
-<input id="depAmount" class="field" type="number" min="1" placeholder="500">
-<input id="depNote" class="field" maxlength="100" placeholder="Комментарий">
-<button class="btn" id="depBtn">Создать заявку</button>
-</div>
-<div class="card">
-<h3>➖ Вывод</h3>
-<label>Сумма OG</label>
-<input id="withAmount" class="field" type="number" min="1" placeholder="100">
-<input id="withTarget" class="field" maxlength="120" placeholder="Способ получения">
-<button class="btn" id="withBtn">Заявка на вывод</button>
-</div>
-</div>
-<p class="muted">Заявки сохраняются только локально. Реальные платежи и вывод средств не выполняются.</p>
-<h3>История заявок</h3>
-<div id="requestsList" class="grid"></div>
-</section>
+  <section id="inventory" class="section">
+    <h2 data-i="inventoryTitle">🎒 Твой инвентарь</h2>
+    <div id="inventoryList" class="grid"></div>
+  </section>
 
-<section id="free" class="section">
-<div class="card" style="text-align:center">
-<div style="font-size:65px">🎁</div>
-<h2>Бесплатный кейс</h2>
-<p class="muted">Раз в 12 часов на этом устройстве.</p>
-<div id="freeTimer" class="price">Можно забрать!</div>
-<button class="btn" id="freeBtn">ЗАБРАТЬ КЕЙС</button>
-<div id="freeResult" class="result" hidden></div>
-</div>
-</section>
+  <section id="upgrade" class="section">
+    <div class="card">
+      <h2 data-i="upgradeTitle">🎡 Апгрейдер</h2>
+      <label data-i="fromLabel" for="from">Твой брэйнрот</label>
+      <select id="from" class="field"></select>
+      <label data-i="toLabel" for="to">Цель</label>
+      <select id="to" class="field"></select>
+      <div id="wheel" class="wheel">🧠</div>
+      <p id="chance" class="muted"></p>
+      <button id="upgradeBtn" class="btn primary" data-i="spin">КРУТИТЬ</button>
+      <div id="upgradeResult" class="result" hidden></div>
+    </div>
+  </section>
 
-<section id="nickname" class="section">
-<div class="card">
-<h2>👤 Бонус за ник</h2>
-<p>Введи специальный ник <b style="color:#ffd166">@BrainGet</b> и получи бонусный кейс.</p>
-<input id="nickInput" class="field" placeholder="@BrainGet" maxlength="50">
-<button class="btn" id="nickBtn">ПОЛУЧИТЬ КЕЙС</button>
-<div id="nickResult" class="result" hidden></div>
-</div>
-</section>
+  <section id="wallet" class="section">
+    <h2 data-i="walletTitle">💎 Кошелёк OG</h2>
+    <div class="grid">
+      <div class="card">
+        <h3 data-i="depositTitle">➕ Пополнение</h3>
+        <label data-i="amountLabel" for="depAmount">Сумма OG</label>
+        <input id="depAmount" class="field" type="number" min="1" placeholder="500">
+        <input id="depNote" class="field" maxlength="100" data-ph="comment">
+        <button id="depBtn" class="btn primary" data-i="makeRequest">Создать заявку</button>
+      </div>
+      <div class="card">
+        <h3 data-i="withdrawTitle">➖ Вывод</h3>
+        <label data-i="amountLabel" for="withAmount">Сумма OG</label>
+        <input id="withAmount" class="field" type="number" min="1" placeholder="100">
+        <input id="withTarget" class="field" maxlength="120" data-ph="target">
+        <button id="withBtn" class="btn primary" data-i="makeRequest">Создать заявку</button>
+      </div>
+    </div>
+    <p class="muted" data-i="walletWarning">Это демо: заявки не отправляются администратору и реальные платежи не выполняются.</p>
+    <h3 data-i="history">История заявок</h3>
+    <div id="requestsList" class="grid"></div>
+  </section>
 
-<div class="modal" id="modal">
-<div class="modalbox">
-<div style="display:flex;justify-content:space-between;align-items:center">
-<h2 id="modalTitle">Кейс</h2>
-<button id="closeModal">✕</button>
-</div>
-<div class="art" id="modalArt">📦</div><script>
+  <section id="free" class="section">
+    <div class="card" style="text-align:center">
+      <div style="font-size:65px">🎁</div>
+      <h2 data-i="freeTitle">Бесплатный кейс</h2>
+      <p class="muted" data-i="freeDesc">Один раз в 12 часов.</p>
+      <div id="freeTimer" class="price"></div>
+      <button id="freeBtn" class="btn primary"></button>
+      <div id="freeResult" class="result" hidden></div>
+    </div>
+  </section>
+
+  <section id="nickname" class="section">
+    <div class="card">
+      <h2 data-i="nickTitle">👤 Бонус за ник</h2>
+      <p data-i="nickDesc">Введи ник @BrainGet для получения бонусного кейса.</p>
+      <input id="nickInput" class="field" maxlength="50" placeholder="@BrainGet">
+      <button id="nickBtn" class="btn primary" data-i="getBonus">Получить бонус</button>
+      <div id="nickResult" class="result" hidden></div>
+    </div>
+  </section>
+
+  <section id="openPanel" class="card" hidden>
+    <div class="row">
+      <h2 id="modalTitle">Кейс</h2>
+      <button id="closePanel" data-i="close">Закрыть ✕</button>
+    </div>
+    <div class="art" id="modalArt">📦</div>
+    <p id="modalDesc" class="muted"></p>
+    <label for="customQty" data-i="quantity">Количество кейсов</label>
+    <div class="row">
+      <button class="qty" data-q="1">1</button>
+      <button class="qty" data-q="2">2</button>
+      <button class="qty" data-q="5">5</button>
+      <button class="qty" data-q="10">10</button>
+    </div>
+    <input id="customQty" class="field" type="number" min="1" max="100" value="1">
+    <div id="totalPrice" class="price"></div>
+    <button id="confirmOpen" class="btn primary" data-i="open">Открыть кейсы</button>
+    <div id="openResults" class="result"></div>
+  </section>
+</main>
+<footer>BrainGet 3.1 • Fan-made game demo</footer>
+
+<script>
 "use strict";
 
-const SUPABASE_URL="https://ovehdiobiujiplgetfsw.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY="sb_publishable_Aneu-ATnBGoVrMZVDgmGvw_ZsOnMKhO";
-const AUTH_FUNCTION_URL=SUPABASE_URL+"/functions/v1/quick-proccesor";
 const SAVE_KEY="brainget_save_v3";
 const $=id=>document.getElementById(id);
 
+const TEXT={
+ru:{
+heroTitle:"Открывай. Собирай. Становись легендой.",
+heroDesc:"Открывай кейсы, собирай брэйнротов и улучшай свою коллекцию!",
+notice:"Демо-режим: прогресс хранится в этом браузере. Баланс не синхронизирован с Telegram.",
+tabCases:"📦 Кейсы",tabInventory:"🎒 Инвентарь",tabUpgrade:"🎡 Апгрейдер",tabWallet:"💎 Кошелёк",tabFree:"🎁 Бесплатно",tabNick:"👤 Бонус за ник",
+casesTitle:"📦 Выбери кейс",inventoryTitle:"🎒 Твой инвентарь",upgradeTitle:"🎡 Апгрейдер",fromLabel:"Твой брэйнрот",toLabel:"Цель",spin:"КРУТИТЬ АПГРЕЙДЕР",
+walletTitle:"💎 Кошелёк OG",depositTitle:"➕ Пополнение",withdrawTitle:"➖ Вывод",amountLabel:"Сумма OG",makeRequest:"Создать заявку",walletWarning:"Демо: заявки не отправляются администратору. Реальные платежи и вывод не выполняются.",history:"История заявок",
+freeTitle:"Бесплатный кейс",freeDesc:"Можно получить раз в 12 часов.",nickTitle:"👤 Бонус за ник",nickDesc:"Введи ник @BrainGet для получения бонусного кейса.",getBonus:"Получить бонус",close:"Закрыть ✕",quantity:"Количество кейсов",open:"Открыть кейсы",comment:"Комментарий (необязательно)",target:"Способ получения (демо)",
+buy:"Выбрать кейс",sell:"Продать 1",empty:"Пока пусто.",sellConfirm:"Продать",for:"за",sold:"Продано",noMoney:"Недостаточно OG!",got:"Получено",total:"Итого",freeReady:"Можно забрать!",freeWait:"Следующий кейс через",freeTaken:"УЖЕ ПОЛУЧЕН",freeClaim:"ЗАБРАТЬ БЕСПЛАТНЫЙ КЕЙС",nickWrong:"Введи точно @BrainGet.",nickUsed:"Бонус уже использован в этом браузере.",requestSaved:"Заявка сохранена только в этом браузере. Она не отправлена администратору.",badAmount:"Укажи корректную сумму.",noItem:"Нет брэйнрота для апгрейда.",upgradeAsk:"Начать апгрейд? При неудаче брэйнрот потеряется.",success:"УСПЕХ! Получен",failed:"Неудача! Потерян",chance:"Шанс успеха",failure:"При неудаче брэйнрот теряется.",awaiting:"Ожидает подтверждения (демо)",caseDesc:"Кейс",emptyRequests:"Заявок пока нет."
+},
+uk:{
+heroTitle:"Відкривай. Збирай. Ставай легендою.",
+heroDesc:"Відкривай кейси, збирай брейнротів та покращуй свою колекцію!",
+notice:"Демо-режим: прогрес зберігається в цьому браузері. Баланс не синхронізовано з Telegram.",
+tabCases:"📦 Кейси",tabInventory:"🎒 Інвентар",tabUpgrade:"🎡 Апгрейдер",tabWallet:"💎 Гаманець",tabFree:"🎁 Безкоштовно",tabNick:"👤 Бонус за нік",
+casesTitle:"📦 Обери кейс",inventoryTitle:"🎒 Твій інвентар",upgradeTitle:"🎡 Апгрейдер",fromLabel:"Твій брейнрот",toLabel:"Ціль",spin:"КРУТИТИ АПГРЕЙДЕР",
+walletTitle:"💎 Гаманець OG",depositTitle:"➕ Поповнення",withdrawTitle:"➖ Виведення",amountLabel:"Сума OG",makeRequest:"Створити заявку",walletWarning:"Демо: заявки не надсилаються адміністратору. Реальні платежі та виведення не виконуються.",history:"Історія заявок",
+freeTitle:"Безкоштовний кейс",freeDesc:"Можна отримати раз на 12 годин.",nickTitle:"👤 Бонус за нік",nickDesc:"Введи нік @BrainGet, щоб отримати бонусний кейс.",getBonus:"Отримати бонус",close:"Закрити ✕",quantity:"Кількість кейсів",open:"Відкрити кейси",comment:"Коментар (необов'язково)",target:"Спосіб отримання (демо)",
+buy:"Обрати кейс",sell:"Продати 1",empty:"Поки порожньо.",sellConfirm:"Продати",for:"за",sold:"Продано",noMoney:"Недостатньо OG!",got:"Отримано",total:"Разом",freeReady:"Можна забрати!",freeWait:"Наступний кейс через",freeTaken:"ВЖЕ ОТРИМАНО",freeClaim:"ЗАБРАТИ БЕЗКОШТОВНИЙ КЕЙС",nickWrong:"Введи точно @BrainGet.",nickUsed:"Бонус уже використано в цьому браузері.",requestSaved:"Заявку збережено лише в цьому браузері. Її не надіслано адміністратору.",badAmount:"Вкажи правильну суму.",noItem:"Немає брейнрота для апгрейду.",upgradeAsk:"Почати апгрейд? У разі невдачі брейнрот буде втрачено.",success:"УСПІХ! Отримано",failed:"Невдача! Втрачено",chance:"Шанс успіху",failure:"У разі невдачі брейнрот буде втрачено.",awaiting:"Очікує підтвердження (демо)",caseDesc:"Кейс",emptyRequests:"Заявок поки немає."
+},
+en:{
+heroTitle:"Open. Collect. Become a legend.",
+heroDesc:"Open cases, collect brainrots and upgrade your collection!",
+notice:"Demo mode: progress is saved in this browser. Balance is not synced with Telegram.",
+tabCases:"📦 Cases",tabInventory:"🎒 Inventory",tabUpgrade:"🎡 Upgrader",tabWallet:"💎 Wallet",tabFree:"🎁 Free",tabNick:"👤 Nick bonus",
+casesTitle:"📦 Choose a case",inventoryTitle:"🎒 Your inventory",upgradeTitle:"🎡 Upgrader",fromLabel:"Your brainrot",toLabel:"Target",spin:"SPIN UPGRADER",
+walletTitle:"💎 OG Wallet",depositTitle:"➕ Deposit",withdrawTitle:"➖ Withdrawal",amountLabel:"OG amount",makeRequest:"Create request",walletWarning:"Demo: requests are not sent to an administrator. Real payments and withdrawals are not performed.",history:"Request history",
+freeTitle:"Free case",freeDesc:"Available once every 12 hours.",nickTitle:"👤 Nick bonus",nickDesc:"Enter @BrainGet to receive a bonus case.",getBonus:"Claim bonus",close:"Close ✕",quantity:"Number of cases",open:"Open cases",comment:"Comment (optional)",target:"Receiving method (demo)",
+buy:"Choose case",sell:"Sell 1",empty:"Nothing here yet.",sellConfirm:"Sell",for:"for",sold:"Sold",noMoney:"Not enough OG!",got:"Received",total:"Total",freeReady:"Ready to claim!",freeWait:"Next case in",freeTaken:"ALREADY CLAIMED",freeClaim:"CLAIM FREE CASE",nickWrong:"Enter exactly @BrainGet.",nickUsed:"This bonus was already used in this browser.",requestSaved:"Request saved only in this browser. It was not sent to an administrator.",badAmount:"Enter a valid amount.",noItem:"No brainrot available for upgrading.",upgradeAsk:"Start upgrade? The brainrot is lost if you fail.",success:"SUCCESS! Received",failed:"Failed! Lost",chance:"Success chance",failure:"The brainrot is lost if you fail.",awaiting:"Pending (demo)",caseDesc:"Case",emptyRequests:"No requests yet."
+}};
+
 const B=[
-{name:"Noobini Pizzanini",price:10,emoji:"🍕",rarity:"Common"},
-{name:"Lirili Larila",price:20,emoji:"🦎",rarity:"Common"},
-{name:"Tim Cheese",price:35,emoji:"🧀",rarity:"Common"},
-{name:"Fluriflura",price:50,emoji:"🌸",rarity:"Common"},
-{name:"Talpa Di Fero",price:80,emoji:"🦡",rarity:"Common"},
-{name:"Svinina Bombardino",price:120,emoji:"🐷",rarity:"Rare"},
-{name:"Pipi Kiwi",price:180,emoji:"🥝",rarity:"Rare"},
-{name:"Trippi Troppi",price:250,emoji:"🐟",rarity:"Rare"},
-{name:"Gangster Footera",price:350,emoji:"🕶️",rarity:"Rare"},
-{name:"Bandito Bobritto",price:500,emoji:"🦫",rarity:"Rare"},
-{name:"Cappuccino Assassino",price:750,emoji:"☕",rarity:"Epic"},
-{name:"Brr Brr Patapim",price:1000,emoji:"🌴",rarity:"Epic"},
-{name:"Trulimero Trulicina",price:1400,emoji:"🦈",rarity:"Epic"},
-{name:"Bambini Crostini",price:1800,emoji:"🥐",rarity:"Epic"},
-{name:"Bananita Dolphinita",price:2500,emoji:"🐬",rarity:"Epic"},
-{name:"Bombardiro Crocodilo",price:4000,emoji:"🐊",rarity:"Legendary"},
-{name:"Bombombini Gusini",price:6000,emoji:"🪿",rarity:"Legendary"},
-{name:"Cocofanto Elefanto",price:9000,emoji:"🐘",rarity:"Legendary"},
-{name:"Orangutini Ananasini",price:12000,emoji:"🍍",rarity:"Legendary"},
-{name:"Rhino Toasterino",price:16000,emoji:"🦏",rarity:"Legendary"},
-{name:"La Vaca Saturno Saturnita",price:24000,emoji:"🐄",rarity:"Mythic"},
-{name:"Chimpanzini Bananini",price:32000,emoji:"🐒",rarity:"Mythic"},
-{name:"Glorbo Fruttodrillo",price:45000,emoji:"🐲",rarity:"Mythic"},
-{name:"Tigroligre Frutonni",price:65000,emoji:"🐅",rarity:"Mythic"},
-{name:"Garama and Madundung",price:175000,emoji:"🗿",rarity:"Secret"},
-{name:"Dragon Cannelloni",price:350000,emoji:"🐉",rarity:"Secret"},
-{name:"Strawberry Elephant",price:500000,emoji:"🍓🐘",rarity:"OG"}
-];
+["Noobini Pizzanini",10,"🍕","Common"],
+["Lirili Larila",20,"🦎","Common"],
+["Tim Cheese",35,"🧀","Common"],
+["Fluriflura",50,"🌸","Common"],
+["Talpa Di Fero",80,"🦡","Common"],
+["Svinina Bombardino",120,"🐷","Rare"],
+["Pipi Kiwi",180,"🥝","Rare"],
+["Trippi Troppi",250,"🐟","Rare"],
+["Gangster Footera",350,"🕶️","Rare"],
+["Bandito Bobritto",500,"🦫","Rare"],
+["Cappuccino Assassino",75,"☕","Epic"],
+["Brr Brr Patapim",100,"🌴","Epic"],
+["Trulimero Trulicina",140,"🦈","Epic"],
+["Bambini Crostini",180,"🥐","Epic"],
+["Bananita Dolphinita",200,"🐬","Epic"],
+["Bombardiro Crocodilo",400,"🐊","Legendary"],
+["Bombombini Gusini",600,"🪿","Legendary"],
+["Cocofanto Elefanto",900,"🐘","Legendary"],
+["Orangutini Ananasini",1200,"🍍","Legendary"],
+["Rhino Toasterino",1600,"🦏","Legendary"],
+["La Vaca Saturno Saturnita",2400,"🐄","Mythic"],
+["Chimpanzini Bananini",3200,"🐒","Mythic"],
+["Glorbo Fruttodrillo",4500,"🐲","Mythic"],
+["Tigroligre Frutonni",6500,"🐅","Mythic"],
+["Garama and Madundung",17500,"🗿","Secret"],
+["Dragon Cannelloni",35000,"🐉","Secret"],
+["Strawberry Elephant",500000,"🍓🐘","OG"]
+].map(([name,price,emoji,rarity])=>({name,price,emoji,rarity}));
 
 const CASES=[
-{id:"starter",name:"Starter Case",emoji:"📦",price:25,desc:"Начальный кейс.",pool:[["Noobini Pizzanini",55],["Lirili Larila",25],["Tim Cheese",15],["Fluriflura",5]]},
-{id:"gold",name:"Golden Case",emoji:"👑",price:100,desc:"Золотой кейс.",pool:[["Svinina Bombardino",40],["Trippi Troppi",30],["Cappuccino Assassino",20],["Bombardiro Crocodilo",10]]},
-{id:"secret",name:"Secret Case",emoji:"🔮",price:500,desc:"Кейс с редкими наградами.",pool:[["Bombardiro Crocodilo",45],["Cocofanto Elefanto",25],["La Vaca Saturno Saturnita",20],["Garama and Madundung",9],["Dragon Cannelloni",1]]},
-{id:"og",name:"OG Case",emoji:"🍓",price:10000,desc:"Strawberry Elephant — 5%, Noobini — 95%.",pool:[["Strawberry Elephant",5],["Noobini Pizzanini",95]]},
-{id:"dragon",name:"Dragon Case",emoji:"🐉",price:25000,desc:"Кейс с шансом на Dragon Cannelloni.",pool:[["Dragon Cannelloni",1],["Garama and Madundung",4],["Glorbo Fruttodrillo",20],["Bombardiro Crocodilo",75]]}
-];
-
-const find=name=>B.find(x=>x.name===name);
-function fresh(){return{coins:250,inventory:{"Noobini Pizzanini":1},lastFree:0,nicknameUsed:false,requests:[]};}
-function load(){try{let s=JSON.parse(localStorage.getItem(SAVE_KEY));if(s&&Number.isFinite(s.coins)&&s.inventory)return{...fresh(),...s};}catch(e){}return fresh();}
-let state=load(),selected=null,qty=1;
-function save(){localStorage.setItem(SAVE_KEY,JSON.stringify(state));render();}
-function money(n){return Math.floor(n).toLocaleString("en-US");}
-function say(s){alert(s);}
-function add(name){state.inventory[name]=(state.inventory[name]||0)+1;}
-function draw(pool){let r=Math.random()*pool.reduce((s,x)=>s+x[1],0);for(const [n,w] of pool){r-=w;if(r<0)return n;}return pool[pool.length-1][0];}
-
-function render(){
-$("balance").textContent=money(state.coins);
-$("caseGrid").innerHTML=CASES.map(c=>`<article class="card"><div class="art">${c.emoji}</div><h3>${c.name}</h3><p class="muted">${c.desc}</p><div class="price">${money(c.price)} OG</div><button class="btn" data-case="${c.id}">ВЫБРАТЬ КЕЙС</button></article>`).join("");
-document.querySelectorAll("[data-case]").forEach(b=>b.onclick=()=>openCase(b.dataset.case));
-
-let entries=Object.entries(state.inventory).filter(([,n])=>n>0);
-$("inventoryList").innerHTML=entries.length?entries.map(([n,count])=>{let b=find(n)||{emoji:"🧠",price:1,rarity:"Unknown"};return`<article class="card item"><div style="font-size:35px">${b.emoji}</div><div class="iteminfo"><b>${n}</b><div class="muted">${b.rarity} • Количество: ${count}</div><div class="price">Продажа: ${money(b.price*.6)} OG</div></div><button data-sell="${encodeURIComponent(n)}">Продать 1</button></article>`}).join(""):'<div class="card">Инвентарь пуст.</div>';
-document.querySelectorAll("[data-sell]").forEach(b=>b.onclick=()=>sell(decodeURIComponent(b.dataset.sell)));
-
-$("from").innerHTML=entries.map(([n])=>`<option>${n}</option>`).join("")||'<option value="">Инвентарь пуст</option>';
-$("to").innerHTML=B.filter(b=>!entries.some(e=>e[0]===b.name)).map(b=>`<option value="${b.name}">${b.emoji} ${b.name} — ${money(b.price)} OG</option>`).join("");
-updateChance();
-
-$("requestsList").innerHTML=state.requests.length?state.requests.slice().reverse().map(r=>`<article class="card"><b>${r.type} • ${money(r.amount)} OG</b><p class="muted">${r.extra||""}</p><div class="price">${r.status}</div><small>${new Date(r.date).toLocaleString()}</small></article>`).join(""):'<div class="card">Заявок пока нет.</div>';
-updateFree();
-}
-
-function sell(name){
-let b=find(name);if(!b||!state.inventory[name])return;
-let price=Math.max(1,Math.floor(b.price*.6));
-if(!confirm(`Продать ${name} за ${money(price)} OG?`))return;
-state.inventory[name]--;if(!state.inventory[name])delete state.inventory[name];
-state.coins+=price;save();
-}
-
-function openCase(id){
-selected=CASES.find(c=>c.id===id);qty=1;
-$("customQty").value=1;$("modalTitle").textContent=selected.emoji+" "+selected.name;
-$("modalArt").textContent=selected.emoji;$("modalDesc").textContent=selected.desc;
-$("openResults").textContent="";updateTotal();$("modal").classList.add("show");
-}
-function updateTotal(){
-if(!selected)return;
-qty=Math.max(1,Math.min(100,Math.floor(Number($("customQty").value)||1)));
-$("customQty").value=qty;
-$("totalPrice").textContent="Итого: "+money(selected.price*qty)+" OG";
-$("confirmOpen").disabled=selected.price*qty>state.coins;
-}
-document.querySelectorAll(".qty").forEach(b=>b.onclick=()=>{$("customQty").value=b.dataset.q;updateTotal();});
-$("customQty").addEventListener("input",updateTotal);
-$("closeModal").onclick=()=>$("modal").classList.remove("show");
-$("modal").onclick=e=>{if(e.target===$("modal"))$("modal").classList.remove("show");};
-$("confirmOpen").onclick=()=>{
-if(!selected)return;updateTotal();let cost=selected.price*qty;
-if(state.coins<cost)return say("Не хватает OG!");
-state.coins-=cost;let results=[];
-for(let i=0;i<qty;i++){let n=draw(selected.pool);add(n);results.push(n);}
-save();
-let grouped={};results.forEach(n=>grouped[n]=(grouped[n]||0)+1);
-$("openResults").innerHTML="<b>🎉 Результат</b>"+Object.entries(grouped).map(([n,c])=>`<p>${find(n)?.emoji||"🧠"} ${n} × ${c}</p>`).join("");
-};
-
-function updateChance(){
-let a=find($("from").value),b=find($("to").value);
-let chance=a&&b?Math.max(1,Math.min(75,Math.floor(a.price/b.price*70))):0;
-$("chance").textContent=a&&b?`Шанс успеха: ${chance}%. При неудаче брэйнрот теряется.`:"Добавь брэйнротов в инвентарь.";
-return chance;
-}
-$("from").onchange=updateChance;$("to").onchange=updateChance;
-$("upgradeBtn").onclick=()=>{
-let from=$("from").value,to=$("to").value;
-if(!from||!to||!state.inventory[from])return say("Нет брэйнрота для апгрейда.");
-let chance=updateChance();
-if(!confirm(`Поставить ${from} на апгрейд к ${to}? При неудаче он потеряется.`))return;
-$("upgradeBtn").disabled=true;
-$("wheel").style.transform=`rotate(${1440+Math.random()*720}deg)`;
-setTimeout(()=>{
-let win=Math.random()*100<chance;
-state.inventory[from]--;if(!state.inventory[from])delete state.inventory[from];
-if(win)add(to);save();
-$("upgradeResult").hidden=false;
-$("upgradeResult").textContent=win?`🎉 УСПЕХ! Получен ${to}`:`Неудача! ${from} потерян.`;
-$("upgradeBtn").disabled=false;
-},1600);
-};
-
-function request(type,amount,extra){
-if(!Number.isSafeInteger(amount)||amount<1||amount>100000000)return say("Укажи корректную сумму.");
-state.requests.push({type,amount,extra,status:"Ожидает подтверждения (демо)",date:new Date().toISOString()});
-save();
-say("Заявка сохранена только в этом браузере. Администратору она не отправлена.");
-}
-$("depBtn").onclick=()=>request("Пополнение",Number($("depAmount").value),$("depNote").value.trim());
-$("withBtn").onclick=()=>{
-let amount=Number($("withAmount").value),target=$("withTarget").value.trim();
-if(amount>state.coins)return say("Недостаточно OG на балансе.");
-if(!target)return say("Укажи способ получения.");
-request("Вывод",amount,target);
-};
-
-const FREE_MS=12*60*60*1000;
-function updateFree(){
-let remain=FREE_MS-(Date.now()-(state.lastFree||0));
-$("freeBtn").disabled=remain>0;
-$("freeTimer").textContent=remain>0?`Следующий кейс через ${Math.floor(remain/3600000)} ч ${Math.floor(remain%3600000/60000)} мин`:"Можно забрать!";
-$("freeBtn").textContent=remain>0?"УЖЕ ПОЛУЧЕН":"ЗАБРАТЬ БЕСПЛАТНЫЙ КЕЙС";
-}
-$("freeBtn").onclick=()=>{
-if(Date.now()-(state.lastFree||0)<FREE_MS)return updateFree();
-state.lastFree=Date.now();
-let n=draw([["Noobini Pizzanini",50],["Trippi Troppi",25],["Bombardiro Crocodilo",15],["Garama and Madundung",8],["Dragon Cannelloni",2]]);
-add(n);save();$("freeResult").hidden=false;$("freeResult").textContent="🎉 Ты получил: "+n;
-};
-$("nickBtn").onclick=()=>{
-if($("nickInput").value.trim().toLowerCase()!=="@brainget")return say("Введи точно @BrainGet.");
-if(state.nicknameUsed)return say("Этот бонус уже использован в этом браузере.");
-state.nicknameUsed=true;
-let n=draw([["Noobini Pizzanini",60],["Bombardiro Crocodilo",25],["Garama and Madundung",12],["Dragon Cannelloni",3]]);
-add(n);save();$("nickResult").hidden=false;$("nickResult").textContent="🎉 Кейс получен: "+n;
-};
-
-document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{
-document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));
-document.querySelectorAll(".section").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));
-});
-
-async function verifyTelegram(){
-const tg=window.Telegram?.WebApp;if(!tg)return;
-tg.ready();tg.expand();
-if(!tg.initData){$("notice").textContent="ℹ️ Открой BrainGet через Telegram Mini App. Сейчас работает демо-режим.";return;}
-try{
-const res=await fetch(AUTH_FUNCTION_URL,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_PUBLISHABLE_KEY,"Authorization":"Bearer "+SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify({initData:tg.initData})});
-const data=await res.json();
-if(res.ok&&data.verified&&data.user){
-$("notice").textContent="✓ Telegram-пользователь проверен. Синхронизация экономики ещё не подключена.";
-}else{$("notice").textContent="⚠️ Не удалось подтвердить Telegram-пользователя. Проверь функцию quick-proccesor.";}
-}catch(e){$("notice").textContent="⚠️ Сервер авторизации недоступен. Демо-режим включён.";}
-}
-render();
-setInterval(updateFree,30000);
-verifyTelegram();
-</script>
-</body>
-</html>
-<p id="modalDesc" class="muted"></p>
-<label>Количество</label>
-<div style="display:flex;gap:6px;flex-wrap:wrap">
-<button class="qty" data-q="1">1</button>
-<button class="qty" data-q="2">2</button>
-<button class="qty" data-q="5">5</button>
-<button class="qty" data-q="10">10</button>
-</div>
-<input id="customQty" class="field" type="number" min="1" max="100" value="1">
-<div id="totalPrice" class="price"></div>
-<button id="confirmOpen" class="btn">ОТКРЫТЬ</button>
-<div id="openResults" class="result"></div>
-</div>
-</div>
+{id:"starter",name:"Starter Case",emoji:"📦",price:25,desc:"A starter case",pool:[["Noobini Pizzanini",55],["Lirili Larila",
