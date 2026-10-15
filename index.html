@@ -20,7 +20,7 @@ button,select,input{font:inherit}
 button{cursor:pointer;background:#392650;color:white;border:1px solid #70508b;border-radius:10px;padding:11px;font-weight:bold}
 button:hover{filter:brightness(1.2)}
 .primary{background:linear-gradient(100deg,#ffe08a,#f5a623);color:#24132e;border:0}
-button:disabled{opacity:.5}
+button:disabled{opacity:.5;cursor:not-allowed}
 .section{display:none}.section.active{display:block}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
 .art{font-size:55px;text-align:center;padding:20px;background:#38234c;border-radius:12px}
@@ -28,21 +28,28 @@ button:disabled{opacity:.5}
 .muted{color:#c6b6d5;font-size:13px}
 .btn{width:100%;margin-top:8px}
 .field{display:block;width:100%;padding:11px;margin:8px 0;background:#130c20;color:white;border:1px solid #62437e;border-radius:9px}
-.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:0}
 .notice{padding:12px;border:1px solid #80633d;border-radius:12px;color:#ffe2a0;margin:12px 0}
 .result{padding:12px;background:#342044;border-radius:12px;margin-top:12px;overflow-wrap:anywhere}
 .upgrade-grid{display:grid;grid-template-columns:1fr 160px 1fr;gap:12px;align-items:center}
 .upgrade-card{text-align:center;background:#1b1128;border:1px solid #64427d;border-radius:14px;padding:12px;min-width:0}
 .upgrade-card .art{font-size:45px}
-.wheel{width:145px;height:145px;border:6px solid var(--gold);border-radius:50%;margin:auto 0 12px;display:grid;place-items:center;font-size:45px;background:conic-gradient(#a855f7,#ffd166,#6c3c91,#a855f7);transition:transform 2s cubic-bezier(.12,.72,.12,1)}
+.wheel{width:145px;height:145px;border:6px solid var(--gold);border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;font-size:45px;background:conic-gradient(#a855f7,#ffd166,#6c3c91,#a855f7);transition:transform 2s cubic-bezier(.12,.72,.12,1)}
 .wheel-inner{background:#21132f;border-radius:50%;width:85px;height:85px;display:grid;place-items:center}
 .chance{font-size:25px;color:var(--gold);font-weight:bold;text-align:center}
 .bar{height:9px;background:#10091e;border-radius:10px;overflow:hidden;margin:8px 0}
 .fill{height:100%;width:0;background:linear-gradient(90deg,#a855f7,#ffd166)}
 .status{text-align:center;padding:14px;border-radius:12px;margin-top:12px}
 .win{background:#17472f}.lose{background:#52212d}
+.profile-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.avatar{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font-size:38px;background:linear-gradient(135deg,#a855f7,#ffd166);border:3px solid #ffd166;flex-shrink:0}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}
+.stat{background:#170e25;border:1px solid #53386b;border-radius:12px;padding:13px}
+.stat strong{display:block;color:var(--gold);font-size:20px;margin-top:6px}
+.history{display:grid;gap:8px}
+.history-row{background:#170e25;border:1px solid #49305f;border-radius:10px;padding:10px;overflow-wrap:anywhere}
+.history-row small{display:block;color:#c6b6d5;margin-top:4px}
 footer{text-align:center;color:#a998bd;padding:20px;font-size:12px}
-@media(max-width:600px){.upgrade-grid{grid-template-columns:1fr}.upgrade-card{width:100%}.wheel{margin:0 auto 12px}}
+@media(max-width:600px){.upgrade-grid{grid-template-columns:1fr}.upgrade-card{width:100%}}
 </style>
 </head>
 <body>
@@ -50,32 +57,67 @@ footer{text-align:center;color:#a998bd;padding:20px;font-size:12px}
  <div class="logo">🧠 Brain<span>Get</span></div>
  <div class="balance">💎 <span id="balance">250</span> OG</div>
 </header>
+
 <main>
  <div class="hero">
   <div style="color:#ffd166;font-weight:bold">BRAIN GET • GAME</div>
   <h1>Открывай. Собирай. Побеждай.</h1>
-  <p class="muted">Собирай брэйнротов, открывай кейсы и улучшай коллекцию!</p>
+  <p class="muted">Собирай брейнротов, открывай кейсы и улучшай коллекцию!</p>
  </div>
- <div class="notice">⚠️ Демо-версия. Баланс хранится в этом браузере. Платежи и вывод не подключены.</div>
+
+ <div class="notice">⚠️ Демо-версия. Баланс хранится в этом браузере. Реальные платежи, вывод и серверная синхронизация не подключены.</div>
 
  <nav>
+  <button data-tab="profile">👤 Профиль</button>
   <button data-tab="cases">📦 Кейсы</button>
   <button data-tab="inventory">🎒 Инвентарь</button>
   <button data-tab="upgrade">🎡 Апгрейдер</button>
   <button data-tab="free">🎁 Бесплатно</button>
  </nav>
 
- <section id="cases" class="section active">
+ <!-- ПРОФИЛЬ -->
+ <section id="profile" class="section active">
+  <div class="panel">
+   <h2>👤 Мой профиль</h2>
+   <div class="profile-head">
+    <div class="avatar" id="avatar">🧠</div>
+    <div>
+     <h2 id="profileName">Игрок BrainGet</h2>
+     <div class="muted">Участник BrainGet</div>
+     <button id="changeAvatar">🎨 Сменить аватар</button>
+    </div>
+   </div>
+
+   <label for="nickname">Имя игрока</label>
+   <input class="field" id="nickname" maxlength="24" placeholder="Введи свой ник">
+   <button class="primary btn" id="saveProfile">💾 Сохранить профиль</button>
+
+   <div class="stat-grid">
+    <div class="stat">💎 Баланс<strong id="statBalance">250 OG</strong></div>
+    <div class="stat">🎒 Виды предметов<strong id="statItems">0</strong></div>
+    <div class="stat">📦 Открыто кейсов<strong id="statCases">0</strong></div>
+    <div class="stat">💰 Продано предметов<strong id="statSold">0</strong></div>
+   </div>
+
+   <h3>📜 История операций</h3>
+   <div class="history" id="historyList"></div>
+  </div>
+ </section>
+
+ <!-- КЕЙСЫ -->
+ <section id="cases" class="section">
   <h2>📦 Кейсы</h2>
   <div id="caseGrid" class="grid"></div>
  </section>
 
+ <!-- ИНВЕНТАРЬ -->
  <section id="inventory" class="section">
   <h2>🎒 Инвентарь</h2>
   <p class="muted">Продажа приносит 60% стоимости предмета.</p>
   <div id="inventoryList" class="grid"></div>
  </section>
 
+ <!-- АПГРЕЙДЕР -->
  <section id="upgrade" class="section">
   <div class="panel">
    <h2>🎡 Апгрейдер</h2>
@@ -88,6 +130,7 @@ footer{text-align:center;color:#a998bd;padding:20px;font-size:12px}
      <div class="price" id="fromPrice"></div>
      <select id="from" class="field"></select>
     </div>
+
     <div style="text-align:center">
      <div style="color:#ffd166;font-size:20px">▼</div>
      <div class="wheel" id="wheel"><div class="wheel-inner">🎯</div></div>
@@ -95,6 +138,7 @@ footer{text-align:center;color:#a998bd;padding:20px;font-size:12px}
      <div class="bar"><div class="fill" id="chanceFill"></div></div>
      <div class="muted">ШАНС ПОБЕДЫ</div>
     </div>
+
     <div class="upgrade-card">
      <b>🟡 ЦЕЛЬ</b>
      <div class="art" id="toIcon">🐉</div>
@@ -103,6 +147,7 @@ footer{text-align:center;color:#a998bd;padding:20px;font-size:12px}
      <select id="to" class="field"></select>
     </div>
    </div>
+
    <div class="result" id="difference">Разница: —</div>
    <p class="muted">Шанс рассчитывается по стоимости предметов и ограничен 75%.</p>
    <button id="upgradeBtn" class="primary btn">🎡 ЗАПУСТИТЬ АПГРЕЙД</button>
@@ -110,6 +155,7 @@ footer{text-align:center;color:#a998bd;padding:20px;font-size:12px}
   </div>
  </section>
 
+ <!-- БЕСПЛАТНЫЙ КЕЙС -->
  <section id="free" class="section">
   <div class="panel" style="text-align:center">
    <div class="art">🎁</div>
@@ -121,6 +167,7 @@ footer{text-align:center;color:#a998bd;padding:20px;font-size:12px}
   </div>
  </section>
 </main>
+
 <footer>BrainGet • Fan-made demo</footer>
 
 <script>
@@ -153,41 +200,106 @@ const cases=[
  {id:"dragon",name:"Dragon Case",icon:"🐉",price:25000,pool:[["Dragon Cannelloni",50],["Garama and Madundung",35],["Strawberry Elephant",15]]}
 ];
 
-function fresh(){return {coins:250,inventory:{"Noobini Pizzanini":1},lastFree:0};}
+function fresh(){
+ return {
+  coins:250,
+  inventory:{"Noobini Pizzanini":1},
+  lastFree:0,
+  nickname:"Игрок BrainGet",
+  avatar:"🧠",
+  openedCases:0,
+  soldItems:0,
+  history:[]
+ };
+}
+
 function load(){
  try{
   const s=JSON.parse(localStorage.getItem(KEY));
-  if(s&&Number.isFinite(s.coins)&&s.inventory&&typeof s.inventory==="object")return {...fresh(),...s};
+  if(s&&Number.isFinite(s.coins)&&s.inventory&&typeof s.inventory==="object"){
+   const migrated={...fresh(),...s};
+   if(!Array.isArray(migrated.history))migrated.history=[];
+   if(!Number.isFinite(migrated.openedCases))migrated.openedCases=0;
+   if(!Number.isFinite(migrated.soldItems))migrated.soldItems=0;
+   return migrated;
+  }
  }catch(e){}
  return fresh();
 }
+
 let state=load(),busy=false;
 
-function save(){
- try{localStorage.setItem(KEY,JSON.stringify(state));}
- catch(e){alert("Не удалось сохранить прогресс в браузере.");}
- render();
-}
-function fmt(n){return Math.floor(n).toLocaleString("ru-RU");}
-function item(name){return brainrots.find(b=>b.name===name);}
-function add(name){state.inventory[name]=(state.inventory[name]||0)+1;}
-function pick(pool){
- let r=Math.random()*pool.reduce((s,x)=>s+x[1],0);
- for(const [name,weight] of pool){r-=weight;if(r<0)return name;}
- return pool[pool.length-1][0];
-}
-function safe(s){
- return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function fmt(n){
+ return Math.floor(n).toLocaleString("ru-RU");
 }
 
+function item(name){
+ return brainrots.find(b=>b.name===name);
+}
+
+function add(name){
+ state.inventory[name]=(state.inventory[name]||0)+1;
+}
+
+function logAction(label,detail){
+ if(!Array.isArray(state.history))state.history=[];
+ state.history.unshift({
+  label,
+  detail,
+  time:new Date().toLocaleString("ru-RU")
+ });
+ state.history=state.history.slice(0,12);
+}
+
+function pick(pool){
+ let r=Math.random()*pool.reduce((s,x)=>s+x[1],0);
+ for(const [name,weight] of pool){
+  r-=weight;
+  if(r<0)return name;
+ }
+ return pool[pool.length-1][0];
+}
+
+function safe(s){
+ return String(s).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+
+/* ПЕРЕКЛЮЧЕНИЕ РАЗДЕЛОВ */
 document.querySelectorAll("[data-tab]").forEach(btn=>{
  btn.addEventListener("click",()=>{
-  document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===btn.dataset.tab));
+  document.querySelectorAll(".section").forEach(s=>{
+   s.classList.toggle("active",s.id===btn.dataset.tab);
+  });
  });
 });
 
+/* ПРОФИЛЬ И СТАТИСТИКА */
+function renderProfile(){
+ $("profileName").textContent=state.nickname||"Игрок BrainGet";
+ $("nickname").value=state.nickname||"Игрок BrainGet";
+ $("avatar").textContent=state.avatar||"🧠";
+ $("statBalance").textContent=fmt(state.coins)+" OG";
+ $("statCases").textContent=fmt(state.openedCases||0);
+ $("statSold").textContent=fmt(state.soldItems||0);
+
+ const total=Object.values(state.inventory).reduce((sum,n)=>sum+(n>0?1:0),0);
+ $("statItems").textContent=fmt(total);
+
+ const history=Array.isArray(state.history)?state.history:[];
+ $("historyList").innerHTML=history.length?history.map(h=>`
+  <div class="history-row">
+   <b>${safe(h.label)}</b>
+   <div>${safe(h.detail)}</div>
+   <small>${safe(h.time)}</small>
+  </div>
+ `).join(""):'<div class="muted">Пока операций нет.</div>';
+}
+
 function render(){
  $("balance").textContent=fmt(state.coins);
+ renderProfile();
 
  $("caseGrid").innerHTML=cases.map(c=>`
   <article class="case">
@@ -195,10 +307,12 @@ function render(){
    <h3>${safe(c.name)}</h3>
    <div class="price">${fmt(c.price)} OG</div>
    <button class="primary btn" data-open="${c.id}">ОТКРЫТЬ КЕЙС</button>
-  </article>`).join("");
+  </article>
+ `).join("");
 
  $("inventoryList").innerHTML=Object.entries(state.inventory)
-  .filter(([,count])=>count>0).map(([name,count])=>{
+  .filter(([,count])=>count>0)
+  .map(([name,count])=>{
    const b=item(name);
    if(!b)return "";
    return `<article class="item">
@@ -214,48 +328,75 @@ function render(){
  updateFree();
 }
 
+/* ОТКРЫТИЕ КЕЙСОВ */
 $("caseGrid").addEventListener("click",e=>{
  const btn=e.target.closest("[data-open]");
  if(!btn)return;
+
  const c=cases.find(x=>x.id===btn.dataset.open);
  if(!c)return;
- if(state.coins<c.price){alert("Недостаточно OG!");return;}
+
+ if(state.coins<c.price){
+  alert("Недостаточно OG!");
+  return;
+ }
+
  if(!confirm(`Открыть ${c.name} за ${fmt(c.price)} OG?`))return;
+
  state.coins-=c.price;
  const name=pick(c.pool);
  add(name);
+ state.openedCases=(state.openedCases||0)+1;
+ logAction("Открытие кейса",`${c.name}: получен ${name}`);
  save();
  alert(`🎉 Выпало: ${name}!`);
 });
 
+/* ПРОДАЖА */
 $("inventoryList").addEventListener("click",e=>{
  const btn=e.target.closest("[data-sell]");
  if(!btn)return;
+
  const name=decodeURIComponent(btn.dataset.sell);
  const b=item(name);
  if(!b||!state.inventory[name])return;
+
  const value=Math.floor(b.price*.6);
  if(!confirm(`Продать ${name} за ${fmt(value)} OG?`))return;
+
  state.inventory[name]--;
  if(state.inventory[name]<=0)delete state.inventory[name];
+
  state.coins+=value;
+ state.soldItems=(state.soldItems||0)+1;
+ logAction("Продажа",`${name}: +${fmt(value)} OG`);
  save();
 });
 
+/* АПГРЕЙДЕР */
 function updateUpgrade(){
  const owned=Object.entries(state.inventory).filter(([,n])=>n>0);
  const oldFrom=$("from").value,oldTo=$("to").value;
- $("from").innerHTML=owned.map(([n,count])=>`<option value="${safe(n)}">${safe(n)} ×${count}</option>`).join("");
+
+ $("from").innerHTML=owned.map(([n,count])=>
+  `<option value="${safe(n)}">${safe(n)} ×${count}</option>`
+ ).join("");
+
  const targets=brainrots.filter(b=>!owned.some(([n])=>n===b.name));
- $("to").innerHTML=targets.map(b=>`<option value="${safe(b.name)}">${b.icon} ${safe(b.name)}</option>`).join("");
+
+ $("to").innerHTML=targets.map(b=>
+  `<option value="${safe(b.name)}">${b.icon} ${safe(b.name)}</option>`
+ ).join("");
 
  if(owned.some(([n])=>n===oldFrom))$("from").value=oldFrom;
  if(targets.some(b=>b.name===oldTo))$("to").value=oldTo;
+
  updateChance();
 }
 
 function updateChance(){
  const a=item($("from").value),b=item($("to").value);
+
  $("fromIcon").textContent=a?a.icon:"❔";
  $("fromName").textContent=a?a.name:"Нет предмета";
  $("fromPrice").textContent=a?fmt(a.price)+" OG":"—";
@@ -263,64 +404,134 @@ function updateChance(){
  $("toName").textContent=b?b.name:"Нет цели";
  $("toPrice").textContent=b?fmt(b.price)+" OG":"—";
 
- let chance=a&&b&&b.price>a.price?Math.max(1,Math.min(75,Math.floor(a.price/b.price*70))):0;
+ const chance=a&&b&&b.price>a.price
+  ?Math.max(1,Math.min(75,Math.floor(a.price/b.price*70)))
+  :0;
+
  $("chance").textContent=chance+"%";
  $("chanceFill").style.width=chance+"%";
- $("difference").textContent=a&&b?"Разница: "+fmt(b.price-a.price)+" OG":"Выбери предметы";
+ $("difference").textContent=a&&b
+  ?"Разница: "+fmt(b.price-a.price)+" OG"
+  :"Выбери предметы";
+
  $("upgradeBtn").disabled=busy||!a||!b||chance===0||!state.inventory[$("from").value];
  return chance;
 }
-$("from").addEventListener("change",()=>{updateChance();$("upgradeResult").hidden=true;});
-$("to").addEventListener("change",()=>{updateChance();$("upgradeResult").hidden=true;});
+
+$("from").addEventListener("change",()=>{
+ updateChance();
+ $("upgradeResult").hidden=true;
+});
+
+$("to").addEventListener("change",()=>{
+ updateChance();
+ $("upgradeResult").hidden=true;
+});
 
 $("upgradeBtn").addEventListener("click",()=>{
  if(busy)return;
+
  const from=$("from").value,to=$("to").value;
  const a=item(from),b=item(to),chance=updateChance();
+
  if(!a||!b||!state.inventory[from]||chance===0)return;
+
  if(!confirm(`Улучшить ${from} → ${to}?\nШанс: ${chance}%\nПри проигрыше предмет будет потерян.`))return;
 
  busy=true;
  $("upgradeBtn").disabled=true;
  $("upgradeResult").hidden=true;
+
  $("wheel").style.transition="none";
  $("wheel").style.transform="rotate(0deg)";
  void $("wheel").offsetWidth;
  $("wheel").style.transition="transform 2s cubic-bezier(.12,.72,.12,1)";
  $("wheel").style.transform=`rotate(${1440+Math.random()*720}deg)`;
+
  const won=Math.random()*100<chance;
 
  setTimeout(()=>{
   state.inventory[from]--;
   if(state.inventory[from]<=0)delete state.inventory[from];
   if(won)add(to);
+
+  logAction("Апгрейдер",won
+   ?`Успех: ${from} → ${to}`
+   :`Неудача: потерян ${from}`);
+
   busy=false;
   save();
+
   $("upgradeResult").hidden=false;
   $("upgradeResult").className="status "+(won?"win":"lose");
-  $("upgradeResult").textContent=won?`🎉 УСПЕХ! Получен ${to}!`:`❌ НЕУДАЧА! Потерян ${from}.`;
+  $("upgradeResult").textContent=won
+   ?`🎉 УСПЕХ! Получен ${to}!`
+   :`❌ НЕУДАЧА! Потерян ${from}.`;
+
   updateUpgrade();
  },2050);
 });
 
+/* БЕСПЛАТНЫЙ КЕЙС */
 const FREE_TIME=12*60*60*1000;
+
 function updateFree(){
  const left=FREE_TIME-(Date.now()-(state.lastFree||0));
  $("freeBtn").disabled=left>0;
- $("freeTimer").textContent=left>0?
-  `Следующий кейс через ${Math.floor(left/3600000)} ч ${Math.floor(left%3600000/60000)} мин`:
-  "🎁 Бесплатный кейс готов!";
+
+ $("freeTimer").textContent=left>0
+  ?`Следующий кейс через ${Math.floor(left/3600000)} ч ${Math.floor(left%3600000/60000)} мин`
+  :"🎁 Бесплатный кейс готов!";
 }
+
 $("freeBtn").addEventListener("click",()=>{
  if(Date.now()-(state.lastFree||0)<FREE_TIME)return;
+
  state.lastFree=Date.now();
- const name=pick([["Noobini Pizzanini",60],["Bombardiro Crocodilo",25],["Garama and Madundung",12],["Dragon Cannelloni",3]]);
+
+ const name=pick([
+  ["Noobini Pizzanini",60],
+  ["Bombardiro Crocodilo",25],
+  ["Garama and Madundung",12],
+  ["Dragon Cannelloni",3]
+ ]);
+
  add(name);
+ logAction("Бесплатный кейс",`Получен ${name}`);
  save();
+
  $("freeResult").textContent="🎉 Получен: "+name;
  updateFree();
 });
 
+/* СОХРАНЕНИЕ ПРОФИЛЯ */
+$("saveProfile").addEventListener("click",()=>{
+ const name=$("nickname").value.trim().slice(0,24);
+
+ if(!name){
+  alert("Введи ник для профиля.");
+  return;
+ }
+
+ state.nickname=name;
+ logAction("Профиль",`Имя изменено на ${name}`);
+ save();
+ alert("Профиль сохранён в этом браузере!");
+});
+
+/* СМЕНА АВАТАРА */
+const avatars=["🧠","🐉","🍓","👑","🦊","🐸","⚡","👾","💎","🔥"];
+
+$("changeAvatar").addEventListener("click",()=>{
+ const current=state.avatar||"🧠";
+ const index=avatars.indexOf(current);
+
+ state.avatar=avatars[(index+1)%avatars.length];
+ logAction("Профиль",`Аватар изменён на ${state.avatar}`);
+ save();
+});
+
+/* ЗАПУСК */
 render();
 setInterval(updateFree,30000);
 </script>
