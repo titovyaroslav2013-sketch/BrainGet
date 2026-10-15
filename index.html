@@ -12,7 +12,7 @@ body{margin:0;background:radial-gradient(circle at top,#392052,var(--bg) 70%);co
 header{padding:16px;background:#170e25;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #604079}
 .logo{font-size:26px;font-weight:900}.logo span{color:var(--gold)}
 .balance{color:var(--gold);font-weight:bold}
-main{max-width:1050px;margin:auto;padding:16px}
+main{max-width:1100px;margin:auto;padding:16px}
 .hero,.panel,.case,.item{background:linear-gradient(145deg,#302044,#191023);border:1px solid #53386b;border-radius:16px;padding:16px;margin-bottom:12px}
 .hero h1{font-size:clamp(28px,5vw,44px);margin:10px 0}
 nav{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0}
@@ -23,7 +23,7 @@ button:hover{filter:brightness(1.2)}
 button:disabled{opacity:.5;cursor:not-allowed}
 .section{display:none}.section.active{display:block}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
-.art{font-size:55px;text-align:center;padding:20px;background:#38234c;border-radius:12px}
+.art{font-size:48px;text-align:center;padding:18px;background:#38234c;border-radius:12px}
 .price{color:var(--gold);font-weight:bold;margin:12px 0}
 .muted{color:#c6b6d5;font-size:13px}
 .btn{width:100%;margin-top:8px}
@@ -32,16 +32,15 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .result{padding:12px;background:#342044;border-radius:12px;margin-top:12px;overflow-wrap:anywhere}
 .upgrade-grid{display:grid;grid-template-columns:1fr 160px 1fr;gap:12px;align-items:center}
 .upgrade-card{text-align:center;background:#1b1128;border:1px solid #64427d;border-radius:14px;padding:12px;min-width:0}
-.upgrade-card .art{font-size:45px}
-.wheel{width:145px;height:145px;border:6px solid var(--gold);border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;font-size:45px;background:conic-gradient(#a855f7,#ffd166,#6c3c91,#a855f7);transition:transform 2s cubic-bezier(.12,.72,.12,1)}
-.wheel-inner{background:#21132f;border-radius:50%;width:85px;height:85px;display:grid;place-items:center}
+.wheel{width:125px;height:125px;border:6px solid var(--gold);border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;font-size:35px;background:conic-gradient(#a855f7,#ffd166,#6c3c91,#a855f7);transition:transform 2s}
+.wheel-inner{background:#21132f;border-radius:50%;width:75px;height:75px;display:grid;place-items:center}
 .chance{font-size:25px;color:var(--gold);font-weight:bold;text-align:center}
 .bar{height:9px;background:#10091e;border-radius:10px;overflow:hidden;margin:8px 0}
-.fill{height:100%;width:0;background:linear-gradient(90deg,#a855f7,#ffd166)}
+.fill{height:100%;background:linear-gradient(90deg,#a855f7,#ffd166)}
 .status{text-align:center;padding:14px;border-radius:12px;margin-top:12px}
 .win{background:#17472f}.lose{background:#52212d}
 .profile-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.avatar{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font-size:38px;background:linear-gradient(135deg,#a855f7,#ffd166);border:3px solid #ffd166;flex-shrink:0}
+.avatar{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font-size:38px;background:linear-gradient(135deg,#a855f7,#ffd166);border:3px solid #ffd166}
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}
 .stat{background:#170e25;border:1px solid #53386b;border-radius:12px;padding:13px}
 .stat strong{display:block;color:var(--gold);font-size:20px;margin-top:6px}
@@ -49,489 +48,372 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .history-row{background:#170e25;border:1px solid #49305f;border-radius:10px;padding:10px;overflow-wrap:anywhere}
 .history-row small{display:block;color:#c6b6d5;margin-top:4px}
 footer{text-align:center;color:#a998bd;padding:20px;font-size:12px}
-@media(max-width:600px){.upgrade-grid{grid-template-columns:1fr}.upgrade-card{width:100%}}
+@media(max-width:600px){.upgrade-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header>
  <div class="logo">🧠 Brain<span>Get</span></div>
- <div class="balance">💎 <span id="balance">250</span> OG</div>
+ <div>
+  <select id="language" aria-label="Language">
+   <option value="ru">🇷🇺 Русский</option>
+   <option value="uk">🇺🇦 Українська</option>
+   <option value="en">🇬🇧 English</option>
+  </select>
+  <span class="balance">💎 <span id="balance">250</span> OG</span>
+ </div>
 </header>
-
 <main>
  <div class="hero">
   <div style="color:#ffd166;font-weight:bold">BRAIN GET • GAME</div>
-  <h1>Открывай. Собирай. Побеждай.</h1>
-  <p class="muted">Собирай брейнротов, открывай кейсы и улучшай коллекцию!</p>
+  <h1 data-t="hero">Открывай. Собирай. Побеждай.</h1>
+  <p class="muted" data-t="intro">Собирай брейнротов, открывай кейсы и улучшай коллекцию!</p>
  </div>
-
- <div class="notice">⚠️ Демо-версия. Баланс хранится в этом браузере. Реальные платежи, вывод и серверная синхронизация не подключены.</div>
-
+ <div class="notice" data-t="demo">⚠️ Демо-версия. Прогресс хранится в этом браузере.</div>
  <nav>
-  <button data-tab="profile">👤 Профиль</button>
-  <button data-tab="cases">📦 Кейсы</button>
-  <button data-tab="inventory">🎒 Инвентарь</button>
-  <button data-tab="upgrade">🎡 Апгрейдер</button>
-  <button data-tab="free">🎁 Бесплатно</button>
+  <button data-tab="profile" data-t="profileTab">👤 Профиль</button>
+  <button data-tab="cases" data-t="casesTab">📦 Кейсы</button>
+  <button data-tab="inventory" data-t="inventoryTab">🎒 Инвентарь</button>
+  <button data-tab="upgrade" data-t="upgradeTab">🎡 Апгрейдер</button>
+  <button data-tab="free" data-t="freeTab">🎁 Бесплатно</button>
  </nav>
 
- <!-- ПРОФИЛЬ -->
  <section id="profile" class="section active">
   <div class="panel">
-   <h2>👤 Мой профиль</h2>
+   <h2 data-t="profileTitle">👤 Мой профиль</h2>
    <div class="profile-head">
     <div class="avatar" id="avatar">🧠</div>
-    <div>
-     <h2 id="profileName">Игрок BrainGet</h2>
-     <div class="muted">Участник BrainGet</div>
-     <button id="changeAvatar">🎨 Сменить аватар</button>
+    <div><h2 id="profileName">Игрок BrainGet</h2>
+     <button id="changeAvatar" data-t="changeAvatar">🎨 Сменить аватар</button>
     </div>
    </div>
-
-   <label for="nickname">Имя игрока</label>
-   <input class="field" id="nickname" maxlength="24" placeholder="Введи свой ник">
-   <button class="primary btn" id="saveProfile">💾 Сохранить профиль</button>
-
+   <label for="nickname" data-t="nicknameLabel">Имя игрока</label>
+   <input class="field" id="nickname" maxlength="24">
+   <button class="primary btn" id="saveProfile" data-t="saveProfile">💾 Сохранить профиль</button>
    <div class="stat-grid">
-    <div class="stat">💎 Баланс<strong id="statBalance">250 OG</strong></div>
-    <div class="stat">🎒 Виды предметов<strong id="statItems">0</strong></div>
-    <div class="stat">📦 Открыто кейсов<strong id="statCases">0</strong></div>
-    <div class="stat">💰 Продано предметов<strong id="statSold">0</strong></div>
+    <div class="stat" data-t="balanceLabel">💎 Баланс<strong id="statBalance">250 OG</strong></div>
+    <div class="stat" data-t="itemsLabel">🎒 Видов предметов<strong id="statItems">0</strong></div>
+    <div class="stat" data-t="openedLabel">📦 Открыто кейсов<strong id="statCases">0</strong></div>
+    <div class="stat" data-t="soldLabel">💰 Продано<strong id="statSold">0</strong></div>
    </div>
-
-   <h3>📜 История операций</h3>
+   <h3 data-t="historyTitle">📜 История операций</h3>
    <div class="history" id="historyList"></div>
   </div>
  </section>
 
- <!-- КЕЙСЫ -->
  <section id="cases" class="section">
-  <h2>📦 Кейсы</h2>
+  <h2 data-t="casesTitle">📦 Кейсы</h2>
   <div id="caseGrid" class="grid"></div>
  </section>
 
- <!-- ИНВЕНТАРЬ -->
  <section id="inventory" class="section">
-  <h2>🎒 Инвентарь</h2>
-  <p class="muted">Продажа приносит 60% стоимости предмета.</p>
+  <h2 data-t="inventoryTitle">🎒 Инвентарь</h2>
+  <p class="muted" data-t="sellInfo">Продажа приносит 75% стоимости предмета.</p>
   <div id="inventoryList" class="grid"></div>
  </section>
 
- <!-- АПГРЕЙДЕР -->
  <section id="upgrade" class="section">
   <div class="panel">
-   <h2>🎡 Апгрейдер</h2>
-   <p class="muted">Выбери предмет и цель. При проигрыше исходный предмет теряется.</p>
+   <h2 data-t="upgradeTitle">🎡 Апгрейдер</h2>
+   <p class="muted" data-t="upgradeInfo">При проигрыше исходный предмет теряется.</p>
    <div class="upgrade-grid">
     <div class="upgrade-card">
-     <b>🟣 ТВОЙ ПРЕДМЕТ</b>
+     <b data-t="yourItem">🟣 ТВОЙ ПРЕДМЕТ</b>
      <div class="art" id="fromIcon">🍕</div>
      <b id="fromName">Noobini Pizzanini</b>
      <div class="price" id="fromPrice"></div>
      <select id="from" class="field"></select>
     </div>
-
     <div style="text-align:center">
-     <div style="color:#ffd166;font-size:20px">▼</div>
      <div class="wheel" id="wheel"><div class="wheel-inner">🎯</div></div>
      <div class="chance" id="chance">0%</div>
      <div class="bar"><div class="fill" id="chanceFill"></div></div>
-     <div class="muted">ШАНС ПОБЕДЫ</div>
+     <div class="muted" data-t="winChance">ШАНС ПОБЕДЫ</div>
     </div>
-
     <div class="upgrade-card">
-     <b>🟡 ЦЕЛЬ</b>
+     <b data-t="target">🟡 ЦЕЛЬ</b>
      <div class="art" id="toIcon">🐉</div>
      <b id="toName">Dragon Cannelloni</b>
      <div class="price" id="toPrice"></div>
      <select id="to" class="field"></select>
     </div>
    </div>
-
    <div class="result" id="difference">Разница: —</div>
-   <p class="muted">Шанс рассчитывается по стоимости предметов и ограничен 75%.</p>
-   <button id="upgradeBtn" class="primary btn">🎡 ЗАПУСТИТЬ АПГРЕЙД</button>
+   <button id="upgradeBtn" class="primary btn" data-t="runUpgrade">🎡 ЗАПУСТИТЬ АПГРЕЙД</button>
    <div id="upgradeResult" class="status" hidden></div>
   </div>
  </section>
 
- <!-- БЕСПЛАТНЫЙ КЕЙС -->
  <section id="free" class="section">
   <div class="panel" style="text-align:center">
    <div class="art">🎁</div>
-   <h2>Бесплатный кейс</h2>
-   <p>Можно забрать раз в 12 часов.</p>
+   <h2 data-t="freeTitle">Бесплатный кейс</h2>
+   <p data-t="freeInfo">Можно забрать раз в 12 часов.</p>
    <div id="freeTimer" class="price"></div>
-   <button id="freeBtn" class="primary">ЗАБРАТЬ</button>
+   <button id="freeBtn" class="primary" data-t="claim">ЗАБРАТЬ</button>
    <div id="freeResult" class="result"></div>
   </div>
  </section>
 </main>
-
 <footer>BrainGet • Fan-made demo</footer>
 
 <script>
 "use strict";
-
 const KEY="brainget_save_v3";
 const $=id=>document.getElementById(id);
+const FREE_TIME=12*60*60*1000;
 
-const brainrots=[
- {name:"Noobini Pizzanini",price:10,icon:"🍕"},
- {name:"Lirili Larila",price:20,icon:"🦎"},
- {name:"Tim Cheese",price:35,icon:"🧀"},
- {name:"Trippi Troppi",price:250,icon:"🐟"},
- {name:"Cappuccino Assassino",price:750,icon:"☕"},
- {name:"Brr Brr Patapim",price:1000,icon:"🌴"},
- {name:"Bombardiro Crocodilo",price:4000,icon:"🐊"},
- {name:"Cocofanto Elefanto",price:9000,icon:"🐘"},
- {name:"La Vaca Saturno Saturnita",price:24000,icon:"🐄"},
- {name:"Glorbo Fruttodrillo",price:45000,icon:"🐲"},
- {name:"Garama and Madundung",price:175000,icon:"🗿"},
- {name:"Dragon Cannelloni",price:350000,icon:"🐉"},
- {name:"Strawberry Elephant",price:500000,icon:"🍓🐘"}
+const words={
+ru:{
+hero:"Открывай. Собирай. Побеждай.",intro:"Собирай брейнротов, открывай кейсы и улучшай коллекцию!",
+demo:"⚠️ Демо-версия. Прогресс хранится в этом браузере. Реальные платежи и серверная синхронизация не подключены.",
+profileTab:"👤 Профиль",casesTab:"📦 Кейсы",inventoryTab:"🎒 Инвентарь",upgradeTab:"🎡 Апгрейдер",freeTab:"🎁 Бесплатно",
+profileTitle:"👤 Мой профиль",changeAvatar:"🎨 Сменить аватар",nicknameLabel:"Имя игрока",saveProfile:"💾 Сохранить профиль",
+balanceLabel:"💎 Баланс",itemsLabel:"🎒 Видов предметов",openedLabel:"📦 Открыто кейсов",soldLabel:"💰 Продано",
+historyTitle:"📜 История операций",casesTitle:"📦 Кейсы",inventoryTitle:"🎒 Инвентарь",
+sellInfo:"Продажа приносит 75% стоимости предмета.",upgradeTitle:"🎡 Апгрейдер",
+upgradeInfo:"Выбери предмет и цель. При проигрыше исходный предмет теряется.",
+yourItem:"🟣 ТВОЙ ПРЕДМЕТ",target:"🟡 ЦЕЛЬ",winChance:"ШАНС ПОБЕДЫ",
+runUpgrade:"🎡 ЗАПУСТИТЬ АПГРЕЙД",freeTitle:"Бесплатный кейс",
+freeInfo:"Можно забрать раз в 12 часов.",claim:"ЗАБРАТЬ",open:"ОТКРЫТЬ КЕЙС",
+close:"Закрыть",sell:"ПРОДАТЬ 1",empty:"Инвентарь пуст.",noHistory:"Пока операций нет.",
+player:"Игрок BrainGet",next:"Следующий кейс через",ready:"🎁 Бесплатный кейс готов!",
+hours:"ч",minutes:"мин",sellConfirm:"Продать",for:"за",notEnough:"Недостаточно OG!",
+obtained:"🎉 Выпало",won:"🎉 УСПЕХ! Получен",lost:"❌ НЕУДАЧА! Потерян",
+upgradeConfirm:"Улучшить",chance:"Шанс",failedSave:"Не удалось сохранить прогресс.",
+saved:"Профиль сохранён!",enterNick:"Введи ник для профиля.",freeReceived:"🎉 Получен",
+caseOpen:"Открытие кейса",sale:"Продажа",upgradeLog:"Апгрейдер",profileLog:"Профиль",
+difference:"Разница",choose:"Выбери предметы",quantity:"Количество",price:"Стоимость",
+freeCase:"Бесплатный кейс",language:"Язык",every12:"Бесплатно раз в 12 часов"
+},
+uk:{
+hero:"Відкривай. Збирай. Перемагай.",intro:"Збирай брейнротів, відкривай кейси та покращуй колекцію!",
+demo:"⚠️ Демо-версія. Прогрес зберігається в цьому браузері. Реальні платежі й серверна синхронізація не підключені.",
+profileTab:"👤 Профіль",casesTab:"📦 Кейси",inventoryTab:"🎒 Інвентар",upgradeTab:"🎡 Апгрейдер",freeTab:"🎁 Безкоштовно",
+profileTitle:"👤 Мій профіль",changeAvatar:"🎨 Змінити аватар",nicknameLabel:"Ім'я гравця",saveProfile:"💾 Зберегти профіль",
+balanceLabel:"💎 Баланс",itemsLabel:"🎒 Видів предметів",openedLabel:"📦 Відкрито кейсів",soldLabel:"💰 Продано",
+historyTitle:"📜 Історія операцій",casesTitle:"📦 Кейси",inventoryTitle:"🎒 Інвентар",
+sellInfo:"Продаж приносить 75% вартості предмета.",upgradeTitle:"🎡 Апгрейдер",
+upgradeInfo:"Обери предмет і ціль. У разі програшу початковий предмет втрачається.",
+yourItem:"🟣 ТВІЙ ПРЕДМЕТ",target:"🟡 ЦІЛЬ",winChance:"ШАНС ПЕРЕМОГИ",
+runUpgrade:"🎡 ЗАПУСТИТИ АПГРЕЙД",freeTitle:"Безкоштовний кейс",
+freeInfo:"Можна забрати раз на 12 годин.",claim:"ЗАБРАТИ",open:"ВІДКРИТИ КЕЙС",
+close:"Закрити",sell:"ПРОДАТИ 1",empty:"Інвентар порожній.",noHistory:"Операцій поки немає.",
+player:"Гравець BrainGet",next:"Наступний кейс через",ready:"🎁 Безкоштовний кейс готовий!",
+hours:"год",minutes:"хв",sellConfirm:"Продати",for:"за",notEnough:"Недостатньо OG!",
+obtained:"🎉 Випало",won:"🎉 УСПІХ! Отримано",lost:"❌ НЕВДАЧА! Втрачено",
+upgradeConfirm:"Покращити",chance:"Шанс",failedSave:"Не вдалося зберегти прогрес.",
+saved:"Профіль збережено!",enterNick:"Введи нік для профілю.",freeReceived:"🎉 Отримано",
+caseOpen:"Відкриття кейса",sale:"Продаж",upgradeLog:"Апгрейдер",profileLog:"Профіль",
+difference:"Різниця",choose:"Обери предмети",quantity:"Кількість",price:"Вартість",
+freeCase:"Безкоштовний кейс",language:"Мова",every12:"Безкоштовно раз на 12 годин"
+},
+en:{
+hero:"Open. Collect. Win.",intro:"Collect brainrots, open cases and upgrade your collection!",
+demo:"⚠️ Demo version. Progress is stored in this browser. Real payments and server sync are not connected.",
+profileTab:"👤 Profile",casesTab:"📦 Cases",inventoryTab:"🎒 Inventory",upgradeTab:"🎡 Upgrader",freeTab:"🎁 Free",
+profileTitle:"👤 My Profile",changeAvatar:"🎨 Change Avatar",nicknameLabel:"Player name",saveProfile:"💾 Save Profile",
+balanceLabel:"💎 Balance",itemsLabel:"🎒 Item types",openedLabel:"📦 Cases opened",soldLabel:"💰 Items sold",
+historyTitle:"📜 Transaction History",casesTitle:"📦 Cases",inventoryTitle:"🎒 Inventory",
+sellInfo:"Selling returns 75% of an item's value.",upgradeTitle:"🎡 Upgrader",
+upgradeInfo:"Choose an item and a target. You lose the original item on failure.",
+yourItem:"🟣 YOUR ITEM",target:"🟡 TARGET",winChance:"WIN CHANCE",
+runUpgrade:"🎡 START UPGRADE",freeTitle:"Free Case",
+freeInfo:"Available once every 12 hours.",claim:"CLAIM",open:"OPEN CASE",
+close:"Close",sell:"SELL 1",empty:"Inventory is empty.",noHistory:"No transactions yet.",
+player:"BrainGet Player",next:"Next case in",ready:"🎁 Free case is ready!",
+hours:"h",minutes:"min",sellConfirm:"Sell",for:"for",notEnough:"Not enough OG!",
+obtained:"🎉 You got",won:"🎉 SUCCESS! Received",lost:"❌ FAILED! Lost",
+upgradeConfirm:"Upgrade",chance:"Chance",failedSave:"Could not save progress.",
+saved:"Profile saved!",enterNick:"Enter a nickname.",freeReceived:"🎉 Received",
+caseOpen:"Case opening",sale:"Sale",upgradeLog:"Upgrader",profileLog:"Profile",
+difference:"Difference",choose:"Choose items",quantity:"Quantity",price:"Value",
+freeCase:"Free Case",language:"Language",every12:"Free once every 12 hours"
+}
+};
+let lang="ru";
+try{const l=localStorage.getItem("brainget-language");if(words[l])lang=l}catch(e){}
+$("language").value=lang;
+const t=k=>words[lang][k]||words.ru[k]||k;
+function applyLanguage(){
+ document.documentElement.lang=lang;
+ document.querySelectorAll("[data-t]").forEach(el=>{
+  const key=el.dataset.t;
+  const strong=el.querySelector("strong");
+  if(strong){
+   const text=words[lang][key]||words.ru[key]||key;
+   el.childNodes[0].textContent=text;
+  }else el.textContent=words[lang][key]||words.ru[key]||key;
+ });
+ try{localStorage.setItem("brainget-language",lang)}catch(e){}
+ render();
+}
+$("language").addEventListener("change",()=>{lang=$("language").value;applyLanguage()});
+
+const raw=[
+["Noobini Pizzanini",10,"🍕"],["Lirilì Larilà",20,"🦎"],["Tim Cheese",35,"🧀"],["Fluriflura",50,"🌸"],["Talpa Di Fero",70,"🦔"],["Svinina Bombardino",90,"🐷"],["Pipi Kiwi",120,"🥝"],["Pipi Corni",150,"🌽"],["Trippi Troppi",250,"🐟"],["Gangster Footera",350,"👟"],
+["Bandito Bobritto",450,"🦫"],["Boneca Ambalabu",600,"🪆"],["Cacto Hipopotamo",700,"🌵"],["Ta Ta Ta Ta Sahur",850,"🥁"],["Tric Trac Baraboom",950,"🎺"],["Cappuccino Assassino",1300,"☕"],["Brr Brr Patapim",1600,"🌴"],["Trulimero Trulicina",1900,"🐱"],["Bambini Crostini",2300,"🥐"],["Bananita Dolphinita",2800,"🐬"],
+["Perochello Lemonchello",3400,"🍋"],["Brri Brri Bicus Dicus Bombicus",4000,"🦆"],["Avocadini Guffo",4800,"🥑"],["Salamino Penguino",5600,"🐧"],["Penguino Cocosino",6500,"🥥"],["Chimpanzini Bananini",7500,"🐒"],["Ballerina Cappuccina",9000,"🩰"],["Chef Crabracadabra",11000,"🦀"],["Lionel Cactuseli",13000,"🦁"],["Glorbo Fruttodrillo",15000,"🐲"],
+["Blueberrinni Octopusini",18000,"🐙"],["Strawberrelli Flamingelli",22000,"🦩"],["Cocosini Mama",26000,"🥥"],["Pandaccini Bananini",30000,"🐼"],["Sigma Boy",35000,"😎"],["Sigma Girl",40000,"✨"],["Tukanno Bananno",45000,"🦜"],["Avocadorilla",50000,"🦍"],["Quackula",60000,"🦆"],["Elefanto Frigo",70000,"🐘"],
+["Orangutini Ananassini",80000,"🦧"],["Rhino Toasterino",90000,"🦏"],["Cavallo Virtuoso",100000,"🐴"],["Gorillo Watermelondrillo",120000,"🦍"],["Spioniro Golubiro",140000,"🕊️"],["Zibra Zubra Zibralini",160000,"🦓"],["Tigrilini Watermelini",180000,"🐯"],["Cachorrito Melonito",200000,"🐶"],["Tralalero Tralala",225000,"🦈"],["Bombardiro Crocodilo",250000,"🐊"],
+["Bombombini Gusini",275000,"🪿"],["Burbaloni Loliloli",300000,"🏝️"],["Cappuccino Clownino",325000,"🤡"],["Frigo Camelo",350000,"🐪"],["La Vacca Saturno Saturnita",375000,"🐄"],["Chicleteira Bicicleteira",400000,"🚲"],["Trenostruzzo Turbo 3000",425000,"🚂"],["Los Crocodillitos",450000,"🐊"],["Las Tralaleritas",475000,"💃"],["Los Tungtungtungcitos",500000,"🥁"],
+["Los Orcalitos",525000,"🐋"],["Piccione Macchina",550000,"🚗"],["Tortuginni Dragonfruitini",575000,"🐢"],["Cocofanto Elefanto",600000,"🐘"],["Girafa Celestre",650000,"🦒"],["Gorillo Subwoofero",700000,"🔊"],["Rhino Helicopterino",750000,"🚁"],["Graipuss Medussi",850000,"🐙"],["La Grande Combinasion",900000,"🧩"],["Nuclearo Dinossauro",950000,"☢️"],
+["Garama and Madundung",1000000,"🗿"],["Tigroligre Frutonni",1100000,"🐅"],["Orcalero Orcala",1200000,"🐳"],["Pot Hotspot",1300000,"🌶️"],["Esok Sekolah",1400000,"🏫"],["Agarrini la Palini",1500000,"🍉"],["Los Matteos",1600000,"😎"],["Karkerkar Kurkur",1700000,"🦀"],["Dragon Cannelloni",1800000,"🐉"],["Los Spyderinis",1900000,"🕷️"],
+["La Supreme Combinasion",2000000,"👑"],["Trippi Troppi Troppa Trippa",2200000,"🐟"],["Gattatino Nyanino",2400000,"🐱"],["Tralalita Tralala",2600000,"🦈"],["Tukanno Bananno",2800000,"🦜"],["Odin Din Din Dun",3000000,"⚡"],["Matteo",3200000,"🗿"],["Los Chihuaninis",3500000,"🐕"],["Ballerino Lololo",3800000,"🩰"],["Pakrahmatmamat",4200000,"🦁"],
+["Los Noobinis",4600000,"🧠"],["Tic Tic Ribbit",5000000,"🐸"],["Orbi Mochi",5500000,"🍡"],["Bucketoro",6000000,"🪣"],["Bananito Bandito",6500000,"🍌"],["Cachorrito Melonito",7000000,"🐶"],["Los Tipi Tacos",7500000,"🌮"],["Meowl",8500000,"🐱"],["Headless Horseman",9000000,"🎃"],["Strawberry Elephant",10000000,"🍓🐘"]
 ];
+const brainrots=raw.map(([name,price,icon])=>({name,price,icon}));
+const uniqueBrainrots=Array.from(new Map(brainrots.map(b=>[b.name,b])).values());
+// If two official spellings were accidentally duplicated, keep one entry per exact name.
+brainrots.splice(0,brainrots.length,...uniqueBrainrots);
 
 const cases=[
- {id:"starter",name:"Starter Case",icon:"📦",price:25,pool:[["Noobini Pizzanini",55],["Lirili Larila",25],["Tim Cheese",20]]},
- {id:"gold",name:"Golden Case",icon:"👑",price:100,pool:[["Trippi Troppi",50],["Cappuccino Assassino",30],["Bombardiro Crocodilo",20]]},
- {id:"secret",name:"Secret Case",icon:"🔮",price:500,pool:[["Bombardiro Crocodilo",50],["Cocofanto Elefanto",25],["Garama and Madundung",20],["Dragon Cannelloni",5]]},
- {id:"og",name:"OG Case",icon:"🍓",price:10000,pool:[["Strawberry Elephant",5],["Noobini Pizzanini",95]]},
- {id:"dragon",name:"Dragon Case",icon:"🐉",price:25000,pool:[["Dragon Cannelloni",50],["Garama and Madundung",35],["Strawberry Elephant",15]]}
+{id:"free",name:"Free Case",icon:"🎁",price:0,free:true,min:0,max:200000},
+{id:"wood",name:"Wooden Case",icon:"🪵",price:100,min:0,max:1000},
+{id:"starter",name:"Starter Case",icon:"📦",price:500,min:10,max:10000},
+{id:"rare",name:"Rare Case",icon:"🔵",price:2500,min:100,max:100000},
+{id:"epic",name:"Epic Case",icon:"🟣",price:10000,min:1000,max:500000},
+{id:"legendary",name:"Legendary Case",icon:"👑",price:50000,min:10000,max:1000000},
+{id:"mythic",name:"Mythic Case",icon:"🔥",price:250000,min:100000,max:2500000},
+{id:"secret",name:"Secret Case",icon:"🔮",price:1000000,min:500000,max:5000000},
+{id:"divine",name:"Divine Case",icon:"💎",price:5000000,min:2000000,max:8500000},
+{id:"god",name:"GOD Case",icon:"🌌",price:10000000,min:5000000,max:10000000}
 ];
-
-function fresh(){
- return {
-  coins:250,
-  inventory:{"Noobini Pizzanini":1},
-  lastFree:0,
-  nickname:"Игрок BrainGet",
-  avatar:"🧠",
-  openedCases:0,
-  soldItems:0,
-  history:[]
- };
+for(const c of cases){
+ c.pool=brainrots.filter(b=>b.price>=c.min&&b.price<=c.max)
+  .map(b=>[b.name,Math.max(1,Math.pow(c.max/Math.max(1,b.price),0.7))]);
+ if(!c.pool.length)c.pool=[[brainrots[brainrots.length-1].name,1]];
 }
-
+function fresh(){return {coins:250,inventory:{"Noobini Pizzanini":1},lastFree:0,nickname:"Игрок BrainGet",avatar:"🧠",openedCases:0,soldItems:0,history:[]}}
 function load(){
  try{
   const s=JSON.parse(localStorage.getItem(KEY));
   if(s&&Number.isFinite(s.coins)&&s.inventory&&typeof s.inventory==="object"){
-   const migrated={...fresh(),...s};
-   if(!Array.isArray(migrated.history))migrated.history=[];
-   if(!Number.isFinite(migrated.openedCases))migrated.openedCases=0;
-   if(!Number.isFinite(migrated.soldItems))migrated.soldItems=0;
-   return migrated;
+   const x={...fresh(),...s};
+   if(!Array.isArray(x.history))x.history=[];
+   return x;
   }
  }catch(e){}
  return fresh();
 }
-
 let state=load(),busy=false;
-
-function fmt(n){
- return Math.floor(n).toLocaleString("ru-RU");
-}
-
-function item(name){
- return brainrots.find(b=>b.name===name);
-}
-
-function add(name){
- state.inventory[name]=(state.inventory[name]||0)+1;
-}
-
-function logAction(label,detail){
- if(!Array.isArray(state.history))state.history=[];
- state.history.unshift({
-  label,
-  detail,
-  time:new Date().toLocaleString("ru-RU")
- });
- state.history=state.history.slice(0,12);
-}
-
-function pick(pool){
- let r=Math.random()*pool.reduce((s,x)=>s+x[1],0);
- for(const [name,weight] of pool){
-  r-=weight;
-  if(r<0)return name;
- }
- return pool[pool.length-1][0];
-}
-
-function safe(s){
- return String(s).replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- }[c]));
-}
-
-/* ПЕРЕКЛЮЧЕНИЕ РАЗДЕЛОВ */
-document.querySelectorAll("[data-tab]").forEach(btn=>{
- btn.addEventListener("click",()=>{
-  document.querySelectorAll(".section").forEach(s=>{
-   s.classList.toggle("active",s.id===btn.dataset.tab);
-  });
- });
-});
-
-/* ПРОФИЛЬ И СТАТИСТИКА */
+function fmt(n){return Math.floor(n).toLocaleString(lang==="en"?"en-US":"ru-RU")}
+function item(name){return brainrots.find(b=>b.name===name)}
+function add(name){state.inventory[name]=(state.inventory[name]||0)+1}
+function logAction(label,detail){state.history.unshift({label,detail,time:new Date().toLocaleString()});state.history=state.history.slice(0,12)}
+function pick(pool){let total=pool.reduce((s,x)=>s+x[1],0),r=Math.random()*total;for(const [name,w] of pool){r-=w;if(r<0)return name}return pool[pool.length-1][0]}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){alert(t("failedSave"))}render()}
+document.querySelectorAll("[data-tab]").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===btn.dataset.tab));
+}));
 function renderProfile(){
- $("profileName").textContent=state.nickname||"Игрок BrainGet";
- $("nickname").value=state.nickname||"Игрок BrainGet";
+ $("profileName").textContent=state.nickname||t("player");
+ $("nickname").value=state.nickname||t("player");
  $("avatar").textContent=state.avatar||"🧠";
  $("statBalance").textContent=fmt(state.coins)+" OG";
  $("statCases").textContent=fmt(state.openedCases||0);
  $("statSold").textContent=fmt(state.soldItems||0);
-
- const total=Object.values(state.inventory).reduce((sum,n)=>sum+(n>0?1:0),0);
- $("statItems").textContent=fmt(total);
-
- const history=Array.isArray(state.history)?state.history:[];
- $("historyList").innerHTML=history.length?history.map(h=>`
-  <div class="history-row">
-   <b>${safe(h.label)}</b>
-   <div>${safe(h.detail)}</div>
-   <small>${safe(h.time)}</small>
-  </div>
- `).join(""):'<div class="muted">Пока операций нет.</div>';
+ $("statItems").textContent=fmt(Object.values(state.inventory).filter(n=>n>0).length);
+ $("historyList").innerHTML=state.history.length?state.history.map(h=>`<div class="history-row"><b>${safe(h.label)}</b><div>${safe(h.detail)}</div><small>${safe(h.time)}</small></div>`).join(""):`<div class="muted">${t("noHistory")}</div>`;
 }
-
 function render(){
  $("balance").textContent=fmt(state.coins);
  renderProfile();
-
- $("caseGrid").innerHTML=cases.map(c=>`
-  <article class="case">
-   <div class="art">${c.icon}</div>
-   <h3>${safe(c.name)}</h3>
-   <div class="price">${fmt(c.price)} OG</div>
-   <button class="primary btn" data-open="${c.id}">ОТКРЫТЬ КЕЙС</button>
-  </article>
- `).join("");
-
- $("inventoryList").innerHTML=Object.entries(state.inventory)
-  .filter(([,count])=>count>0)
-  .map(([name,count])=>{
-   const b=item(name);
-   if(!b)return "";
-   return `<article class="item">
-    <div class="art">${b.icon}</div>
-    <h3>${safe(name)}</h3>
-    <p>Количество: ${count}</p>
-    <div class="price">Продажа: ${fmt(Math.floor(b.price*.6))} OG</div>
-    <button data-sell="${encodeURIComponent(name)}">ПРОДАТЬ 1</button>
-   </article>`;
-  }).join("")||'<div class="panel">Инвентарь пуст.</div>';
-
- updateUpgrade();
- updateFree();
+ $("caseGrid").innerHTML=cases.map(c=>`<article class="case"><div class="art">${c.icon}</div><h3>${safe(c.name)}</h3><div class="price">${fmt(c.price)} OG</div>${c.free?`<p class="muted">${t("every12")}</p>`:""}<button class="primary btn" data-open="${c.id}">${c.free?t("claim"):t("open")}</button></article>`).join("");
+ $("inventoryList").innerHTML=Object.entries(state.inventory).filter(([,n])=>n>0).map(([name,count])=>{
+  const b=item(name);if(!b)return "";
+  return `<article class="item"><div class="art">${b.icon}</div><h3>${safe(name)}</h3><p>${t("quantity")}: ${count}</p><div class="price">${t("sell")}: ${fmt(Math.floor(b.price*.75))} OG</div><button data-sell="${encodeURIComponent(name)}">${t("sell")}</button></article>`;
+ }).join("")||`<div class="panel">${t("empty")}</div>`;
+ updateUpgrade();updateFree();
 }
-
-/* ОТКРЫТИЕ КЕЙСОВ */
-$("caseGrid").addEventListener("click",e=>{
- const btn=e.target.closest("[data-open]");
- if(!btn)return;
-
- const c=cases.find(x=>x.id===btn.dataset.open);
- if(!c)return;
-
- if(state.coins<c.price){
-  alert("Недостаточно OG!");
-  return;
- }
-
- if(!confirm(`Открыть ${c.name} за ${fmt(c.price)} OG?`))return;
-
+function openCase(c){
+ if(c.free){claimFree();return}
+ if(state.coins<c.price){alert(t("notEnough"));return}
+ if(!confirm(`${t("open")} ${c.name} ${t("for")} ${fmt(c.price)} OG?`))return;
  state.coins-=c.price;
- const name=pick(c.pool);
- add(name);
- state.openedCases=(state.openedCases||0)+1;
- logAction("Открытие кейса",`${c.name}: получен ${name}`);
- save();
- alert(`🎉 Выпало: ${name}!`);
+ const name=pick(c.pool);add(name);state.openedCases++;
+ logAction(t("caseOpen"),`${c.name}: ${name}`);
+ save();alert(`${t("obtained")}: ${name}!`);
+}
+$("caseGrid").addEventListener("click",e=>{
+ const btn=e.target.closest("[data-open]");if(!btn)return;
+ const c=cases.find(x=>x.id===btn.dataset.open);if(c)openCase(c);
 });
-
-/* ПРОДАЖА */
 $("inventoryList").addEventListener("click",e=>{
- const btn=e.target.closest("[data-sell]");
- if(!btn)return;
-
- const name=decodeURIComponent(btn.dataset.sell);
- const b=item(name);
+ const btn=e.target.closest("[data-sell]");if(!btn)return;
+ const name=decodeURIComponent(btn.dataset.sell),b=item(name);
  if(!b||!state.inventory[name])return;
-
- const value=Math.floor(b.price*.6);
- if(!confirm(`Продать ${name} за ${fmt(value)} OG?`))return;
-
- state.inventory[name]--;
- if(state.inventory[name]<=0)delete state.inventory[name];
-
- state.coins+=value;
- state.soldItems=(state.soldItems||0)+1;
- logAction("Продажа",`${name}: +${fmt(value)} OG`);
- save();
+ const value=Math.floor(b.price*.75);
+ if(!confirm(`${t("sellConfirm")} ${name} ${t("for")} ${fmt(value)} OG?`))return;
+ state.inventory[name]--;if(state.inventory[name]<=0)delete state.inventory[name];
+ state.coins+=value;state.soldItems++;
+ logAction(t("sale"),`${name}: +${fmt(value)} OG`);save();
 });
-
-/* АПГРЕЙДЕР */
 function updateUpgrade(){
  const owned=Object.entries(state.inventory).filter(([,n])=>n>0);
  const oldFrom=$("from").value,oldTo=$("to").value;
-
- $("from").innerHTML=owned.map(([n,count])=>
-  `<option value="${safe(n)}">${safe(n)} ×${count}</option>`
- ).join("");
-
+ $("from").innerHTML=owned.map(([n,count])=>`<option value="${safe(n)}">${safe(n)} ×${count}</option>`).join("");
  const targets=brainrots.filter(b=>!owned.some(([n])=>n===b.name));
-
- $("to").innerHTML=targets.map(b=>
-  `<option value="${safe(b.name)}">${b.icon} ${safe(b.name)}</option>`
- ).join("");
-
+ $("to").innerHTML=targets.map(b=>`<option value="${safe(b.name)}">${b.icon} ${safe(b.name)}</option>`).join("");
  if(owned.some(([n])=>n===oldFrom))$("from").value=oldFrom;
  if(targets.some(b=>b.name===oldTo))$("to").value=oldTo;
-
  updateChance();
 }
-
 function updateChance(){
  const a=item($("from").value),b=item($("to").value);
-
- $("fromIcon").textContent=a?a.icon:"❔";
- $("fromName").textContent=a?a.name:"Нет предмета";
- $("fromPrice").textContent=a?fmt(a.price)+" OG":"—";
- $("toIcon").textContent=b?b.icon:"❔";
- $("toName").textContent=b?b.name:"Нет цели";
- $("toPrice").textContent=b?fmt(b.price)+" OG":"—";
-
- const chance=a&&b&&b.price>a.price
-  ?Math.max(1,Math.min(75,Math.floor(a.price/b.price*70)))
-  :0;
-
- $("chance").textContent=chance+"%";
- $("chanceFill").style.width=chance+"%";
- $("difference").textContent=a&&b
-  ?"Разница: "+fmt(b.price-a.price)+" OG"
-  :"Выбери предметы";
-
+ $("fromIcon").textContent=a?a.icon:"❔";$("fromName").textContent=a?a.name:"—";$("fromPrice").textContent=a?fmt(a.price)+" OG":"—";
+ $("toIcon").textContent=b?b.icon:"❔";$("toName").textContent=b?b.name:"—";$("toPrice").textContent=b?fmt(b.price)+" OG":"—";
+ const chance=a&&b&&b.price>a.price?Math.max(1,Math.min(75,Math.floor(a.price/b.price*70))):0;
+ $("chance").textContent=chance+"%";$("chanceFill").style.width=chance+"%";
+ $("difference").textContent=a&&b?`${t("difference")}: ${fmt(b.price-a.price)} OG`:t("choose");
  $("upgradeBtn").disabled=busy||!a||!b||chance===0||!state.inventory[$("from").value];
  return chance;
 }
-
-$("from").addEventListener("change",()=>{
- updateChance();
- $("upgradeResult").hidden=true;
-});
-
-$("to").addEventListener("change",()=>{
- updateChance();
- $("upgradeResult").hidden=true;
-});
-
+$("from").addEventListener("change",updateChance);$("to").addEventListener("change",updateChance);
 $("upgradeBtn").addEventListener("click",()=>{
  if(busy)return;
-
- const from=$("from").value,to=$("to").value;
- const a=item(from),b=item(to),chance=updateChance();
-
+ const from=$("from").value,to=$("to").value,a=item(from),b=item(to),chance=updateChance();
  if(!a||!b||!state.inventory[from]||chance===0)return;
-
- if(!confirm(`Улучшить ${from} → ${to}?\nШанс: ${chance}%\nПри проигрыше предмет будет потерян.`))return;
-
- busy=true;
- $("upgradeBtn").disabled=true;
- $("upgradeResult").hidden=true;
-
- $("wheel").style.transition="none";
- $("wheel").style.transform="rotate(0deg)";
- void $("wheel").offsetWidth;
- $("wheel").style.transition="transform 2s cubic-bezier(.12,.72,.12,1)";
+ if(!confirm(`${t("upgradeConfirm")} ${from} → ${to}?\n${t("chance")}: ${chance}%`))return;
+ busy=true;$("upgradeBtn").disabled=true;$("upgradeResult").hidden=true;
  $("wheel").style.transform=`rotate(${1440+Math.random()*720}deg)`;
-
  const won=Math.random()*100<chance;
-
  setTimeout(()=>{
-  state.inventory[from]--;
-  if(state.inventory[from]<=0)delete state.inventory[from];
+  state.inventory[from]--;if(state.inventory[from]<=0)delete state.inventory[from];
   if(won)add(to);
-
-  logAction("Апгрейдер",won
-   ?`Успех: ${from} → ${to}`
-   :`Неудача: потерян ${from}`);
-
-  busy=false;
-  save();
-
-  $("upgradeResult").hidden=false;
-  $("upgradeResult").className="status "+(won?"win":"lose");
-  $("upgradeResult").textContent=won
-   ?`🎉 УСПЕХ! Получен ${to}!`
-   :`❌ НЕУДАЧА! Потерян ${from}.`;
-
-  updateUpgrade();
+  logAction(t("upgradeLog"),won?`${from} → ${to}`:`${t("lost")}: ${from}`);
+  busy=false;save();
+  $("upgradeResult").hidden=false;$("upgradeResult").className="status "+(won?"win":"lose");
+  $("upgradeResult").textContent=won?`${t("won")} ${to}!`:`${t("lost")} ${from}.`;
  },2050);
 });
-
-/* БЕСПЛАТНЫЙ КЕЙС */
-const FREE_TIME=12*60*60*1000;
-
 function updateFree(){
  const left=FREE_TIME-(Date.now()-(state.lastFree||0));
  $("freeBtn").disabled=left>0;
-
- $("freeTimer").textContent=left>0
-  ?`Следующий кейс через ${Math.floor(left/3600000)} ч ${Math.floor(left%3600000/60000)} мин`
-  :"🎁 Бесплатный кейс готов!";
+ $("freeTimer").textContent=left>0?`${t("next")}: ${Math.floor(left/3600000)} ${t("hours")} ${Math.floor(left%3600000/60000)} ${t("minutes")}`:t("ready");
 }
-
-$("freeBtn").addEventListener("click",()=>{
- if(Date.now()-(state.lastFree||0)<FREE_TIME)return;
-
+function claimFree(){
+ if(Date.now()-(state.lastFree||0)<FREE_TIME){updateFree();return}
  state.lastFree=Date.now();
-
- const name=pick([
-  ["Noobini Pizzanini",60],
-  ["Bombardiro Crocodilo",25],
-  ["Garama and Madundung",12],
-  ["Dragon Cannelloni",3]
- ]);
-
- add(name);
- logAction("Бесплатный кейс",`Получен ${name}`);
- save();
-
- $("freeResult").textContent="🎉 Получен: "+name;
- updateFree();
-});
-
-/* СОХРАНЕНИЕ ПРОФИЛЯ */
+ const pool=cases.find(c=>c.id==="free").pool;
+ const name=pick(pool);add(name);state.openedCases++;
+ logAction(t("freeCase"),`${t("freeReceived")}: ${name}`);
+ $("freeResult").textContent=`${t("freeReceived")}: ${name}`;
+ save();updateFree();
+}
+$("freeBtn").addEventListener("click",claimFree);
 $("saveProfile").addEventListener("click",()=>{
  const name=$("nickname").value.trim().slice(0,24);
-
- if(!name){
-  alert("Введи ник для профиля.");
-  return;
- }
-
- state.nickname=name;
- logAction("Профиль",`Имя изменено на ${name}`);
- save();
- alert("Профиль сохранён в этом браузере!");
+ if(!name){alert(t("enterNick"));return}
+ state.nickname=name;logAction(t("profileLog"),name);save();alert(t("saved"));
 });
-
-/* СМЕНА АВАТАРА */
 const avatars=["🧠","🐉","🍓","👑","🦊","🐸","⚡","👾","💎","🔥"];
-
 $("changeAvatar").addEventListener("click",()=>{
- const current=state.avatar||"🧠";
- const index=avatars.indexOf(current);
-
- state.avatar=avatars[(index+1)%avatars.length];
- logAction("Профиль",`Аватар изменён на ${state.avatar}`);
- save();
+ state.avatar=avatars[(avatars.indexOf(state.avatar)+1)%avatars.length];
+ logAction(t("profileLog"),state.avatar);save();
 });
-
-/* ЗАПУСК */
+applyLanguage();
 render();
 setInterval(updateFree,30000);
 </script>
